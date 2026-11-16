@@ -1,0 +1,98 @@
+/* Ectoplasme — styles des composants. Se charge après tokens.css. Préfixe : ec- */
+
+.ec-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{outline:var(--focus-width) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+
+.ec-icon{width:var(--size-icon);height:var(--size-icon);flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.ec-icon--sm{width:16px;height:16px}
+
+/* Bouton */
+.ec-btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);min-height:var(--size-control);padding:0 var(--space-6);box-sizing:border-box;border:1px solid transparent;border-radius:var(--radius-md);font-family:var(--font-text);font-size:1rem;line-height:1.5rem;font-weight:500;text-decoration:none;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+.ec-btn--primary{background:var(--accent);color:var(--on-accent)}
+.ec-btn--primary:hover{background:var(--accent-hover);color:var(--on-accent)}
+.ec-btn--secondary{background:transparent;border-color:var(--border);color:var(--text)}
+.ec-btn--secondary:hover{background:var(--surface-raised);color:var(--text)}
+.ec-btn--danger{background:transparent;border-color:var(--danger-border);color:var(--error)}
+.ec-btn--danger:hover{background:var(--danger-hover);color:var(--error)}
+.ec-btn--compact{min-height:var(--size-target);padding:0 var(--space-4)}
+.ec-btn--block{display:flex;width:100%}
+.ec-btn--icon{width:var(--size-target);min-height:var(--size-target);padding:0}
+.ec-btn[aria-busy="true"]{cursor:progress}
+
+.ec-link{display:inline-flex;align-items:center;gap:var(--space-2);min-height:var(--size-target);color:var(--accent);font-family:var(--font-text);font-size:1rem;line-height:1.5rem}
+.ec-link:hover{color:var(--accent-hover)}
+
+/* Champ de formulaire */
+.ec-field{display:flex;flex-direction:column;gap:6px;font-family:var(--font-text)}
+.ec-field__label{font-size:1rem;line-height:1.5rem;font-weight:500;color:var(--text)}
+.ec-field__hint{margin:0;font-size:.875rem;line-height:1.25rem;color:var(--text-muted)}
+.ec-field__input{height:var(--size-control);box-sizing:border-box;padding:0 var(--space-3);border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg);color:var(--text);font-family:inherit;font-size:1rem;color-scheme:dark}
+.ec-field__input:hover{border-color:var(--neutral-300)}
+.ec-field__error{margin:0;display:flex;align-items:flex-start;gap:var(--space-2);font-size:.875rem;line-height:1.25rem;color:var(--error)}
+.ec-field--invalid .ec-field__input{border-color:var(--error);border-width:2px}
+
+/* Carte */
+.ec-card{display:flex;flex-direction:column;overflow:hidden;border-radius:var(--radius-lg);background:var(--surface);color:var(--text);font-family:var(--font-text)}
+.ec-card__media{height:160px;display:flex;align-items:center;justify-content:center;background:var(--placeholder-bg);color:var(--neutral-200);font-size:.875rem}
+.ec-card__media img{width:100%;height:100%;object-fit:cover}
+.ec-card__body{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-4)}
+.ec-card__title{margin:0;font-family:var(--font-display);font-size:1.5rem;line-height:2rem;font-weight:600}
+.ec-card__meta{margin:0;font-size:.875rem;line-height:1.25rem;color:var(--text-muted)}
+.ec-card__text{margin:0;font-size:1rem;line-height:1.5rem;color:var(--neutral-100)}
+.ec-card--outline{background:transparent;border:1px solid var(--surface-raised)}
+
+/* Bandeau d'état */
+.ec-banner{display:flex;align-items:flex-start;gap:var(--space-3);padding:var(--space-4);border:1px solid;border-radius:var(--radius-md);font-family:var(--font-text);font-size:1rem;line-height:1.5rem}
+.ec-banner__icon{margin-top:2px}
+.ec-banner__title{margin:0;font-weight:500}
+.ec-banner__text{margin:0}
+.ec-banner--info{background:var(--info-bg);border-color:var(--info-border);color:var(--info-text)}
+.ec-banner--info .ec-banner__icon{color:var(--info)}
+.ec-banner--success{background:var(--success-bg);border-color:var(--success-border);color:var(--success-text)}
+.ec-banner--success .ec-banner__icon{color:var(--success)}
+.ec-banner--warning{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning-text)}
+.ec-banner--warning .ec-banner__icon{color:var(--warning)}
+.ec-banner--error{background:var(--error-bg);border-color:var(--error-border);color:var(--error-text)}
+.ec-banner--error .ec-banner__icon{color:var(--error)}
+
+/* Étiquette de statut */
+.ec-tag{display:inline-flex;align-items:center;gap:var(--space-1);font-family:var(--font-text);font-size:.875rem;line-height:1.25rem;white-space:nowrap}
+.ec-tag--success{color:var(--success)}
+.ec-tag--warning{color:var(--warning)}
+.ec-tag--error{color:var(--error)}
+.ec-tag--muted{color:var(--text-muted)}
+.ec-tag--outline{padding:0 6px;border:1px solid var(--ecto-700);border-radius:var(--radius-sm);color:var(--accent)}
+
+/* Sélecteur de créneaux */
+.ec-slots{margin:0;padding:0;border:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--space-2)}
+.ec-slot{display:flex;align-items:center;gap:var(--space-3);min-height:52px;box-sizing:border-box;padding:0 var(--space-4);border:1px solid var(--border);border-radius:var(--radius-md);background:var(--surface);color:var(--text);font-family:var(--font-text);font-size:1.125rem;line-height:1.75rem;cursor:pointer}
+.ec-slot input{width:20px;height:20px;margin:0;accent-color:var(--accent)}
+.ec-slot__time{flex-grow:1}
+.ec-slot:hover{background:var(--surface-raised)}
+.ec-slot:has(input:checked){border:2px solid var(--accent);background:var(--selected-bg);font-weight:500}
+.ec-slot:has(input:focus-visible){outline:var(--focus-width) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+.ec-slot:has(input:disabled){border-style:dashed;border-color:var(--divider);background:transparent;color:var(--text-muted);cursor:not-allowed}
+
+/* Progression du tunnel */
+.ec-progress{display:flex;flex-direction:column;gap:var(--space-2);font-family:var(--font-text)}
+.ec-progress__bar{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-1)}
+.ec-progress__seg{height:4px;border-radius:2px;background:var(--divider)}
+.ec-progress__seg--done{background:var(--accent)}
+.ec-progress__label{margin:0;font-size:.875rem;line-height:1.25rem;color:var(--text-muted)}
+
+/* Compteur */
+.ec-counter{display:flex;align-items:center;justify-content:center;gap:var(--space-8);font-family:var(--font-text);color:var(--text)}
+.ec-counter__btn{width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:var(--radius-full);background:transparent;color:var(--text);cursor:pointer}
+.ec-counter__btn:hover{background:var(--surface-raised)}
+.ec-counter__value{min-width:56px;margin:0;text-align:center;font-family:var(--font-display);font-size:2.75rem;line-height:3.25rem;font-weight:500}
+
+/* Onglets */
+.ec-tabs{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--space-1);padding:var(--space-1);border-radius:10px;background:var(--surface)}
+.ec-tab{min-height:var(--size-target);border:0;border-radius:var(--radius-md);background:transparent;color:var(--neutral-200);font-family:var(--font-text);font-size:1rem;line-height:1.5rem;cursor:pointer}
+.ec-tab:hover{color:var(--text)}
+.ec-tab[aria-selected="true"]{background:var(--surface-raised);color:var(--text);font-weight:500}
+
+@media (prefers-reduced-motion: reduce){
+  .ec-btn{transition:none}
+}

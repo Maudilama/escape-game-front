@@ -1,0 +1,75 @@
+/* Ectoplasme — styles de texte. Classes utilitaires .text-* (la balise HTML reste choisie pour le sens). */
+
+.text-h1 {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  line-height: 4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 2rem;
+}
+
+.text-h2 {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  line-height: 3.25rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  margin: 0 0 1.5rem;
+}
+
+.text-h3 {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+}
+
+.text-h4 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.text-subtitle {
+  font-family: var(--font-text);
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+  margin: 0 0 1rem;
+}
+
+.text-body-1 {
+  font-family: var(--font-text);
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+  margin: 0 0 1rem;
+}
+
+.text-body-2 {
+  font-family: var(--font-text);
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+}
+
+.text-caption {
+  font-family: var(--font-text);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.5rem;
+}
+
+@media (max-width: 47.99rem) {
+  .text-h1 { font-size: 2.5rem; line-height: 3rem; }
+  .text-h2 { font-size: 2.125rem; line-height: 2.5rem; }
+  .text-h3 { font-size: 1.75rem; line-height: 2.25rem; }
+  .text-h4 { font-size: 1.5rem; line-height: 2rem; }
+}
