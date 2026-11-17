@@ -1,0 +1,103 @@
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-width: 28rem;
+}
+
+.week-nav__label {
+  margin: 0;
+  text-align: center;
+}
+
+.week-nav .ec-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.day-picker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2);
+  max-width: 42rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+@media (min-width: 40rem) {
+  .day-picker {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+.day-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 5.5rem;
+  padding: var(--space-2) var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  text-align: center;
+  cursor: pointer;
+}
+
+.day-option:hover {
+  background: var(--surface-raised);
+}
+
+.day-option__weekday,
+.day-option__status {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+
+.day-option__day {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+.day-option:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.day-option:has(input:checked) .day-option__weekday,
+.day-option:has(input:checked) .day-option__status {
+  color: var(--on-accent);
+}
+
+.day-option:has(input:focus-visible) {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.day-option:has(input:disabled) {
+  border-style: dashed;
+  border-color: var(--divider);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.date-step__status,
+.date-step__window {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+
+.date-step__error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}

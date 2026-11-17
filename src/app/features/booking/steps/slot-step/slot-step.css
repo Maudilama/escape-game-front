@@ -1,0 +1,26 @@
+.selected-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: 42rem;
+}
+
+.selected-date__label {
+  margin: 0;
+}
+
+.ec-slots {
+  max-width: 42rem;
+}
+
+.slot-step__status {
+  color: var(--text-muted);
+}
+
+.slot-step__inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}

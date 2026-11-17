@@ -1,0 +1,95 @@
+<app-step-header [step]="1" label="Jour" [backLink]="['/salles', store.roomId()]" />
+
+<div class="ec-container booking-step">
+  <h1 class="text-h3">Quand voulez-vous jouer ?</h1>
+
+  <div class="week-nav">
+    <button
+      type="button"
+      class="ec-btn ec-btn--secondary ec-btn--icon"
+      aria-label="Semaine précédente"
+      [disabled]="!canGoBack()"
+      (click)="previousWeek()"
+    >
+      <app-icon name="chevron-left" />
+    </button>
+    <p class="text-subtitle week-nav__label" aria-live="polite">
+      {{ days()[0] | date: 'd MMMM' }} – {{ days()[6] | date: 'd MMMM' }}
+    </p>
+    <button
+      type="button"
+      class="ec-btn ec-btn--secondary ec-btn--icon"
+      aria-label="Semaine suivante"
+      [disabled]="!canGoForward()"
+      (click)="nextWeek()"
+    >
+      <app-icon name="chevron-right" />
+    </button>
+  </div>
+
+  @if (availability.isLoading()) {
+    <p class="date-step__status" role="status">Chargement des disponibilités…</p>
+  } @else if (availability.error()) {
+    <div class="ec-banner ec-banner--error" role="alert">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <div class="date-step__error">
+        <p class="ec-banner__text">Impossible de charger les disponibilités.</p>
+        <button
+          type="button"
+          class="ec-btn ec-btn--secondary ec-btn--compact"
+          (click)="availability.reload()"
+        >
+          Réessayer
+        </button>
+      </div>
+    </div>
+  } @else {
+    <fieldset
+      #dayPicker
+      class="day-picker"
+      [attr.aria-describedby]="showError() ? 'date-error' : null"
+    >
+      <legend class="ec-sr-only">Jour de la session</legend>
+      @for (day of options(); track day.iso) {
+        <label class="day-option">
+          <input
+            type="radio"
+            name="date"
+            class="ec-sr-only"
+            [value]="day.iso"
+            [checked]="day.iso === store.date()"
+            [disabled]="!day.selectable"
+            (change)="choose(day.iso)"
+          />
+          <span class="ec-sr-only">{{ day.date | date: 'EEEE d MMMM' }}, {{ day.status }}</span>
+          <span class="day-option__weekday" aria-hidden="true">{{ day.date | date: 'EEE' }}</span>
+          <span class="day-option__day" aria-hidden="true">{{ day.date | date: 'd' }}</span>
+          <span class="day-option__status" aria-hidden="true">{{ day.status }}</span>
+        </label>
+      }
+    </fieldset>
+
+    @if (showError()) {
+      <p id="date-error" class="ec-field__error">
+        <app-icon name="circle-alert" size="sm" />
+        Choisissez un jour pour continuer.
+      </p>
+    }
+  }
+
+  <p class="date-step__window">
+    Réservations ouvertes jusqu'au {{ lastBookableDay | date: 'd MMMM' }}.
+  </p>
+</div>
+
+<div class="booking-actions">
+  <div class="ec-container booking-actions__inner">
+    <div>
+      <p class="booking-actions__label">Votre choix</p>
+      <p class="booking-actions__value">
+        {{ selectedDate() ? (selectedDate() | date: 'EEEE d MMMM') : 'Aucun jour choisi' }}
+      </p>
+    </div>
+    <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">Continuer</button>
+  </div>
+</div>

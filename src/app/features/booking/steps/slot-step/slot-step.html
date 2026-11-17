@@ -1,0 +1,91 @@
+<app-step-header [step]="2" label="Créneau" backLink="../date" />
+
+<div class="ec-container booking-step">
+  <h1 class="text-h3">À quelle heure ?</h1>
+
+  <div class="selected-date">
+    <p class="text-subtitle selected-date__label">{{ selectedDate() | date: 'EEEE d MMMM' }}</p>
+    <a routerLink="../date" class="ec-link">Modifier<span class="ec-sr-only"> le jour</span></a>
+  </div>
+
+  @if (availability.isLoading()) {
+    <p class="slot-step__status" role="status">Chargement des créneaux…</p>
+  } @else if (availability.error()) {
+    <div class="ec-banner ec-banner--error" role="alert">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <div class="slot-step__inline">
+        <p class="ec-banner__text">Impossible de charger les créneaux.</p>
+        <button
+          type="button"
+          class="ec-btn ec-btn--secondary ec-btn--compact"
+          (click)="availability.reload()"
+        >
+          Réessayer
+        </button>
+      </div>
+    </div>
+  } @else {
+        @if (!hasFreeSlot()) {
+      <div class="ec-banner ec-banner--info">
+        <app-icon name="info" class="ec-banner__icon" />
+        <div class="slot-step__inline">
+          <p class="ec-banner__text">
+            {{ closed() ? "L'escape game est fermé ce jour-là." : 'Plus aucun créneau libre ce jour-là.' }}
+          </p>
+          <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="showNextDay()">
+            Voir le jour suivant
+          </button>
+        </div>
+      </div>
+    }
+
+    <fieldset
+      #slotPicker
+      class="ec-slots"
+      [attr.aria-describedby]="showError() ? 'slot-error' : null"
+    >
+      <legend class="ec-sr-only">Créneaux du {{ selectedDate() | date: 'EEEE d MMMM' }}</legend>
+      @for (slot of slots(); track slot.startAt) {
+        <label class="ec-slot">
+          <input
+            type="radio"
+            name="slot"
+            [value]="slot.startAt"
+            [checked]="slot.startAt === store.startAt()"
+            [disabled]="!slot.available"
+            (change)="choose(slot.startAt)"
+          />
+          <span class="ec-slot__time">{{ slot.label }}</span>
+          @if (slot.reason) {
+            <span class="ec-tag ec-tag--muted">
+              <app-icon [name]="slot.reason === 'Passé' ? 'clock' : 'lock'" size="sm" />
+              {{ slot.reason }}
+            </span>
+          }
+        </label>
+      }
+    </fieldset>
+
+    @if (showError()) {
+      <p id="slot-error" class="ec-field__error">
+        <app-icon name="circle-alert" size="sm" />
+        Choisissez un créneau pour continuer.
+      </p>
+    }
+  }
+</div>
+
+<div class="booking-actions">
+  <div class="ec-container booking-actions__inner">
+    <div>
+      <p class="booking-actions__label">Votre choix</p>
+      <p class="booking-actions__value">
+        {{ selectedDate() | date: 'EEE d MMM' }}
+        @if (selectedSlot(); as slot) {
+          · {{ slot.label }}
+        }
+      </p>
+    </div>
+    <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">Continuer</button>
+  </div>
+</div>

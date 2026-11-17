@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, viewChild } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  Injector,
+  viewChild,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter, skip } from 'rxjs';
+import { distinctUntilChanged, filter, map, skip } from 'rxjs';
 import { APP_NAME } from './core/app-name';
 import { Header } from './core/header/header';
 
@@ -15,14 +23,30 @@ import { Header } from './core/header/header';
 export class App {
   protected readonly appName = APP_NAME;
   private readonly main = viewChild.required<ElementRef<HTMLElement>>('main');
+  private readonly injector = inject(Injector);
 
   constructor() {
     inject(Router)
       .events.pipe(
         filter((event) => event instanceof NavigationEnd),
+        map((event) => event.urlAfterRedirects.split('#')[0]),
+        distinctUntilChanged(),
         skip(1),
         takeUntilDestroyed(),
       )
-      .subscribe(() => this.main().nativeElement.focus());
+      .subscribe(() =>
+        afterNextRender(() => this.focusPageStart(), { injector: this.injector }),
+      );
+  }
+
+  private focusPageStart(): void {
+    const main = this.main().nativeElement;
+    const title = main.querySelector('h1');
+    if (title) {
+      title.setAttribute('tabindex', '-1');
+      title.focus();
+    } else {
+      main.focus();
+    }
   }
 }

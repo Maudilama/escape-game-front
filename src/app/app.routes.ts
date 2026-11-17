@@ -11,6 +11,10 @@ export const routes: Routes = [
     title: 'Fiche salle',
     loadComponent: () => import('./features/rooms/room-page/room-page').then((m) => m.RoomPage),
   },
+{
+    path: 'reserver/:roomId',
+    loadChildren: () => import('./features/booking/booking.routes').then((m) => m.BOOKING_ROUTES),
+  },
   {
     path: '**',
     title: 'Page introuvable',
