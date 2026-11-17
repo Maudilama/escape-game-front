@@ -111,3 +111,17 @@
   flex-direction: column;
   gap: var(--space-3);
 }
+
+.mobile-menu__user {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.mobile-menu__user strong {
+  display: block;
+  color: var(--text);
+  font-weight: 500;
+}

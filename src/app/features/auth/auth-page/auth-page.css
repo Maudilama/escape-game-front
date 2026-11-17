@@ -1,0 +1,42 @@
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 30rem;
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.auth-page__intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.auth-page__intro h1 {
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.auth-form__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--space-4);
+}
+
+.ec-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.ec-tab[aria-current='page'] {
+  background: var(--surface-raised);
+  color: var(--text);
+  font-weight: 500;
+}

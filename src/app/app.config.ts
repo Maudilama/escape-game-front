@@ -1,5 +1,5 @@
 import { registerLocaleData } from '@angular/common';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import localeFr from '@angular/common/locales/fr';
 import {
   ApplicationConfig,
@@ -14,6 +14,7 @@ import {
 } from '@angular/router';
 import { routes } from './app.routes';
 import { PageTitleStrategy } from './core/page-title-strategy';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 registerLocaleData(localeFr);
 
@@ -28,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     { provide: TitleStrategy, useClass: PageTitleStrategy },
     { provide: LOCALE_ID, useValue: 'fr' },
+        provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };

@@ -8,6 +8,9 @@ import {
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Icon } from '../../shared/ui/icon/icon';
 import { APP_NAME } from '../app-name';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -21,14 +24,25 @@ export class Header {
   protected readonly menuOpen = signal(false);
 
   private readonly menu = viewChild.required<ElementRef<HTMLDialogElement>>('menu');
+  protected readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
+
+  protected logout(): void {
+    this.auth.logout();
+    this.closeMenu();
+    this.router.navigateByUrl('/');
+  }
 
   protected openMenu(): void {
     this.menu().nativeElement.showModal();
     this.menuOpen.set(true);
   }
 
-  protected closeMenu(): void {
-    this.menu().nativeElement.close();
+    protected closeMenu(): void {
+    const menu = this.menu().nativeElement;
+    if (menu.open) {
+      menu.close();
+    }
   }
 
   protected onMenuClosed(): void {

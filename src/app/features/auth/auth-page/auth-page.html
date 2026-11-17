@@ -1,0 +1,185 @@
+<div class="ec-container auth-page">
+  <div class="auth-page__intro">
+    <h1 class="text-h2">Votre compte</h1>
+    <p class="text-body-1">Pour réserver et retrouver vos sessions.</p>
+  </div>
+
+  @if (sessionExpired()) {
+    <div class="ec-banner ec-banner--warning">
+      <app-icon name="triangle-alert" class="ec-banner__icon" />
+      <p class="ec-banner__text">Votre session a expiré. Reconnectez-vous pour continuer.</p>
+    </div>
+  } @else if (fromBooking()) {
+    <div class="ec-banner ec-banner--info">
+      <app-icon name="info" class="ec-banner__icon" />
+      <p class="ec-banner__text">
+        Connectez-vous pour réserver ce créneau. Votre sélection est conservée.
+      </p>
+    </div>
+  }
+
+  <nav aria-label="Connexion ou inscription" class="ec-tabs">
+    <a
+      class="ec-tab"
+      routerLink="/connexion"
+      [queryParams]="{ retour: retour() }"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+    >Se connecter</a>
+    <a
+      class="ec-tab"
+      routerLink="/inscription"
+      [queryParams]="{ retour: retour() }"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+    >Créer un compte</a>
+  </nav>
+
+  @if (serverError(); as message) {
+    <div class="ec-banner ec-banner--error" role="alert">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <p class="ec-banner__text">{{ message }}</p>
+    </div>
+  }
+
+  @if (mode() === 'login') {
+    <form [formGroup]="loginForm" (ngSubmit)="submit()" class="auth-form" novalidate>
+      @let emailError = fieldError(loginForm.controls.email, 'votre adresse e-mail');
+      <div class="ec-field" [class.ec-field--invalid]="emailError">
+        <label class="ec-field__label" for="login-email">Adresse e-mail</label>
+        <input
+          id="login-email"
+          name="email"
+          class="ec-field__input"
+          type="email"
+          autocomplete="email"
+          formControlName="email"
+          [attr.aria-invalid]="emailError ? true : null"
+          [attr.aria-describedby]="emailError ? 'login-email-error' : null"
+        />
+        @if (emailError) {
+          <p id="login-email-error" class="ec-field__error">
+            <app-icon name="circle-alert" size="sm" />{{ emailError }}
+          </p>
+        }
+      </div>
+
+      @let passwordError = fieldError(loginForm.controls.password, 'votre mot de passe');
+      <div class="ec-field" [class.ec-field--invalid]="passwordError">
+        <label class="ec-field__label" for="login-password">Mot de passe</label>
+        <input
+          id="login-password"
+          name="password"
+          class="ec-field__input"
+          type="password"
+          autocomplete="current-password"
+          formControlName="password"
+          [attr.aria-invalid]="passwordError ? true : null"
+          [attr.aria-describedby]="passwordError ? 'login-password-error' : null"
+        />
+        @if (passwordError) {
+          <p id="login-password-error" class="ec-field__error">
+            <app-icon name="circle-alert" size="sm" />{{ passwordError }}
+          </p>
+        }
+      </div>
+
+      <button type="submit" class="ec-btn ec-btn--primary ec-btn--block" [attr.aria-busy]="pending() || null">
+        {{ pending() ? 'Connexion en cours…' : 'Se connecter' }}
+      </button>
+    </form>
+  } @else {
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" class="auth-form" novalidate>
+      <div class="auth-form__row">
+        @let firstNameError = fieldError(registerForm.controls.firstName, 'votre prénom');
+        <div class="ec-field" [class.ec-field--invalid]="firstNameError">
+          <label class="ec-field__label" for="register-first-name">Prénom</label>
+          <input
+            id="register-first-name"
+            name="firstName"
+            class="ec-field__input"
+            type="text"
+            autocomplete="given-name"
+            formControlName="firstName"
+            [attr.aria-invalid]="firstNameError ? true : null"
+            [attr.aria-describedby]="firstNameError ? 'register-first-name-error' : null"
+          />
+          @if (firstNameError) {
+            <p id="register-first-name-error" class="ec-field__error">
+              <app-icon name="circle-alert" size="sm" />{{ firstNameError }}
+            </p>
+          }
+        </div>
+
+        @let lastNameError = fieldError(registerForm.controls.lastName, 'votre nom');
+        <div class="ec-field" [class.ec-field--invalid]="lastNameError">
+          <label class="ec-field__label" for="register-last-name">Nom</label>
+          <input
+            id="register-last-name"
+            name="lastName"
+            class="ec-field__input"
+            type="text"
+            autocomplete="family-name"
+            formControlName="lastName"
+            [attr.aria-invalid]="lastNameError ? true : null"
+            [attr.aria-describedby]="lastNameError ? 'register-last-name-error' : null"
+          />
+          @if (lastNameError) {
+            <p id="register-last-name-error" class="ec-field__error">
+              <app-icon name="circle-alert" size="sm" />{{ lastNameError }}
+            </p>
+          }
+        </div>
+      </div>
+
+      @let registerEmailError = fieldError(registerForm.controls.email, 'votre adresse e-mail');
+      <div class="ec-field" [class.ec-field--invalid]="registerEmailError">
+        <label class="ec-field__label" for="register-email">Adresse e-mail</label>
+        <input
+          id="register-email"
+          name="email"
+          class="ec-field__input"
+          type="email"
+          autocomplete="email"
+          formControlName="email"
+          [attr.aria-invalid]="registerEmailError ? true : null"
+          [attr.aria-describedby]="registerEmailError ? 'register-email-error' : null"
+        />
+        @if (registerEmailError) {
+          <p id="register-email-error" class="ec-field__error">
+            <app-icon name="circle-alert" size="sm" />{{ registerEmailError }}
+          </p>
+        }
+      </div>
+
+      @let registerPasswordError = fieldError(registerForm.controls.password, 'un mot de passe');
+      <div class="ec-field" [class.ec-field--invalid]="registerPasswordError">
+        <label class="ec-field__label" for="register-password">Mot de passe</label>
+        <p id="register-password-hint" class="ec-field__hint">Entre 8 et 72 caractères.</p>
+        <input
+          id="register-password"
+          name="password"
+          class="ec-field__input"
+          type="password"
+          autocomplete="new-password"
+          formControlName="password"
+          [attr.aria-invalid]="registerPasswordError ? true : null"
+          [attr.aria-describedby]="
+            registerPasswordError
+              ? 'register-password-hint register-password-error'
+              : 'register-password-hint'
+          "
+        />
+        @if (registerPasswordError) {
+          <p id="register-password-error" class="ec-field__error">
+            <app-icon name="circle-alert" size="sm" />{{ registerPasswordError }}
+          </p>
+        }
+      </div>
+
+      <button type="submit" class="ec-btn ec-btn--primary ec-btn--block" [attr.aria-busy]="pending() || null">
+        {{ pending() ? 'Création du compte…' : 'Créer mon compte' }}
+      </button>
+    </form>
+  }
+</div>
