@@ -6,6 +6,11 @@ export const routes: Routes = [
     title: 'Les salles',
     loadComponent: () => import('./features/rooms/home-page/home-page').then((m) => m.HomePage),
   },
+{
+    path: 'salles/:id',
+    title: 'Fiche salle',
+    loadComponent: () => import('./features/rooms/room-page/room-page').then((m) => m.RoomPage),
+  },
   {
     path: '**',
     title: 'Page introuvable',
