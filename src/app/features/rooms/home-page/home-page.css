@@ -1,0 +1,36 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-12);
+}
+
+.hero__lead {
+  max-width: 68ch;
+  color: var(--neutral-100);
+}
+
+.rooms {
+  padding-bottom: var(--space-16);
+}
+
+.rooms__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--space-6);
+}
+
+.rooms__status {
+  color: var(--text-muted);
+}
+
+.rooms__error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}

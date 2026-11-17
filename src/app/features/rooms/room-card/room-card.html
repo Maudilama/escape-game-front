@@ -1,0 +1,17 @@
+<article class="ec-card room-card">
+  <div class="ec-card__media" aria-hidden="true">Photo à venir</div>
+  <div class="ec-card__body room-card__body">
+    <h3 class="ec-card__title">{{ room().name }}</h3>
+    <p class="ec-card__meta">
+      Difficulté {{ room().difficulty }} sur 5 · {{ room().minPlayers }} à {{ room().maxPlayers }}
+      joueurs · {{ room().sessionMinutes }} min
+    </p>
+    <p class="ec-card__text room-card__description">{{ room().description }}</p>
+    <div class="room-card__footer">
+      <span>{{ room().pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} / pers.</span>
+      <a [routerLink]="['/salles', room().id]" class="ec-link room-card__link">
+        Découvrir<span class="ec-sr-only"> la salle {{ room().name }}</span>
+      </a>
+    </div>
+  </div>
+</article>

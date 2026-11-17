@@ -1,0 +1,75 @@
+<header class="site-header">
+  <div class="ec-container site-header__inner">
+    <a routerLink="/" class="site-header__brand">{{ appName }}</a>
+
+    <nav aria-label="Navigation principale" class="site-header__nav">
+      <a
+        routerLink="/"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        ariaCurrentWhenActive="page"
+      >Les salles</a>
+      <a routerLink="/mes-reservations" routerLinkActive="is-active" ariaCurrentWhenActive="page">
+        Mes réservations
+      </a>
+      <a routerLink="/connexion" class="ec-btn ec-btn--secondary ec-btn--compact">Connexion</a>
+    </nav>
+
+    <button
+        type="button"
+        class="ec-btn ec-btn--secondary ec-btn--icon site-header__menu-button"
+        aria-label="Menu"
+        aria-haspopup="dialog"
+        aria-controls="menu-mobile"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="openMenu()"
+    >
+        <app-icon name="menu" />
+    </button>
+  </div>
+</header>
+
+<dialog #menu id="menu-mobile" class="mobile-menu" aria-label="Menu" (close)="onMenuClosed()">
+  <div class="mobile-menu__header">
+    <span class="site-header__brand">{{ appName }}</span>
+    <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="closeMenu()">
+      <app-icon name="x" />
+      Fermer
+    </button>
+  </div>
+
+  <nav aria-label="Menu principal" class="mobile-menu__nav">
+    <ul class="mobile-menu__list">
+      <li>
+        <a
+          routerLink="/"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+          (click)="closeMenu()"
+        >
+          Les salles <app-icon name="chevron-right" />
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/mes-reservations"
+          routerLinkActive="is-active"
+          ariaCurrentWhenActive="page"
+          (click)="closeMenu()"
+        >
+          Mes réservations <app-icon name="chevron-right" />
+        </a>
+      </li>
+    </ul>
+
+    <div class="mobile-menu__actions">
+      <a routerLink="/connexion" class="ec-btn ec-btn--primary ec-btn--block" (click)="closeMenu()">
+        Se connecter
+      </a>
+      <a routerLink="/inscription" class="ec-btn ec-btn--secondary ec-btn--block" (click)="closeMenu()">
+        Créer un compte
+      </a>
+    </div>
+  </nav>
+</dialog>

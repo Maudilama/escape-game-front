@@ -21,7 +21,6 @@ a:hover { color: var(--accent-hover); }
 
 img, svg { display: block; max-width: 100%; }
 
-/* Lien d'évitement : premier élément focusable de chaque page (RGAA 12.7) */
 .ec-skip-link {
   position: absolute;
   top: var(--space-2);

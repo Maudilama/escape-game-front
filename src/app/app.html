@@ -1,7 +1,14 @@
 <a class="ec-skip-link" href="#contenu">Aller au contenu</a>
 
-<main id="contenu" tabindex="-1" style="padding: var(--space-8) var(--space-6)">
-  <h1 class="text-h1">Quatre salles. Une seule sortie.</h1>
-  <p class="text-body-1">Le design system est branché.</p>
-  <button type="button" class="ec-btn ec-btn--primary">Voir les salles</button>
+<app-header />
+
+<main #main id="contenu" tabindex="-1" class="app-main">
+  <router-outlet />
 </main>
+
+<footer class="site-footer">
+  <div class="ec-container site-footer__inner">
+    <span>{{ appName }}</span>
+    <span>Accessibilité · Mentions légales</span>
+  </div>
+</footer>
