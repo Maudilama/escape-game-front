@@ -1,0 +1,29 @@
+<dialog
+  #dialog
+  class="confirm-dialog"
+  [attr.aria-labelledby]="headingId"
+  [attr.aria-describedby]="bodyId"
+  (close)="closed.emit()"
+>
+  <h2 [id]="headingId" class="text-h4 confirm-dialog__heading">{{ heading() }}</h2>
+
+  <div [id]="bodyId" class="confirm-dialog__body">
+    <ng-content />
+  </div>
+
+  <div class="confirm-dialog__actions">
+    <button #cancelButton type="button" class="ec-btn ec-btn--secondary" (click)="close()">
+      {{ cancelLabel() }}
+    </button>
+    <button
+      type="button"
+      class="ec-btn"
+      [class.ec-btn--danger]="tone() === 'danger'"
+      [class.ec-btn--primary]="tone() === 'primary'"
+      [attr.aria-busy]="pending() || null"
+      (click)="confirmed.emit()"
+    >
+      {{ pending() ? pendingLabel() : confirmLabel() }}
+    </button>
+  </div>
+</dialog>

@@ -12,4 +12,8 @@ export class BookingApi {
   create(request: CreateBookingRequest): Observable<Booking> {
     return this.http.post<Booking>(`${this.apiUrl}/bookings`, request);
   }
+
+  cancel(id: number): Observable<Booking> {
+    return this.http.patch<Booking>(`${this.apiUrl}/bookings/${id}/cancel`, null);
+  }
 }

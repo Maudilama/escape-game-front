@@ -28,12 +28,19 @@ export const routes: Routes = [
     data: { mode: 'register' },
     loadComponent: () => import('./features/auth/auth-page/auth-page').then((m) => m.AuthPage),
   },
-    {
+  {
     path: 'reservations/:id/confirmation',
     title: 'Réservation confirmée',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/booking/confirmation-page/confirmation-page').then((m) => m.ConfirmationPage),
+  },
+  {
+    path: 'mes-reservations',
+    title: 'Mes réservations',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/account/my-bookings-page/my-bookings-page').then((m) => m.MyBookingsPage),
   },
   {
     path: '**',
