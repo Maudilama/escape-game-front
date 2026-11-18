@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guards';
+import { adminGuard, authGuard } from './core/auth/auth.guards';
 
 export const routes: Routes = [
   {
@@ -41,6 +41,13 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./features/account/my-bookings-page/my-bookings-page').then((m) => m.MyBookingsPage),
+  },
+  {
+    path: 'admin/planning',
+    title: 'Planning du jour',
+    canActivate: [adminGuard],
+    loadComponent: () =>
+      import('./features/admin/planning-page/planning-page').then((m) => m.PlanningPage),
   },
   {
     path: '**',

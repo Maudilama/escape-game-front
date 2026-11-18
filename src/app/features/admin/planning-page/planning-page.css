@@ -1,0 +1,188 @@
+.planning {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.planning h1 {
+  margin: 0;
+}
+
+.planning__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-4) var(--space-3);
+}
+
+.planning__day {
+  display: flex;
+  flex: 1 1 100%;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.planning__day .planning__field {
+  flex: 1;
+}
+
+.planning__field {
+  min-width: 0;
+  gap: var(--space-1);
+}
+
+.planning__field--room {
+  flex: 1 1 12rem;
+}
+
+.planning__label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+
+.planning__field .ec-field__input {
+  width: 100%;
+  height: var(--size-target);
+}
+
+.planning__summary {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--neutral-100);
+}
+
+.planning__date {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.planning__muted {
+  color: var(--text-muted);
+}
+
+.planning__inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+}
+
+.ec-banner[tabindex='-1']:focus {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.planning__table-wrapper {
+  display: none;
+  overflow-x: auto;
+  border: 1px solid var(--surface-raised);
+  border-radius: var(--radius-lg);
+}
+
+.planning-table {
+  width: 100%;
+  min-width: 54rem;
+  border-collapse: collapse;
+}
+
+.planning-table th {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface);
+  color: var(--neutral-200);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.planning-table td {
+  padding: var(--space-2) var(--space-4);
+  border-top: 1px solid var(--surface-raised);
+}
+
+.planning-table .is-numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.planning-table .is-nowrap {
+  white-space: nowrap;
+}
+
+.planning-table .is-actions {
+  text-align: right;
+}
+
+.planning-table__client {
+  color: var(--neutral-100);
+}
+
+.planning-table tr.is-cancelled td {
+  color: var(--text-muted);
+}
+
+.planning__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.planning__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.planning__group h2 {
+  margin: 0;
+}
+
+.planning-card__body {
+  padding: var(--space-4);
+}
+
+.planning-card__top,
+.planning-card__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.planning-card__room {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 500;
+}
+
+.planning-card__client {
+  overflow-wrap: anywhere;
+  color: var(--neutral-100);
+}
+
+@media (min-width: 48rem) {
+  .planning__day {
+    flex: none;
+  }
+
+  .planning__day .planning__field {
+    flex: none;
+    width: 11rem;
+  }
+
+  .planning__field--room {
+    flex: 0 1 16rem;
+  }
+
+  .planning__table-wrapper {
+    display: block;
+  }
+
+  .planning__cards {
+    display: none;
+  }
+}

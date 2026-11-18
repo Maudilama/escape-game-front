@@ -1,0 +1,188 @@
+<div class="ec-container planning">
+  <h1 class="text-h2">Planning du jour</h1>
+
+  <div class="planning__toolbar">
+    <div class="planning__day">
+      <button
+        type="button"
+        class="ec-btn ec-btn--secondary ec-btn--icon"
+        aria-label="Jour précédent"
+        (click)="changeDay(-1)"
+      >
+        <app-icon name="chevron-left" />
+      </button>
+      <div class="ec-field planning__field">
+        <label class="planning__label" for="planning-date">Date</label>
+        <input
+          id="planning-date"
+          class="ec-field__input"
+          type="date"
+          [value]="day()"
+          (change)="onDateInput($any($event.target).value)"
+        />
+      </div>
+      <button
+        type="button"
+        class="ec-btn ec-btn--secondary ec-btn--icon"
+        aria-label="Jour suivant"
+        (click)="changeDay(1)"
+      >
+        <app-icon name="chevron-right" />
+      </button>
+    </div>
+
+    <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="showToday()">
+      Aujourd'hui
+    </button>
+
+    <div class="ec-field planning__field planning__field--room">
+      <label class="planning__label" for="planning-room">Salle</label>
+      <select
+        id="planning-room"
+        class="ec-field__input"
+        (change)="onRoomFilter($any($event.target).value)"
+      >
+        <option value="">Toutes les salles</option>
+        @for (room of rooms.value(); track room.id) {
+          <option [value]="room.id">{{ room.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <p class="planning__summary" aria-live="polite">
+    <span class="planning__date">{{ dayDate() | date: 'EEEE d MMMM y' }}</span>
+    @if (bookings.hasValue()) {
+      · {{ summary().count }} réservation{{ summary().count > 1 ? 's' : '' }}
+      confirmée{{ summary().count > 1 ? 's' : '' }} · {{ summary().players }} joueurs ·
+      {{ summary().revenue | currency: 'EUR' : 'symbol' : '1.0-2' }}
+    }
+  </p>
+
+  @if (successMessage(); as message) {
+    <div #successBanner class="ec-banner ec-banner--success" role="status" tabindex="-1">
+      <app-icon name="circle-check" class="ec-banner__icon" />
+      <p class="ec-banner__text">{{ message }}</p>
+    </div>
+  }
+
+  @if (bookings.isLoading() && !bookings.hasValue()) {
+    <p class="planning__muted" role="status">Chargement du planning…</p>
+  } @else if (bookings.error()) {
+    <div class="ec-banner ec-banner--error" role="alert">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <div class="planning__inline">
+        <p class="ec-banner__text">Impossible de charger le planning.</p>
+        <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="bookings.reload()">
+          Réessayer
+        </button>
+      </div>
+    </div>
+  } @else if (visible().length === 0) {
+    <p class="planning__muted">Aucune réservation ce jour-là.</p>
+  } @else {
+    <div class="planning__table-wrapper">
+      <table class="planning-table">
+        <caption class="ec-sr-only">Réservations du {{ dayDate() | date: 'EEEE d MMMM' }}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Horaire</th>
+            <th scope="col">Salle</th>
+            <th scope="col">Client</th>
+            <th scope="col" class="is-numeric">Joueurs</th>
+            <th scope="col" class="is-numeric">Montant</th>
+            <th scope="col">Statut</th>
+            <th scope="col"><span class="ec-sr-only">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (booking of visible(); track booking.id) {
+            <tr [class.is-cancelled]="!isConfirmed(booking)">
+              <td class="is-nowrap">{{ formatTime(booking.startAt) }} – {{ formatTime(booking.endAt) }}</td>
+              <td>{{ booking.roomName }}</td>
+              <td class="planning-table__client">{{ booking.customerEmail }}</td>
+              <td class="is-numeric">{{ booking.playerCount }}</td>
+              <td class="is-numeric">{{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}</td>
+              <td>
+                @if (isConfirmed(booking)) {
+                  <span class="ec-tag ec-tag--success"><app-icon name="circle-check" size="sm" />Confirmée</span>
+                } @else {
+                  <span class="ec-tag ec-tag--muted"><app-icon name="circle-x" size="sm" />Annulée</span>
+                }
+              </td>
+              <td class="is-actions">
+                @if (isConfirmed(booking)) {
+                  <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
+                    Annuler<span class="ec-sr-only">
+                      la réservation de {{ booking.customerEmail }} à {{ formatTime(booking.startAt) }}</span
+                    >
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="planning__cards">
+      @for (group of groups(); track group.time) {
+        <section class="planning__group" [attr.aria-labelledby]="'creneau-' + group.time">
+          <h2 [id]="'creneau-' + group.time" class="text-subtitle">{{ group.time }}</h2>
+          @for (booking of group.bookings; track booking.id) {
+            <article class="ec-card planning-card" [class.ec-card--outline]="!isConfirmed(booking)">
+              <div class="ec-card__body planning-card__body">
+                <div class="planning-card__top">
+                  <h3 class="planning-card__room">{{ booking.roomName }}</h3>
+                  @if (isConfirmed(booking)) {
+                    <span class="ec-tag ec-tag--success">Confirmée</span>
+                  } @else {
+                    <span class="ec-tag ec-tag--muted"><app-icon name="circle-x" size="sm" />Annulée</span>
+                  }
+                </div>
+                <p class="planning-card__client">{{ booking.customerEmail }}</p>
+                <div class="planning-card__bottom">
+                  <span class="planning__muted">
+                    Fin {{ formatTime(booking.endAt) }} · {{ booking.playerCount }} joueurs ·
+                    {{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}
+                  </span>
+                  @if (isConfirmed(booking)) {
+                    <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
+                      Annuler<span class="ec-sr-only">
+                        la réservation de {{ booking.customerEmail }} à {{ group.time }}</span
+                      >
+                    </button>
+                  }
+                </div>
+              </div>
+            </article>
+          }
+        </section>
+      }
+    </div>
+  }
+</div>
+
+<app-confirm-dialog
+  heading="Annuler cette réservation ?"
+  confirmLabel="Annuler la réservation"
+  pendingLabel="Annulation en cours…"
+  cancelLabel="Garder la réservation"
+  tone="danger"
+  [pending]="cancelling()"
+  (confirmed)="confirmCancel()"
+>
+  @if (toCancel(); as booking) {
+    <p>
+      {{ booking.roomName }}, {{ describe(booking) }}, réservée par
+      <strong>{{ booking.customerEmail }}</strong> pour {{ booking.playerCount }} joueurs.
+    </p>
+    <p>Le client ne sera pas prévenu automatiquement : pensez à le contacter.</p>
+  }
+  @if (cancelError(); as message) {
+    <div class="ec-banner ec-banner--error" role="alert">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <p class="ec-banner__text">{{ message }}</p>
+    </div>
+  }
+</app-confirm-dialog>

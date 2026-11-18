@@ -29,7 +29,7 @@ export class App {
     inject(Router)
       .events.pipe(
         filter((event) => event instanceof NavigationEnd),
-        map((event) => event.urlAfterRedirects.split('#')[0]),
+        map((event) => event.urlAfterRedirects.split(/[?#]/)[0]),
         distinctUntilChanged(),
         skip(1),
         takeUntilDestroyed(),
