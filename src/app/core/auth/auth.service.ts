@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { API_URL } from '../api-url';
+import { SessionStorageService } from '../storage/session-storage.service';
 import { decodeJwtPayload } from './jwt';
 
 const STORAGE_KEY = 'escape-game.session';
@@ -36,10 +37,26 @@ interface TokenResponse {
   expiresIn: number;
 }
 
+function isSession(value: unknown): value is Session {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const candidate = value as Record<string, unknown>;
+  return (
+    typeof candidate['token'] === 'string' &&
+    typeof candidate['userId'] === 'number' &&
+    typeof candidate['email'] === 'string' &&
+    Array.isArray(candidate['roles']) &&
+    candidate['roles'].every((role) => typeof role === 'string') &&
+    typeof candidate['expiresAt'] === 'number'
+  );
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = inject(API_URL);
+  private readonly storage = inject(SessionStorageService);
 
   private readonly session = signal<Session | null>(this.restore());
 
@@ -78,11 +95,7 @@ export class AuthService {
 
   logout(): void {
     this.session.set(null);
-    try {
-      sessionStorage.removeItem(STORAGE_KEY);
-    } catch {
-
-    }
+    this.storage.remove(STORAGE_KEY);
   }
 
   private open(token: string): void {
@@ -95,23 +108,11 @@ export class AuthService {
       expiresAt: payload.exp * 1000,
     };
     this.session.set(session);
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-    } catch {
-        
-    }
+    this.storage.write(STORAGE_KEY, session);
   }
 
   private restore(): Session | null {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return null;
-      }
-      const session = JSON.parse(raw) as Session;
-      return session.expiresAt > Date.now() ? session : null;
-    } catch {
-      return null;
-    }
+    const session = this.storage.read(STORAGE_KEY, isSession);
+    return session !== null && session.expiresAt > Date.now() ? session : null;
   }
 }

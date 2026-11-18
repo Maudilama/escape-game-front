@@ -1,6 +1,7 @@
 import { httpResource } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { API_URL } from '../../core/api-url';
+import { SessionStorageService } from '../../core/storage/session-storage.service';
 import { RoomSummary } from '../rooms/room.model';
 
 const STORAGE_KEY = 'escape-game.booking-draft';
@@ -12,9 +13,31 @@ interface BookingDraft {
   playerCount: number | null;
 }
 
+function isNullableNumber(value: unknown): value is number | null {
+  return value === null || typeof value === 'number';
+}
+
+function isNullableString(value: unknown): value is string | null {
+  return value === null || typeof value === 'string';
+}
+
+function isBookingDraft(value: unknown): value is BookingDraft {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  const candidate = value as Record<string, unknown>;
+  return (
+    isNullableNumber(candidate['roomId']) &&
+    isNullableString(candidate['date']) &&
+    isNullableString(candidate['startAt']) &&
+    isNullableNumber(candidate['playerCount'])
+  );
+}
+
 @Injectable()
 export class BookingFlowStore {
   private readonly apiUrl = inject(API_URL);
+  private readonly storage = inject(SessionStorageService);
 
   readonly roomId = signal<number | null>(null);
   readonly date = signal<string | null>(null);
@@ -59,31 +82,6 @@ export class BookingFlowStore {
     this.startAt.set(startAt);
   }
 
-  private restore(): void {
-    try {
-      const raw = sessionStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return;
-      }
-      const draft = JSON.parse(raw) as Partial<BookingDraft>;
-      this.roomId.set(draft.roomId ?? null);
-      this.date.set(draft.date ?? null);
-      this.startAt.set(draft.startAt ?? null);
-      this.playerCount.set(draft.playerCount ?? null);
-    } catch {
-
-    }
-  }
-
-  private save(draft: BookingDraft): void {
-    try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(draft));
-    } catch {
-
-    }
-  }
-
-  
   choosePlayers(count: number): void {
     this.playerCount.set(count);
   }
@@ -92,11 +90,25 @@ export class BookingFlowStore {
     this.startAt.set(null);
   }
 
-
   clear(): void {
     this.roomId.set(null);
     this.date.set(null);
     this.startAt.set(null);
     this.playerCount.set(null);
+  }
+
+  private restore(): void {
+    const draft = this.storage.read(STORAGE_KEY, isBookingDraft);
+    if (draft === null) {
+      return;
+    }
+    this.roomId.set(draft.roomId);
+    this.date.set(draft.date);
+    this.startAt.set(draft.startAt);
+    this.playerCount.set(draft.playerCount);
+  }
+
+  private save(draft: BookingDraft): void {
+    this.storage.write(STORAGE_KEY, draft);
   }
 }
