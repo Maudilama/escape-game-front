@@ -3,7 +3,6 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  max-width: 28rem;
 }
 
 .week-nav__label {
@@ -20,7 +19,6 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-2);
-  max-width: 42rem;
   margin: 0;
   padding: 0;
   border: 0;

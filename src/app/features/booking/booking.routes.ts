@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../../core/auth/auth.guards';
 import { BookingFlow } from './booking-flow/booking-flow';
 import { BookingFlowStore } from './booking-flow.store';
-import { requireDate } from './require-date.guard';
+import { requireDraft } from './require-draft.guard';
 
 export const BOOKING_ROUTES: Routes = [
   {
@@ -18,8 +19,20 @@ export const BOOKING_ROUTES: Routes = [
       {
         path: 'creneau',
         title: 'Réservation : le créneau',
-        canActivate: [requireDate],
+        canActivate: [requireDraft('date')],
         loadComponent: () => import('./steps/slot-step/slot-step').then((m) => m.SlotStep),
+      },
+      {
+        path: 'joueurs',
+        title: 'Réservation : les joueurs',
+        canActivate: [requireDraft('date', 'startAt'), authGuard],
+        loadComponent: () => import('./steps/players-step/players-step').then((m) => m.PlayersStep),
+      },
+      {
+        path: 'recapitulatif',
+        title: 'Réservation : le récapitulatif',
+        canActivate: [requireDraft('date', 'startAt', 'playerCount'), authGuard],
+        loadComponent: () => import('./steps/summary-step/summary-step').then((m) => m.SummaryStep),
       },
     ],
   },

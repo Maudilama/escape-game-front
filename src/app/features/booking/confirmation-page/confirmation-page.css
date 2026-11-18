@@ -1,0 +1,99 @@
+.confirmation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 36rem;
+  padding-block: var(--space-12) var(--space-16);
+}
+
+.confirmation__status {
+  color: var(--text-muted);
+}
+
+.confirmation__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.confirmation__heading h1 {
+  margin: 0;
+}
+
+.confirmation__icon {
+  width: 3rem;
+  height: 3rem;
+  color: var(--success);
+}
+
+.ticket {
+  position: relative;
+}
+
+.ticket__stamp {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-4);
+  padding: 2px var(--space-3);
+  border: 2px solid var(--success);
+  border-radius: var(--radius-sm);
+  color: var(--success);
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+
+.ticket__body {
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.ticket__room {
+  margin: 0;
+  padding-right: 8rem;
+}
+
+.ticket__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.ticket__facts dt {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text-muted);
+}
+
+.ticket__facts dd {
+  margin: 0;
+}
+
+.ticket__number {
+  padding-top: var(--space-4);
+  border-top: 1px dashed var(--divider);
+  color: var(--text-muted);
+}
+
+.ticket__number strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.confirmation__practical ul {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+  color: var(--neutral-100);
+}
+
+.confirmation__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}

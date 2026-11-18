@@ -1,0 +1,30 @@
+.players-step__rule,
+.players-step__unit {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.players-step__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-8) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.players-step__limit {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.25rem;
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--warning);
+}
+
+.players-step__total {
+  margin: 0;
+}

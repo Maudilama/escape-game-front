@@ -3,15 +3,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  max-width: 42rem;
 }
 
 .selected-date__label {
   margin: 0;
-}
-
-.ec-slots {
-  max-width: 42rem;
 }
 
 .slot-step__status {

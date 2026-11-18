@@ -82,4 +82,21 @@ export class BookingFlowStore {
 
     }
   }
+
+  
+  choosePlayers(count: number): void {
+    this.playerCount.set(count);
+  }
+
+  clearSlot(): void {
+    this.startAt.set(null);
+  }
+
+
+  clear(): void {
+    this.roomId.set(null);
+    this.date.set(null);
+    this.startAt.set(null);
+    this.playerCount.set(null);
+  }
 }

@@ -1,0 +1,82 @@
+<app-step-header [step]="4" label="Récapitulatif" backLink="../joueurs" />
+
+<div class="ec-container ec-container--narrow booking-step">
+  <h1 class="text-h3">Vérifiez votre réservation</h1>
+
+  @if (conflict()) {
+    <div #alert class="ec-banner ec-banner--error" role="alert" tabindex="-1">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <div class="summary__alert">
+        <p class="ec-banner__title">Ce créneau vient d'être réservé</p>
+        <p class="ec-banner__text">
+          Quelqu'un l'a réservé juste avant vous. Votre jour et votre nombre de joueurs sont conservés.
+        </p>
+        <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="chooseAnotherSlot()">
+          Choisir un autre créneau
+        </button>
+      </div>
+    </div>
+  } @else if (errorMessage(); as message) {
+    <div #alert class="ec-banner ec-banner--error" role="alert" tabindex="-1">
+      <app-icon name="circle-alert" class="ec-banner__icon" />
+      <p class="ec-banner__text">{{ message }}</p>
+    </div>
+  }
+
+  @if (room(); as room) {
+    <section class="ec-card summary" aria-labelledby="summary-room">
+      <div class="ec-card__body summary__body">
+        <h2 id="summary-room" class="text-h4 summary__room">{{ room.name }}</h2>
+
+        <dl class="summary__lines">
+          <div class="summary__line">
+            <div>
+              <dt>Date et horaire</dt>
+              <dd>
+                {{ start() | date: 'EEEE d MMMM' }}<br />
+                {{ start() | date: "H'h'mm" }} – {{ end() | date: "H'h'mm" }}
+              </dd>
+            </div>
+            <a routerLink="../date" class="ec-link">Modifier<span class="ec-sr-only"> la date et l'horaire</span></a>
+          </div>
+          <div class="summary__line">
+            <div>
+              <dt>Joueurs</dt>
+              <dd>
+                {{ store.playerCount() }} joueurs ·
+                {{ room.pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} par personne
+              </dd>
+            </div>
+            <a routerLink="../joueurs" class="ec-link">Modifier<span class="ec-sr-only"> le nombre de joueurs</span></a>
+          </div>
+        </dl>
+
+        <div class="summary__total">
+          <span>Total</span>
+          <span class="text-subtitle">{{ total() | currency: 'EUR' : 'symbol' : '1.0-2' }}</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ec-banner ec-banner--info">
+      <app-icon name="info" class="ec-banner__icon" />
+      <p class="ec-banner__text">
+        Annulation gratuite jusqu'au {{ cancellationDeadline() | date: 'EEEE d MMMM' }} à
+        {{ cancellationDeadline() | date: "H'h'mm" }}.
+      </p>
+    </div>
+  }
+</div>
+
+<div class="booking-actions">
+  <div class="ec-container ec-container--narrow booking-actions__inner">
+    <button
+      type="button"
+      class="ec-btn ec-btn--primary ec-btn--block"
+      [attr.aria-busy]="pending() || null"
+      (click)="confirm()"
+    >
+      {{ pending() ? 'Réservation en cours…' : 'Confirmer la réservation' }}
+    </button>
+  </div>
+</div>

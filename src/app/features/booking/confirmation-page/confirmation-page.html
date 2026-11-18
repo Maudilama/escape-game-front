@@ -1,0 +1,48 @@
+<div class="ec-container confirmation">
+  @if (booking.isLoading()) {
+    <p class="confirmation__status" role="status">Chargement de votre réservation…</p>
+  } @else if (booking.hasValue()) {
+    @let b = booking.value();
+    <div class="confirmation__heading">
+      <app-icon name="circle-check" class="confirmation__icon" />
+      <h1 class="text-h2">Réservation confirmée</h1>
+      <p class="text-body-1">Elle apparaît désormais dans vos réservations.</p>
+    </div>
+
+    <section class="ec-card ticket" aria-labelledby="ticket-room">
+      <span class="ticket__stamp" aria-hidden="true">Confirmé</span>
+      <div class="ec-card__body ticket__body">
+        <h2 id="ticket-room" class="text-h4 ticket__room">{{ b.roomName }}</h2>
+        <dl class="ticket__facts">
+          <div><dt>Date</dt><dd>{{ b.startAt | date: 'EEEE d MMMM' }}</dd></div>
+          <div><dt>Horaire</dt><dd>{{ b.startAt | date: "H'h'mm" }} – {{ b.endAt | date: "H'h'mm" }}</dd></div>
+          <div><dt>Joueurs</dt><dd>{{ b.playerCount }}</dd></div>
+          <div><dt>Total</dt><dd>{{ b.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}</dd></div>
+        </dl>
+        <p class="ticket__number">Réservation n° <strong>{{ b.id }}</strong></p>
+      </div>
+    </section>
+
+    <section class="confirmation__practical" aria-labelledby="jour-j">
+      <h2 id="jour-j" class="text-subtitle">Le jour J</h2>
+      <ul>
+        <li>Arrivez 15 minutes avant le début de la session.</li>
+        <li>
+          Annulation gratuite jusqu'au {{ cancellationDeadline(b.startAt) | date: 'EEEE d MMMM' }} à
+          {{ cancellationDeadline(b.startAt) | date: "H'h'mm" }}.
+        </li>
+      </ul>
+    </section>
+
+    <div class="confirmation__actions">
+      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">Voir mes réservations</a>
+      <a routerLink="/" class="ec-btn ec-btn--secondary">Retour aux salles</a>
+    </div>
+  } @else {
+    <div class="confirmation__heading">
+      <h1 class="text-h2">Réservation introuvable</h1>
+      <p class="text-body-1">Retrouvez toutes vos sessions dans vos réservations.</p>
+      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">Voir mes réservations</a>
+    </div>
+  }
+</div>

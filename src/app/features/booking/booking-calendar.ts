@@ -1,4 +1,5 @@
 export const BOOKING_WINDOW_DAYS = 60;
+export const CANCELLATION_MIN_HOURS = 24;
 
 export function toIsoDate(date: Date): string {
   const year = date.getFullYear();

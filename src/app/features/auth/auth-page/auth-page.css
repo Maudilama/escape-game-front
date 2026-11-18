@@ -4,6 +4,7 @@
   gap: var(--space-6);
   max-width: 30rem;
   padding-block: var(--space-12) var(--space-16);
+  margin-inline: auto
 }
 
 .auth-page__intro {

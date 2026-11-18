@@ -13,10 +13,9 @@ import { BookingFlowStore } from '../booking-flow.store';
     .step-header__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
     .step-header__back { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--size-target); color: var(--text); text-decoration: none; }
     .step-header__room { font-size: 0.875rem; line-height: 1.25rem; color: var(--text-muted); text-align: right; }
-    app-progress { max-width: 28rem; }
   `,
   template: `
-    <div class="ec-container step-header">
+    <div class="ec-container ec-container--narrow step-header">
       <div class="step-header__top">
         <a [routerLink]="backLink()" class="step-header__back">
           <app-icon name="arrow-left" />

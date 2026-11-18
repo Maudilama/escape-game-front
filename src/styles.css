@@ -4,6 +4,9 @@
   margin-inline: auto;
   padding-inline: var(--space-5);
 }
+.ec-container--narrow {
+  max-width: 44rem;
+}
 
 h1[tabindex='-1']:focus {
   outline: none;

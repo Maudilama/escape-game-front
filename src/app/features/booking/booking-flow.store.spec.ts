@@ -69,4 +69,30 @@ describe('BookingFlowStore', () => {
     expect(store.roomId()).toBe(1);
     expect(store.date()).toBe('2030-01-05');
   });
+
+    it('retient le nombre de joueurs', () => {
+    const store = TestBed.inject(BookingFlowStore);
+    store.start(1);
+
+    store.choosePlayers(4);
+
+    expect(store.playerCount()).toBe(4);
+  });
+
+  it('vide le brouillon une fois la réservation créée', () => {
+    const store = TestBed.inject(BookingFlowStore);
+    store.start(1);
+    store.chooseDate('2030-01-05');
+    store.chooseSlot('2030-01-05T14:30:00');
+    store.choosePlayers(4);
+
+    store.clear();
+
+    expect([store.roomId(), store.date(), store.startAt(), store.playerCount()]).toEqual([
+      null,
+      null,
+      null,
+      null,
+    ]);
+  });
 });

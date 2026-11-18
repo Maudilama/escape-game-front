@@ -9,7 +9,7 @@ import { BookingFlowStore } from '../booking-flow.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (roomNotFound()) {
-      <div class="ec-container booking-step">
+      <div class="ec-container ec-container--narrow booking-step">
         <h1 class="text-h2">Cette salle n'existe pas</h1>
         <p class="text-body-1">Impossible de réserver une salle introuvable.</p>
         <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">Voir toutes les salles</a>
