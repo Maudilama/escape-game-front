@@ -6,10 +6,11 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { CANCELLATION_MIN_HOURS } from '../booking-calendar';
 import { Booking } from '../booking.model';
 import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-confirmation-page',
-  imports: [RouterLink, Icon, LocalizedDatePipe, PricePipe],
+  imports: [RouterLink, Icon, LocalizedDatePipe, PricePipe, TranslocoPipe],
   templateUrl: './confirmation-page.html',
   styleUrl: './confirmation-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

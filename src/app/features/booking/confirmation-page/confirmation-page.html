@@ -1,48 +1,62 @@
-<div class="ec-container confirmation">
+<div class="ec-container ec-container--narrow confirmation">
   @if (booking.isLoading()) {
-    <p class="confirmation__status" role="status">Chargement de votre réservation…</p>
+    <p class="confirmation__status" role="status">{{ 'booking.confirmation.loading' | transloco }}</p>
   } @else if (booking.hasValue()) {
     @let b = booking.value();
     <div class="confirmation__heading">
       <app-icon name="circle-check" class="confirmation__icon" />
-      <h1 class="text-h2">Réservation confirmée</h1>
-      <p class="text-body-1">Elle apparaît désormais dans vos réservations.</p>
+      <h1 class="text-h2">{{ 'titles.confirmation' | transloco }}</h1>
+      <p class="text-body-1">{{ 'booking.confirmation.lead' | transloco }}</p>
     </div>
 
     <section class="ec-card ticket" aria-labelledby="ticket-room">
-      <span class="ticket__stamp" aria-hidden="true">Confirmé</span>
+      <span class="ticket__stamp" aria-hidden="true">{{ 'booking.confirmation.stamp' | transloco }}</span>
       <div class="ec-card__body ticket__body">
         <h2 id="ticket-room" class="text-h4 ticket__room">{{ b.roomName }}</h2>
         <dl class="ticket__facts">
-          <div><dt>Date</dt><dd>{{ b.startAt | appDate: 'long' }}</dd></div>
-          <div><dt>Horaire</dt><dd>{{ b.startAt | appDate: 'time' }} – {{ b.endAt | appDate: 'time' }}</dd></div>
-          <div><dt>Joueurs</dt><dd>{{ b.playerCount }}</dd></div>
-          <div><dt>Total</dt><dd>{{ b.totalPrice | appPrice }}</dd></div>
+          <div>
+            <dt>{{ 'booking.confirmation.date' | transloco }}</dt>
+            <dd>{{ b.startAt | appDate: 'long' }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'booking.confirmation.time' | transloco }}</dt>
+            <dd>{{ b.startAt | appDate: 'time' }} – {{ b.endAt | appDate: 'time' }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'booking.confirmation.players' | transloco }}</dt>
+            <dd>{{ b.playerCount }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'booking.total' | transloco }}</dt>
+            <dd>{{ b.totalPrice | appPrice }}</dd>
+          </div>
         </dl>
-        <p class="ticket__number">Réservation n° <strong>{{ b.id }}</strong></p>
+        <p class="ticket__number">{{ 'booking.confirmation.number' | transloco }} <strong>{{ b.id }}</strong></p>
       </div>
     </section>
 
     <section class="confirmation__practical" aria-labelledby="jour-j">
-      <h2 id="jour-j" class="text-subtitle">Le jour J</h2>
+      <h2 id="jour-j" class="text-subtitle">{{ 'booking.confirmation.dayTitle' | transloco }}</h2>
       <ul>
-        <li>Arrivez 15 minutes avant le début de la session.</li>
+        <li>{{ 'room.info.arrive' | transloco }}</li>
         <li>
-          Annulation gratuite jusqu'au {{ cancellationDeadline(b.startAt) | appDate: 'long' }} à
-          {{ cancellationDeadline(b.startAt) | appDate: 'time' }}.
+          {{
+            'booking.freeCancellationUntil'
+              | transloco: { date: (cancellationDeadline(b.startAt) | appDate: 'dateTime') }
+          }}
         </li>
       </ul>
     </section>
 
     <div class="confirmation__actions">
-      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">Voir mes réservations</a>
-      <a routerLink="/" class="ec-btn ec-btn--secondary">Retour aux salles</a>
+      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">{{ 'booking.confirmation.myBookings' | transloco }}</a>
+      <a routerLink="/" class="ec-btn ec-btn--secondary">{{ 'booking.confirmation.backToRooms' | transloco }}</a>
     </div>
   } @else {
     <div class="confirmation__heading">
-      <h1 class="text-h2">Réservation introuvable</h1>
-      <p class="text-body-1">Retrouvez toutes vos sessions dans vos réservations.</p>
-      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">Voir mes réservations</a>
+      <h1 class="text-h2">{{ 'booking.confirmation.notFoundTitle' | transloco }}</h1>
+      <p class="text-body-1">{{ 'booking.confirmation.notFoundText' | transloco }}</p>
+      <a routerLink="/mes-reservations" class="ec-btn ec-btn--primary">{{ 'booking.confirmation.myBookings' | transloco }}</a>
     </div>
   }
 </div>

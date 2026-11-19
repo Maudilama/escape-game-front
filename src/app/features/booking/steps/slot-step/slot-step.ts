@@ -9,25 +9,26 @@ import {
   viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { API_URL } from '../../../../core/api-url';
+import { LocaleFormat } from '../../../../core/i18n/locale-format';
+import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { Availability } from '../../availability.model';
 import { addDays, parseIsoDate, toIsoDate } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
-import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
-import { LocaleFormat } from '../../../../core/i18n/locale-format';
 
 interface SlotOption {
   startAt: string;
   label: string;
   available: boolean;
-  reason: 'Complet' | 'Passé' | null;
+  reason: 'full' | 'past' | null;
 }
 
 @Component({
   selector: 'app-slot-step',
-  imports: [RouterLink, Icon, StepHeader, LocalizedDatePipe],
+  imports: [LocalizedDatePipe, TranslocoPipe, RouterLink, Icon, StepHeader],
   templateUrl: './slot-step.html',
   styleUrl: './slot-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,17 +36,13 @@ interface SlotOption {
 export class SlotStep {
   protected readonly store = inject(BookingFlowStore);
   private readonly apiUrl = inject(API_URL);
+  private readonly format = inject(LocaleFormat);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly slotPicker = viewChild<ElementRef<HTMLFieldSetElement>>('slotPicker');
-  private readonly format = inject(LocaleFormat);
 
   private readonly now = new Date();
   protected readonly showError = signal(false);
-
-protected readonly closed = computed(
-    () => this.availability.hasValue() && this.availability.value().closed,
-  );
 
   protected readonly availability = httpResource<Availability>(() => {
     const roomId = this.store.roomId();
@@ -56,6 +53,10 @@ protected readonly closed = computed(
     return { url: `${this.apiUrl}/rooms/${roomId}/availability`, params: { date } };
   });
 
+  protected readonly closed = computed(
+    () => this.availability.hasValue() && this.availability.value().closed,
+  );
+
   protected readonly slots = computed<SlotOption[]>(() => {
     if (!this.availability.hasValue()) {
       return [];
@@ -64,7 +65,7 @@ protected readonly closed = computed(
       startAt: slot.startAt,
       label: `${this.format.time(slot.startAt)} – ${this.format.time(slot.endAt)}`,
       available: slot.available,
-      reason: slot.available ? null : new Date(slot.startAt) <= this.now ? 'Passé' : 'Complet',
+      reason: slot.available ? null : new Date(slot.startAt) <= this.now ? 'past' : 'full',
     }));
   });
 
@@ -94,9 +95,7 @@ protected readonly closed = computed(
   protected continue(): void {
     if (this.selectedSlot() === null) {
       this.showError.set(true);
-      this.slotPicker()
-        ?.nativeElement.querySelector<HTMLInputElement>('input:not(:disabled)')
-        ?.focus();
+      this.slotPicker()?.nativeElement.querySelector<HTMLInputElement>('input:not(:disabled)')?.focus();
       return;
     }
     this.router.navigate(['../joueurs'], { relativeTo: this.route });

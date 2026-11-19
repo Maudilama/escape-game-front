@@ -10,8 +10,10 @@ import {
 } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { forkJoin } from 'rxjs';
 import { API_URL } from '../../../../core/api-url';
+import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { Availability } from '../../availability.model';
 import {
@@ -23,18 +25,20 @@ import {
 } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
-import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
+
+type DayStatus = 'free' | 'full' | 'closed' | 'notOpen';
 
 interface DayOption {
   date: Date;
   iso: string;
-  status: string;
+  status: DayStatus;
+  free: number;
   selectable: boolean;
 }
 
 @Component({
   selector: 'app-date-step',
-  imports: [Icon, StepHeader, LocalizedDatePipe],
+  imports: [LocalizedDatePipe, TranslocoPipe, Icon, StepHeader],
   templateUrl: './date-step.html',
   styleUrl: './date-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,19 +86,14 @@ export class DateStep {
     return this.days().map((date, index) => {
       const iso = toIsoDate(date);
       if (date > this.lastBookableDay) {
-        return { date, iso, status: 'Pas encore ouvert', selectable: false };
+        return { date, iso, status: 'notOpen', free: 0, selectable: false };
       }
-    const result = results[index];
+      const result = results[index];
       if (result?.closed) {
-        return { date, iso, status: 'Fermé', selectable: false };
+        return { date, iso, status: 'closed', free: 0, selectable: false };
       }
       const free = result?.slots.filter((slot) => slot.available).length ?? 0;
-      return {
-        date,
-        iso,
-        status: free === 0 ? 'Complet' : `${free} libre${free > 1 ? 's' : ''}`,
-        selectable: free > 0,
-      };
+      return { date, iso, status: free === 0 ? 'full' : 'free', free, selectable: free > 0 };
     });
   });
 

@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { PricePipe } from '../../../../core/i18n/locale-pipes';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
-import { PricePipe } from '../../../../core/i18n/locale-pipes';
 
 @Component({
   selector: 'app-players-step',
-  imports: [Icon, StepHeader, PricePipe],
+  imports: [PricePipe, TranslocoPipe, Icon, StepHeader],
   templateUrl: './players-step.html',
   styleUrl: './players-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +28,7 @@ export class PlayersStep {
     return room && count !== null ? room.pricePerPerson * count : null;
   });
 
-  protected readonly limitMessage = signal<string | null>(null);
+  protected readonly limit = signal<'min' | 'max' | null>(null);
 
   protected decrement(): void {
     const room = this.room();
@@ -36,11 +37,11 @@ export class PlayersStep {
       return;
     }
     if (count <= room.minPlayers) {
-      this.limitMessage.set(`Il faut au moins ${room.minPlayers} joueurs dans cette salle.`);
+      this.limit.set('min');
       return;
     }
     this.store.choosePlayers(count - 1);
-    this.limitMessage.set(null);
+    this.limit.set(null);
   }
 
   protected increment(): void {
@@ -50,11 +51,11 @@ export class PlayersStep {
       return;
     }
     if (count >= room.maxPlayers) {
-      this.limitMessage.set(`${room.maxPlayers} joueurs maximum dans cette salle.`);
+      this.limit.set('max');
       return;
     }
     this.store.choosePlayers(count + 1);
-    this.limitMessage.set(null);
+    this.limit.set(null);
   }
 
   protected continue(): void {

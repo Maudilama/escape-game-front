@@ -1,51 +1,68 @@
-<app-step-header [step]="3" label="Joueurs" backLink="../creneau" />
+<app-step-header [step]="3" [label]="'booking.players.step' | transloco" backLink="../creneau" />
 
 <div class="ec-container ec-container--narrow booking-step">
-  <h1 class="text-h3">Combien serez-vous ?</h1>
+  <h1 class="text-h3">{{ 'booking.players.title' | transloco }}</h1>
 
   @if (room(); as room) {
+    @let unit = 'booking.players.unit' | transloco: { count: count() };
     <p class="text-body-2 players-step__rule">
-      Cette salle accueille de {{ room.minPlayers }} à {{ room.maxPlayers }} joueurs.
+      {{ 'booking.players.rule' | transloco: { min: room.minPlayers, max: room.maxPlayers } }}
     </p>
 
     <div class="players-step__panel">
       <div class="ec-counter">
-        <button type="button" class="ec-counter__btn" aria-label="Retirer un joueur" (click)="decrement()">
+        <button
+          type="button"
+          class="ec-counter__btn"
+          [attr.aria-label]="'booking.players.remove' | transloco"
+          (click)="decrement()"
+        >
           <app-icon name="minus" />
         </button>
         <p class="ec-counter__value" aria-live="polite">
-          {{ count() }}<span class="ec-sr-only"> joueurs</span>
+          {{ count() }}<span class="ec-sr-only"> {{ unit }}</span>
         </p>
-        <button type="button" class="ec-counter__btn" aria-label="Ajouter un joueur" (click)="increment()">
+        <button
+          type="button"
+          class="ec-counter__btn"
+          [attr.aria-label]="'booking.players.add' | transloco"
+          (click)="increment()"
+        >
           <app-icon name="plus" />
         </button>
       </div>
-      <p class="players-step__unit" aria-hidden="true">joueurs</p>
+      <p class="players-step__unit" aria-hidden="true">{{ unit }}</p>
 
       <p class="players-step__limit" role="status">
-        @if (limitMessage(); as message) {
-          <app-icon name="triangle-alert" size="sm" />{{ message }}
+        @switch (limit()) {
+          @case ('min') {
+            <app-icon name="triangle-alert" size="sm" />{{ 'booking.players.limitMin' | transloco: { count: room.minPlayers } }}
+          }
+          @case ('max') {
+            <app-icon name="triangle-alert" size="sm" />{{ 'booking.players.limitMax' | transloco: { count: room.maxPlayers } }}
+          }
         }
       </p>
     </div>
 
     <p class="text-subtitle players-step__total" aria-live="polite">
-      {{ count() }} × {{ room.pricePerPerson | appPrice }} =
-      {{ total() | appPrice }}
+      {{ count() }} × {{ room.pricePerPerson | appPrice }} = {{ total() | appPrice }}
     </p>
   } @else {
-    <p class="players-step__rule" role="status">Chargement…</p>
+    <p class="players-step__rule" role="status">{{ 'common.loading' | transloco }}</p>
   }
 </div>
 
 <div class="booking-actions">
   <div class="ec-container ec-container--narrow booking-actions__inner">
     <div>
-      <p class="booking-actions__label">Total</p>
+      <p class="booking-actions__label">{{ 'booking.total' | transloco }}</p>
       <p class="booking-actions__value">
-        {{ count() }} joueurs · {{ total() | appPrice }}
+        {{ 'common.players' | transloco: { count: count() } }} · {{ total() | appPrice }}
       </p>
     </div>
-    <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">Continuer</button>
+    <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">
+      {{ 'common.continue' | transloco }}
+    </button>
   </div>
 </div>

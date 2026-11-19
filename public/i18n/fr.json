@@ -43,7 +43,11 @@
     "common": {
     "retry": "Réessayer",
     "perPerson": "{price} / pers.",
-    "players": "{count, plural, one {# joueur} other {# joueurs}}"
+    "players": "{count, plural, one {# joueur} other {# joueurs}}",
+    "back": "Retour",
+    "continue": "Continuer",
+    "change": "Modifier",
+    "loading": "Chargement…"
   },
   "home": {
     "hero": {
@@ -93,6 +97,87 @@
     "cta": {
       "from": "À partir de",
       "book": "Réserver"
+    }
+  },
+    "booking": {
+    "progress": "Étape {current} sur {total} · {label}",
+    "yourChoice": "Votre choix",
+    "total": "Total",
+    "freeCancellationUntil": "Annulation gratuite jusqu'au {date}.",
+    "roomNotFound": "Impossible de réserver une salle introuvable.",
+    "date": {
+      "step": "Jour",
+      "title": "Quand voulez-vous jouer ?",
+      "previousWeek": "Semaine précédente",
+      "nextWeek": "Semaine suivante",
+      "loading": "Chargement des disponibilités…",
+      "error": "Impossible de charger les disponibilités.",
+      "legend": "Jour de la session",
+      "required": "Choisissez un jour pour continuer.",
+      "window": "Réservations ouvertes jusqu'au {date}.",
+      "none": "Aucun jour choisi",
+      "status": {
+        "free": "{count, plural, one {# libre} other {# libres}}",
+        "full": "Complet",
+        "closed": "Fermé",
+        "notOpen": "Pas encore ouvert"
+      }
+    },
+    "slot": {
+      "step": "Créneau",
+      "title": "À quelle heure ?",
+      "changeDaySr": "le jour",
+      "loading": "Chargement des créneaux…",
+      "error": "Impossible de charger les créneaux.",
+      "closed": "L'escape game est fermé ce jour-là.",
+      "full": "Plus aucun créneau libre ce jour-là.",
+      "nextDay": "Voir le jour suivant",
+      "legend": "Créneaux du {date}",
+      "required": "Choisissez un créneau pour continuer.",
+      "reason": {
+        "full": "Complet",
+        "past": "Passé"
+      }
+    },
+    "players": {
+      "step": "Joueurs",
+      "title": "Combien serez-vous ?",
+      "rule": "Cette salle accueille de {min} à {max} joueurs.",
+      "remove": "Retirer un joueur",
+      "add": "Ajouter un joueur",
+      "unit": "{count, plural, one {joueur} other {joueurs}}",
+      "limitMin": "Il faut au moins {count, plural, one {# joueur} other {# joueurs}} dans cette salle.",
+      "limitMax": "{count, plural, one {# joueur} other {# joueurs}} maximum dans cette salle."
+    },
+    "summary": {
+      "step": "Récapitulatif",
+      "title": "Vérifiez votre réservation",
+      "conflictTitle": "Ce créneau vient d'être réservé",
+      "conflictText": "Quelqu'un l'a réservé juste avant vous. Votre jour et votre nombre de joueurs sont conservés.",
+      "conflictCta": "Choisir un autre créneau",
+      "ruleError": "Cette réservation n'est pas possible.",
+      "unknownError": "La réservation n'a pas pu être enregistrée. Réessayez dans un instant.",
+      "dateTime": "Date et horaire",
+      "changeDateSr": "la date et l'horaire",
+      "players": "Joueurs",
+      "perPerson": "{price} par personne",
+      "changePlayersSr": "le nombre de joueurs",
+      "confirm": "Confirmer la réservation",
+      "pending": "Réservation en cours…"
+    },
+    "confirmation": {
+      "loading": "Chargement de votre réservation…",
+      "lead": "Elle apparaît désormais dans vos réservations.",
+      "stamp": "Confirmé",
+      "date": "Date",
+      "time": "Horaire",
+      "players": "Joueurs",
+      "number": "Réservation n°",
+      "dayTitle": "Le jour J",
+      "myBookings": "Voir mes réservations",
+      "backToRooms": "Retour aux salles",
+      "notFoundTitle": "Réservation introuvable",
+      "notFoundText": "Retrouvez toutes vos sessions dans vos réservations."
     }
   }
 }

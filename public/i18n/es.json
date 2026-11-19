@@ -43,7 +43,11 @@
     "common": {
     "retry": "Reintentar",
     "perPerson": "{price} / persona",
-    "players": "{count, plural, one {# jugador} other {# jugadores}}"
+    "players": "{count, plural, one {# jugador} other {# jugadores}}",
+    "back": "Volver",
+    "continue": "Continuar",
+    "change": "Cambiar",
+    "loading": "Cargando…"
   },
   "home": {
     "hero": {
@@ -93,6 +97,87 @@
     "cta": {
       "from": "Desde",
       "book": "Reservar"
+    }
+  },
+    "booking": {
+    "progress": "Paso {current} de {total} · {label}",
+    "yourChoice": "Tu elección",
+    "total": "Total",
+    "freeCancellationUntil": "Cancelación gratuita hasta el {date}.",
+    "roomNotFound": "No se puede reservar una sala que no existe.",
+    "date": {
+      "step": "Día",
+      "title": "¿Cuándo quieres jugar?",
+      "previousWeek": "Semana anterior",
+      "nextWeek": "Semana siguiente",
+      "loading": "Cargando la disponibilidad…",
+      "error": "No se puede cargar la disponibilidad.",
+      "legend": "Día de la sesión",
+      "required": "Elige un día para continuar.",
+      "window": "Reservas abiertas hasta el {date}.",
+      "none": "Ningún día elegido",
+      "status": {
+        "free": "{count, plural, one {# libre} other {# libres}}",
+        "full": "Completo",
+        "closed": "Cerrado",
+        "notOpen": "Aún no abierto"
+      }
+    },
+    "slot": {
+      "step": "Horario",
+      "title": "¿A qué hora?",
+      "changeDaySr": "el día",
+      "loading": "Cargando los horarios…",
+      "error": "No se pueden cargar los horarios.",
+      "closed": "El escape game está cerrado ese día.",
+      "full": "No quedan horarios libres ese día.",
+      "nextDay": "Ver el día siguiente",
+      "legend": "Horarios del {date}",
+      "required": "Elige un horario para continuar.",
+      "reason": {
+        "full": "Completo",
+        "past": "Pasado"
+      }
+    },
+    "players": {
+      "step": "Jugadores",
+      "title": "¿Cuántos seréis?",
+      "rule": "Esta sala admite de {min} a {max} jugadores.",
+      "remove": "Quitar un jugador",
+      "add": "Añadir un jugador",
+      "unit": "{count, plural, one {jugador} other {jugadores}}",
+      "limitMin": "Esta sala necesita al menos {count, plural, one {# jugador} other {# jugadores}}.",
+      "limitMax": "Esta sala admite como máximo {count, plural, one {# jugador} other {# jugadores}}."
+    },
+    "summary": {
+      "step": "Resumen",
+      "title": "Revisa tu reserva",
+      "conflictTitle": "Este horario acaba de reservarse",
+      "conflictText": "Alguien lo ha reservado justo antes que tú. Se conservan tu día y tu número de jugadores.",
+      "conflictCta": "Elegir otro horario",
+      "ruleError": "Esta reserva no es posible.",
+      "unknownError": "No se ha podido guardar la reserva. Inténtalo de nuevo en un momento.",
+      "dateTime": "Fecha y hora",
+      "changeDateSr": "la fecha y la hora",
+      "players": "Jugadores",
+      "perPerson": "{price} por persona",
+      "changePlayersSr": "el número de jugadores",
+      "confirm": "Confirmar la reserva",
+      "pending": "Reservando…"
+    },
+    "confirmation": {
+      "loading": "Cargando tu reserva…",
+      "lead": "Ya aparece en tus reservas.",
+      "stamp": "Confirmado",
+      "date": "Fecha",
+      "time": "Hora",
+      "players": "Jugadores",
+      "number": "Reserva n.º",
+      "dayTitle": "El día de la sesión",
+      "myBookings": "Ver mis reservas",
+      "backToRooms": "Volver a las salas",
+      "notFoundTitle": "Reserva no encontrada",
+      "notFoundText": "Encuentra todas tus sesiones en tus reservas."
     }
   }
 }

@@ -2,17 +2,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BookingFlowStore } from '../booking-flow.store';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-booking-flow',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (roomNotFound()) {
       <div class="ec-container ec-container--narrow booking-step">
-        <h1 class="text-h2">Cette salle n'existe pas</h1>
-        <p class="text-body-1">Impossible de réserver une salle introuvable.</p>
-        <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">Voir toutes les salles</a>
+        <h1 class="text-h2">{{ 'room.notFound.title' | transloco }}</h1>
+        <p class="text-body-1">{{ 'booking.roomNotFound' | transloco }}</p>
+        <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">{{ 'room.notFound.cta' | transloco }}</a>
       </div>
     } @else {
       <router-outlet />

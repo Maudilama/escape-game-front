@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-progress',
+  imports: [TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="ec-progress">
@@ -10,7 +12,9 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
           <span class="ec-progress__seg" [class.ec-progress__seg--done]="done"></span>
         }
       </div>
-      <p class="ec-progress__label">Étape {{ current() }} sur {{ total() }} · {{ label() }}</p>
+      <p class="ec-progress__label">
+        {{ 'booking.progress' | transloco: { current: current(), total: total(), label: label() } }}
+      </p>
     </div>
   `,
 })

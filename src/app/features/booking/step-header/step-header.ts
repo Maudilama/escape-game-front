@@ -3,10 +3,11 @@ import { RouterLink } from '@angular/router';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Progress } from '../../../shared/ui/progress/progress';
 import { BookingFlowStore } from '../booking-flow.store';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-step-header',
-  imports: [RouterLink, Icon, Progress],
+  imports: [RouterLink, Icon, Progress, TranslocoPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .step-header { display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); }
@@ -19,7 +20,7 @@ import { BookingFlowStore } from '../booking-flow.store';
       <div class="step-header__top">
         <a [routerLink]="backLink()" class="step-header__back">
           <app-icon name="arrow-left" />
-          Retour
+          {{ 'common.back' | transloco }}
         </a>
         @if (store.room.hasValue()) {
           <span class="step-header__room">{{ store.room.value().name }}</span>

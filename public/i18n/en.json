@@ -43,7 +43,11 @@
     "common": {
     "retry": "Try again",
     "perPerson": "{price} / person",
-    "players": "{count, plural, one {# player} other {# players}}"
+    "players": "{count, plural, one {# player} other {# players}}",
+    "back": "Back",
+    "continue": "Continue",
+    "change": "Change",
+    "loading": "Loading…"
   },
   "home": {
     "hero": {
@@ -93,6 +97,87 @@
     "cta": {
       "from": "From",
       "book": "Book"
+    }
+  },
+    "booking": {
+    "progress": "Step {current} of {total} · {label}",
+    "yourChoice": "Your choice",
+    "total": "Total",
+    "freeCancellationUntil": "Free cancellation until {date}.",
+    "roomNotFound": "A room that doesn't exist can't be booked.",
+    "date": {
+      "step": "Day",
+      "title": "When do you want to play?",
+      "previousWeek": "Previous week",
+      "nextWeek": "Next week",
+      "loading": "Loading availability…",
+      "error": "Availability can't be loaded.",
+      "legend": "Session day",
+      "required": "Choose a day to continue.",
+      "window": "Bookings open until {date}.",
+      "none": "No day chosen",
+      "status": {
+        "free": "{count, plural, one {# left} other {# left}}",
+        "full": "Full",
+        "closed": "Closed",
+        "notOpen": "Not open yet"
+      }
+    },
+    "slot": {
+      "step": "Time slot",
+      "title": "What time?",
+      "changeDaySr": "the day",
+      "loading": "Loading time slots…",
+      "error": "Time slots can't be loaded.",
+      "closed": "The escape game is closed that day.",
+      "full": "No free time slots left that day.",
+      "nextDay": "See the next day",
+      "legend": "Time slots on {date}",
+      "required": "Choose a time slot to continue.",
+      "reason": {
+        "full": "Full",
+        "past": "Past"
+      }
+    },
+    "players": {
+      "step": "Players",
+      "title": "How many of you?",
+      "rule": "This room takes {min} to {max} players.",
+      "remove": "Remove a player",
+      "add": "Add a player",
+      "unit": "{count, plural, one {player} other {players}}",
+      "limitMin": "This room needs at least {count, plural, one {# player} other {# players}}.",
+      "limitMax": "This room takes {count, plural, one {# player} other {# players}} at most."
+    },
+    "summary": {
+      "step": "Summary",
+      "title": "Check your booking",
+      "conflictTitle": "This time slot has just been booked",
+      "conflictText": "Someone booked it just before you. Your day and number of players have been kept.",
+      "conflictCta": "Choose another time slot",
+      "ruleError": "This booking isn't possible.",
+      "unknownError": "The booking couldn't be saved. Please try again in a moment.",
+      "dateTime": "Date and time",
+      "changeDateSr": "the date and time",
+      "players": "Players",
+      "perPerson": "{price} per person",
+      "changePlayersSr": "the number of players",
+      "confirm": "Confirm booking",
+      "pending": "Booking…"
+    },
+    "confirmation": {
+      "loading": "Loading your booking…",
+      "lead": "It now appears in your bookings.",
+      "stamp": "Confirmed",
+      "date": "Date",
+      "time": "Time",
+      "players": "Players",
+      "number": "Booking no.",
+      "dayTitle": "On the day",
+      "myBookings": "See my bookings",
+      "backToRooms": "Back to the rooms",
+      "notFoundTitle": "Booking not found",
+      "notFoundText": "Find all your sessions in your bookings."
     }
   }
 }

@@ -1,25 +1,34 @@
-<app-step-header [step]="4" label="Récapitulatif" backLink="../joueurs" />
+<app-step-header [step]="4" [label]="'booking.summary.step' | transloco" backLink="../joueurs" />
 
 <div class="ec-container ec-container--narrow booking-step">
-  <h1 class="text-h3">Vérifiez votre réservation</h1>
+  <h1 class="text-h3">{{ 'booking.summary.title' | transloco }}</h1>
 
-  @if (conflict()) {
+  @if (error(); as error) {
     <div #alert class="ec-banner ec-banner--error" role="alert" tabindex="-1">
       <app-icon name="circle-alert" class="ec-banner__icon" />
-      <div class="summary__alert">
-        <p class="ec-banner__title">Ce créneau vient d'être réservé</p>
-        <p class="ec-banner__text">
-          Quelqu'un l'a réservé juste avant vous. Votre jour et votre nombre de joueurs sont conservés.
-        </p>
-        <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="chooseAnotherSlot()">
-          Choisir un autre créneau
-        </button>
-      </div>
-    </div>
-  } @else if (errorMessage(); as message) {
-    <div #alert class="ec-banner ec-banner--error" role="alert" tabindex="-1">
-      <app-icon name="circle-alert" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      @switch (error.kind) {
+        @case ('conflict') {
+          <div class="summary__alert">
+            <p class="ec-banner__title">{{ 'booking.summary.conflictTitle' | transloco }}</p>
+            <p class="ec-banner__text">{{ 'booking.summary.conflictText' | transloco }}</p>
+            <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="chooseAnotherSlot()">
+              {{ 'booking.summary.conflictCta' | transloco }}
+            </button>
+          </div>
+        }
+        @case ('rule') {
+          <p class="ec-banner__text">
+            @if (error.detail; as detail) {
+              {{ detail }}
+            } @else {
+              {{ 'booking.summary.ruleError' | transloco }}
+            }
+          </p>
+        }
+        @default {
+          <p class="ec-banner__text">{{ 'booking.summary.unknownError' | transloco }}</p>
+        }
+      }
     </div>
   }
 
@@ -31,28 +40,34 @@
         <dl class="summary__lines">
           <div class="summary__line">
             <div>
-              <dt>Date et horaire</dt>
+              <dt>{{ 'booking.summary.dateTime' | transloco }}</dt>
               <dd>
                 {{ start() | appDate: 'long' }}<br />
                 {{ start() | appDate: 'time' }} – {{ end() | appDate: 'time' }}
               </dd>
             </div>
-            <a routerLink="../date" class="ec-link">Modifier<span class="ec-sr-only"> la date et l'horaire</span></a>
+            <a routerLink="../date" class="ec-link">
+              {{ 'common.change' | transloco
+              }}<span class="ec-sr-only"> {{ 'booking.summary.changeDateSr' | transloco }}</span>
+            </a>
           </div>
           <div class="summary__line">
             <div>
-              <dt>Joueurs</dt>
+              <dt>{{ 'booking.summary.players' | transloco }}</dt>
               <dd>
-                {{ store.playerCount() }} joueurs ·
-                {{ room.pricePerPerson | appPrice }} par personne
+                {{ 'common.players' | transloco: { count: store.playerCount() } }} ·
+                {{ 'booking.summary.perPerson' | transloco: { price: (room.pricePerPerson | appPrice) } }}
               </dd>
             </div>
-            <a routerLink="../joueurs" class="ec-link">Modifier<span class="ec-sr-only"> le nombre de joueurs</span></a>
+            <a routerLink="../joueurs" class="ec-link">
+              {{ 'common.change' | transloco
+              }}<span class="ec-sr-only"> {{ 'booking.summary.changePlayersSr' | transloco }}</span>
+            </a>
           </div>
         </dl>
 
         <div class="summary__total">
-          <span>Total</span>
+          <span>{{ 'booking.total' | transloco }}</span>
           <span class="text-subtitle">{{ total() | appPrice }}</span>
         </div>
       </div>
@@ -61,8 +76,7 @@
     <div class="ec-banner ec-banner--info">
       <app-icon name="info" class="ec-banner__icon" />
       <p class="ec-banner__text">
-        Annulation gratuite jusqu'au {{ cancellationDeadline() | appDate: 'long' }} à
-        {{ cancellationDeadline() | appDate: 'time' }}.
+        {{ 'booking.freeCancellationUntil' | transloco: { date: (cancellationDeadline() | appDate: 'dateTime') } }}
       </p>
     </div>
   }
@@ -76,7 +90,7 @@
       [attr.aria-busy]="pending() || null"
       (click)="confirm()"
     >
-      {{ pending() ? 'Réservation en cours…' : 'Confirmer la réservation' }}
+      {{ (pending() ? 'booking.summary.pending' : 'booking.summary.confirm') | transloco }}
     </button>
   </div>
 </div>

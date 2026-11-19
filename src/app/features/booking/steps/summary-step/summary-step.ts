@@ -11,18 +11,24 @@ import {
   viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { LocalizedDatePipe, PricePipe } from '../../../../core/i18n/locale-pipes';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
-import { LocalizedDatePipe, PricePipe } from '../../../../core/i18n/locale-pipes';
 
 const HOUR = 3_600_000;
 
+type SubmitError =
+  | { kind: 'conflict' }
+  | { kind: 'rule'; detail: string | null }
+  | { kind: 'unknown' };
+
 @Component({
   selector: 'app-summary-step',
-  imports: [RouterLink, Icon, StepHeader, LocalizedDatePipe, PricePipe],
+  imports: [LocalizedDatePipe, PricePipe, TranslocoPipe, RouterLink, Icon, StepHeader],
   templateUrl: './summary-step.html',
   styleUrl: './summary-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,8 +66,7 @@ export class SummaryStep {
   });
 
   protected readonly pending = signal(false);
-  protected readonly conflict = signal(false);
-  protected readonly errorMessage = signal<string | null>(null);
+  protected readonly error = signal<SubmitError | null>(null);
 
   protected confirm(): void {
     const roomId = this.store.roomId();
@@ -72,8 +77,7 @@ export class SummaryStep {
     }
 
     this.pending.set(true);
-    this.conflict.set(false);
-    this.errorMessage.set(null);
+    this.error.set(null);
 
     this.api.create({ roomId, startAt, playerCount }).subscribe({
       next: (booking) => {
@@ -97,11 +101,11 @@ export class SummaryStep {
       return;
     }
     if (error instanceof HttpErrorResponse && error.status === 409) {
-      this.conflict.set(true);
+      this.error.set({ kind: 'conflict' });
     } else if (error instanceof HttpErrorResponse && error.status === 422) {
-      this.errorMessage.set(error.error?.detail ?? "Cette réservation n'est pas possible.");
+      this.error.set({ kind: 'rule', detail: error.error?.detail ?? null });
     } else {
-      this.errorMessage.set("La réservation n'a pas pu être enregistrée. Réessayez dans un instant.");
+      this.error.set({ kind: 'unknown' });
     }
     afterNextRender(() => this.alert()?.nativeElement.focus(), { injector: this.injector });
   }
