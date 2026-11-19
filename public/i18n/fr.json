@@ -1,0 +1,43 @@
+{
+  "app": {
+    "skipLink": "Aller au contenu",
+    "footer": {
+      "accessibility": "Accessibilité",
+      "legal": "Mentions légales"
+    }
+  },
+    "language": {
+    "label": "Langue",
+    "hint": "La page est traduite dès que vous choisissez une langue."
+  },
+  "nav": {
+    "main": "Navigation principale",
+    "mobileMenu": "Menu principal",
+    "menu": "Menu",
+    "close": "Fermer",
+    "rooms": "Les salles",
+    "myBookings": "Mes réservations",
+    "planning": "Planning",
+    "planningLong": "Planning du jour",
+    "login": "Connexion",
+    "signIn": "Se connecter",
+    "register": "Créer un compte",
+    "logout": "Se déconnecter",
+    "signedInAs": "Connecté avec"
+  },
+  "titles": {
+    "home": "Les salles",
+    "room": "Fiche salle",
+    "roomNotFound": "Salle introuvable",
+    "bookingDate": "Réservation : le jour",
+    "bookingSlot": "Réservation : le créneau",
+    "bookingPlayers": "Réservation : les joueurs",
+    "bookingSummary": "Réservation : le récapitulatif",
+    "confirmation": "Réservation confirmée",
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "myBookings": "Mes réservations",
+    "planning": "Planning du jour",
+    "notFound": "Page introuvable"
+  }
+}

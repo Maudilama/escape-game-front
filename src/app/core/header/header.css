@@ -38,6 +38,18 @@
   text-underline-offset: 6px;
 }
 
+.mobile-menu__language {
+  display: block;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--surface-raised);
+}
+
+.site-header__end {
+  display: none;
+  align-items: center;
+  gap: var(--space-6);
+}
+
 @media (min-width: 48rem) {
   .site-header__nav {
     display: flex;
@@ -45,6 +57,9 @@
 
   .site-header__menu-button {
     display: none;
+  }
+    .site-header__end {
+    display: flex;
   }
 }
 

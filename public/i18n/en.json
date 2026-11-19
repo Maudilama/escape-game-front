@@ -1,0 +1,43 @@
+{
+  "app": {
+    "skipLink": "Skip to content",
+    "footer": {
+      "accessibility": "Accessibility",
+      "legal": "Legal notice"
+    }
+  },
+"language": {
+    "label": "Language",
+    "hint": "The page is translated as soon as you choose a language."
+  },
+  "nav": {
+    "main": "Main navigation",
+    "mobileMenu": "Main menu",
+    "menu": "Menu",
+    "close": "Close",
+    "rooms": "Rooms",
+    "myBookings": "My bookings",
+    "planning": "Schedule",
+    "planningLong": "Daily schedule",
+    "login": "Sign in",
+    "signIn": "Sign in",
+    "register": "Create an account",
+    "logout": "Sign out",
+    "signedInAs": "Signed in as"
+  },
+  "titles": {
+    "home": "Rooms",
+    "room": "Room details",
+    "roomNotFound": "Room not found",
+    "bookingDate": "Booking: the day",
+    "bookingSlot": "Booking: the time slot",
+    "bookingPlayers": "Booking: the players",
+    "bookingSummary": "Booking: summary",
+    "confirmation": "Booking confirmed",
+    "login": "Sign in",
+    "register": "Create an account",
+    "myBookings": "My bookings",
+    "planning": "Daily schedule",
+    "notFound": "Page not found"
+  }
+}

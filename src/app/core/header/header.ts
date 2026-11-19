@@ -2,19 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   signal,
   viewChild,
 } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { Icon } from '../../shared/ui/icon/icon';
 import { APP_NAME } from '../app-name';
-import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
+import { LanguageSwitcher } from '../i18n/language-switcher/language-switcher';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, Icon],
+  imports: [RouterLink, RouterLinkActive, Icon, TranslocoPipe, LanguageSwitcher],
   templateUrl: './header.html',
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,23 +23,17 @@ import { AuthService } from '../auth/auth.service';
 export class Header {
   protected readonly appName = APP_NAME;
   protected readonly menuOpen = signal(false);
-
-  private readonly menu = viewChild.required<ElementRef<HTMLDialogElement>>('menu');
   protected readonly auth = inject(AuthService);
   private readonly router = inject(Router);
 
-  protected logout(): void {
-    this.auth.logout();
-    this.closeMenu();
-    this.router.navigateByUrl('/');
-  }
+  private readonly menu = viewChild.required<ElementRef<HTMLDialogElement>>('menu');
 
   protected openMenu(): void {
     this.menu().nativeElement.showModal();
     this.menuOpen.set(true);
   }
 
-    protected closeMenu(): void {
+  protected closeMenu(): void {
     const menu = this.menu().nativeElement;
     if (menu.open) {
       menu.close();
@@ -47,5 +42,11 @@ export class Header {
 
   protected onMenuClosed(): void {
     this.menuOpen.set(false);
+  }
+
+  protected logout(): void {
+    this.auth.logout();
+    this.closeMenu();
+    this.router.navigateByUrl('/');
   }
 }

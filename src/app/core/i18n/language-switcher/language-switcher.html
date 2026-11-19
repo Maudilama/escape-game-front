@@ -1,0 +1,33 @@
+<div class="language-switcher" [class.language-switcher--full]="full()">
+  <label class="language-switcher__label" [class.ec-sr-only]="!full()" [for]="id">
+    {{ 'language.label' | transloco }}
+  </label>
+
+  <div class="language-switcher__control">
+    <span class="language-switcher__icon language-switcher__icon--start" aria-hidden="true">
+      <app-icon name="globe" />
+    </span>
+    <select
+      #select
+      class="ec-field__input language-switcher__select"
+      [id]="id"
+      [attr.aria-describedby]="id + '-hint'"
+      (change)="choose(select)"
+    >
+      @for (language of languages; track language.code) {
+        <option
+          [value]="language.code"
+          [attr.lang]="language.code"
+          [selected]="language.code === current()"
+        >
+          {{ language.label }}
+        </option>
+      }
+    </select>
+    <span class="language-switcher__icon language-switcher__icon--end" aria-hidden="true">
+      <app-icon name="chevron-down" size="sm" />
+    </span>
+  </div>
+
+  <p class="ec-sr-only" [id]="id + '-hint'">{{ 'language.hint' | transloco }}</p>
+</div>

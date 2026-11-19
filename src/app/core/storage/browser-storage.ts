@@ -2,12 +2,14 @@ import { Injectable, isDevMode } from '@angular/core';
 
 export type Guard<T> = (value: unknown) => value is T;
 
-@Injectable({ providedIn: 'root' })
-export class SessionStorageService {
+abstract class BrowserStorage {
+  protected abstract area(): Storage;
+  protected abstract readonly name: string;
+
   read<T>(key: string, isValid: Guard<T>): T | null {
     let raw: string | null;
     try {
-      raw = sessionStorage.getItem(key);
+      raw = this.area().getItem(key);
     } catch (error) {
       this.warn(`lecture de « ${key} » impossible`, error);
       return null;
@@ -27,7 +29,7 @@ export class SessionStorageService {
 
   write(key: string, value: unknown): boolean {
     try {
-      sessionStorage.setItem(key, JSON.stringify(value));
+      this.area().setItem(key, JSON.stringify(value));
       return true;
     } catch (error) {
       this.warn(`enregistrement de « ${key} » impossible`, error);
@@ -37,7 +39,7 @@ export class SessionStorageService {
 
   remove(key: string): void {
     try {
-      sessionStorage.removeItem(key);
+      this.area().removeItem(key);
     } catch (error) {
       this.warn(`suppression de « ${key} » impossible`, error);
     }
@@ -54,7 +56,25 @@ export class SessionStorageService {
 
   private warn(message: string, error?: unknown): void {
     if (isDevMode()) {
-      console.warn(`[stockage] ${message}`, error ?? '');
+      console.warn(`[${this.name}] ${message}`, error ?? '');
     }
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class SessionStorageService extends BrowserStorage {
+  protected readonly name = 'sessionStorage';
+
+  protected area(): Storage {
+    return sessionStorage;
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class LocalStorageService extends BrowserStorage {
+  protected readonly name = 'localStorage';
+
+  protected area(): Storage {
+    return localStorage;
   }
 }

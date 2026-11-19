@@ -1,7 +1,7 @@
 import { httpResource } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { API_URL } from '../../core/api-url';
-import { SessionStorageService } from '../../core/storage/session-storage.service';
+import { SessionStorageService } from '../../core/storage/browser-storage';
 import { RoomSummary } from '../rooms/room.model';
 
 const STORAGE_KEY = 'escape-game.booking-draft';

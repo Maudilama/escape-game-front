@@ -18,6 +18,8 @@ const ICONS = {
   'triangle-alert': 'M12 4l9 16H3zM12 10v4M12 17h.01',
   minus: 'M5 12h14',
   plus: 'M12 5v14M5 12h14',
+  globe: `${CIRCLE}M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18`,
+  'chevron-down': 'M6 9l6 6 6-6',
 } as const;
 
 export type IconName = keyof typeof ICONS;

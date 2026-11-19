@@ -12,10 +12,11 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { distinctUntilChanged, filter, map, skip } from 'rxjs';
 import { APP_NAME } from './core/app-name';
 import { Header } from './core/header/header';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header],
+  imports: [RouterOutlet, Header, TranslocoPipe],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

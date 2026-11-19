@@ -13,24 +13,24 @@ export const BOOKING_ROUTES: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'date' },
       {
         path: 'date',
-        title: 'Réservation : le jour',
+        title: 'titles.bookingDate',
         loadComponent: () => import('./steps/date-step/date-step').then((m) => m.DateStep),
       },
       {
         path: 'creneau',
-        title: 'Réservation : le créneau',
+        title: 'titles.bookingSlot',
         canActivate: [requireDraft('date')],
         loadComponent: () => import('./steps/slot-step/slot-step').then((m) => m.SlotStep),
       },
       {
         path: 'joueurs',
-        title: 'Réservation : les joueurs',
+        title: 'titles.bookingPlayers',
         canActivate: [requireDraft('date', 'startAt'), authGuard],
         loadComponent: () => import('./steps/players-step/players-step').then((m) => m.PlayersStep),
       },
       {
         path: 'recapitulatif',
-        title: 'Réservation : le récapitulatif',
+        title: 'titles.bookingSummary',
         canActivate: [requireDraft('date', 'startAt', 'playerCount'), authGuard],
         loadComponent: () => import('./steps/summary-step/summary-step').then((m) => m.SummaryStep),
       },

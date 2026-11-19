@@ -2,54 +2,66 @@
   <div class="ec-container site-header__inner">
     <a routerLink="/" class="site-header__brand">{{ appName }}</a>
 
-    <nav aria-label="Navigation principale" class="site-header__nav">
-      <a
-        routerLink="/"
-        routerLinkActive="is-active"
-        [routerLinkActiveOptions]="{ exact: true }"
-        ariaCurrentWhenActive="page"
-      >Les salles</a>
-            @if (auth.user(); as user) {
-        <a routerLink="/mes-reservations" routerLinkActive="is-active" ariaCurrentWhenActive="page">
-          Mes réservations
-        </a>
-        @if (user.isAdmin) {
-          <a routerLink="/admin/planning" routerLinkActive="is-active" ariaCurrentWhenActive="page">
-            Planning
+    <div class="site-header__end">
+      <nav [attr.aria-label]="'nav.main' | transloco" class="site-header__nav">
+        <a
+          routerLink="/"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+        >{{ 'nav.rooms' | transloco }}</a>
+        @if (auth.user(); as user) {
+          <a routerLink="/mes-reservations" routerLinkActive="is-active" ariaCurrentWhenActive="page">
+            {{ 'nav.myBookings' | transloco }}
+          </a>
+          @if (user.isAdmin) {
+            <a routerLink="/admin/planning" routerLinkActive="is-active" ariaCurrentWhenActive="page">
+              {{ 'nav.planning' | transloco }}
+            </a>
+          }
+          <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="logout()">
+            {{ 'nav.logout' | transloco }}
+          </button>
+        } @else {
+          <a routerLink="/connexion" class="ec-btn ec-btn--secondary ec-btn--compact">
+            {{ 'nav.login' | transloco }}
           </a>
         }
-        <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="logout()">
-          Se déconnecter
-        </button>
-      } @else {
-        <a routerLink="/connexion" class="ec-btn ec-btn--secondary ec-btn--compact">Connexion</a>
-      }
-    </nav>
+      </nav>
+
+      <app-language-switcher />
+    </div>
 
     <button
-        type="button"
-        class="ec-btn ec-btn--secondary ec-btn--icon site-header__menu-button"
-        aria-label="Menu"
-        aria-haspopup="dialog"
-        aria-controls="menu-mobile"
-        [attr.aria-expanded]="menuOpen()"
-        (click)="openMenu()"
+      type="button"
+      class="ec-btn ec-btn--secondary ec-btn--icon site-header__menu-button"
+      [attr.aria-label]="'nav.menu' | transloco"
+      aria-haspopup="dialog"
+      aria-controls="menu-mobile"
+      [attr.aria-expanded]="menuOpen()"
+      (click)="openMenu()"
     >
-        <app-icon name="menu" />
+      <app-icon name="menu" />
     </button>
   </div>
 </header>
 
-<dialog #menu id="menu-mobile" class="mobile-menu" aria-label="Menu" (close)="onMenuClosed()">
+<dialog
+  #menu
+  id="menu-mobile"
+  class="mobile-menu"
+  [attr.aria-label]="'nav.menu' | transloco"
+  (close)="onMenuClosed()"
+>
   <div class="mobile-menu__header">
     <span class="site-header__brand">{{ appName }}</span>
     <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="closeMenu()">
       <app-icon name="x" />
-      Fermer
+      {{ 'nav.close' | transloco }}
     </button>
   </div>
 
-  <nav aria-label="Menu principal" class="mobile-menu__nav">
+  <nav [attr.aria-label]="'nav.mobileMenu' | transloco" class="mobile-menu__nav">
     <ul class="mobile-menu__list">
       <li>
         <a
@@ -59,42 +71,46 @@
           ariaCurrentWhenActive="page"
           (click)="closeMenu()"
         >
-          Les salles <app-icon name="chevron-right" />
+          {{ 'nav.rooms' | transloco }} <app-icon name="chevron-right" />
         </a>
       </li>
-      <li>
-        <a
-          routerLink="/mes-reservations"
-          routerLinkActive="is-active"
-          ariaCurrentWhenActive="page"
-          (click)="closeMenu()"
-        >
-          Mes réservations <app-icon name="chevron-right" />
-        </a>
-      </li>
+      @if (auth.user()) {
+        <li>
+          <a
+            routerLink="/mes-reservations"
+            routerLinkActive="is-active"
+            ariaCurrentWhenActive="page"
+            (click)="closeMenu()"
+          >
+            {{ 'nav.myBookings' | transloco }} <app-icon name="chevron-right" />
+          </a>
+        </li>
+      }
     </ul>
 
     <div class="mobile-menu__actions">
       @if (auth.user(); as user) {
         <p class="mobile-menu__user">
-          Connecté avec <strong>{{ user.email }}</strong>
+          {{ 'nav.signedInAs' | transloco }} <strong>{{ user.email }}</strong>
         </p>
         @if (user.isAdmin) {
           <a routerLink="/admin/planning" class="ec-btn ec-btn--secondary ec-btn--block" (click)="closeMenu()">
-            Planning du jour
+            {{ 'nav.planningLong' | transloco }}
           </a>
         }
         <button type="button" class="ec-btn ec-btn--secondary ec-btn--block" (click)="logout()">
-          Se déconnecter
+          {{ 'nav.logout' | transloco }}
         </button>
       } @else {
         <a routerLink="/connexion" class="ec-btn ec-btn--primary ec-btn--block" (click)="closeMenu()">
-          Se connecter
+          {{ 'nav.signIn' | transloco }}
         </a>
         <a routerLink="/inscription" class="ec-btn ec-btn--secondary ec-btn--block" (click)="closeMenu()">
-          Créer un compte
+          {{ 'nav.register' | transloco }}
         </a>
       }
     </div>
+
+    <app-language-switcher full class="mobile-menu__language" />
   </nav>
 </dialog>

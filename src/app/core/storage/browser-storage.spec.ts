@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { vi } from 'vitest';
-import { SessionStorageService } from './session-storage.service';
+import { LocalStorageService, SessionStorageService } from './browser-storage';
 
 interface Point {
   x: number;
@@ -54,5 +54,15 @@ describe('SessionStorageService', () => {
 
     expect(storage.read('point', isPoint)).toBeNull();
     expect(storage.write('point', { x: 3 })).toBe(false);
+  });
+
+    it('LocalStorageService écrit dans localStorage, pas dans sessionStorage', () => {
+    const storage = TestBed.inject(LocalStorageService);
+
+    storage.write('escape-game.test', 'en');
+
+    expect(localStorage.getItem('escape-game.test')).toBe('"en"');
+    expect(sessionStorage.getItem('escape-game.test')).toBeNull();
+    localStorage.clear();
   });
 });

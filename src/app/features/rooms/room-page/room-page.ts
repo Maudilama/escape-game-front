@@ -8,12 +8,11 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { API_URL } from '../../../core/api-url';
-import { APP_NAME } from '../../../core/app-name';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { RoomSummary } from '../room.model';
+import { PageTitleStrategy } from '../../../core/page-title-strategy';
 
 @Component({
   selector: 'app-room-page',
@@ -26,7 +25,7 @@ export class RoomPage {
   readonly id = input.required<string>();
 
   private readonly apiUrl = inject(API_URL);
-  private readonly title = inject(Title);
+  private readonly pageTitle = inject(PageTitleStrategy);
 
   protected readonly room = httpResource<RoomSummary>(() => `${this.apiUrl}/rooms/${this.id()}`);
 
@@ -38,9 +37,9 @@ export class RoomPage {
   constructor() {
     effect(() => {
       if (this.room.hasValue()) {
-        this.title.setTitle(`${this.room.value().name} · ${APP_NAME}`);
+        this.pageTitle.setPageTitle({ text: this.room.value().name });
       } else if (this.notFound()) {
-        this.title.setTitle(`Salle introuvable · ${APP_NAME}`);
+        this.pageTitle.setPageTitle({ key: 'titles.roomNotFound' });
       }
     });
   }

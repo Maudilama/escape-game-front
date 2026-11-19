@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, Observable, switchMap } from 'rxjs';
 import { API_URL } from '../api-url';
-import { SessionStorageService } from '../storage/session-storage.service';
+import { SessionStorageService } from '../storage/browser-storage';
 import { decodeJwtPayload } from './jwt';
 
 const STORAGE_KEY = 'escape-game.session';
