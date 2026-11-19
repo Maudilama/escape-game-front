@@ -39,5 +39,60 @@
     "myBookings": "My bookings",
     "planning": "Daily schedule",
     "notFound": "Page not found"
+  },
+    "common": {
+    "retry": "Try again",
+    "perPerson": "{price} / person",
+    "players": "{count, plural, one {# player} other {# players}}"
+  },
+  "home": {
+    "hero": {
+      "title": "Four rooms. One way out.",
+      "lead": "Choose your room and book your session online.",
+      "cta": "See the rooms"
+    },
+    "rooms": {
+      "title": "The rooms",
+      "loading": "Loading rooms…",
+      "error": "The rooms can't be loaded right now.",
+      "empty": "No rooms are open for booking at the moment."
+    }
+  },
+  "rooms": {
+    "card": {
+      "photoSoon": "Photo coming soon",
+      "meta": "Difficulty {level} out of 5 · {min} to {max} players · {minutes} min",
+      "discover": "Discover",
+      "discoverSr": "{name}"
+    }
+  },
+  "room": {
+    "breadcrumb": "Breadcrumb",
+    "loading": "Loading the room…",
+    "error": "This room can't be loaded right now.",
+    "visualSoon": "Visual coming soon",
+    "notFound": {
+      "title": "This room doesn't exist",
+      "text": "It may have been closed, or the address is wrong.",
+      "cta": "See all rooms"
+    },
+    "facts": {
+      "difficulty": "Difficulty",
+      "difficultyValue": "{level} out of 5",
+      "players": "Players",
+      "playersValue": "{min} to {max}",
+      "duration": "Duration",
+      "durationValue": "{minutes} min",
+      "price": "Price"
+    },
+    "info": {
+      "title": "Good to know",
+      "arrive": "Arrive 15 minutes before your session starts.",
+      "cancel": "Free cancellation up to {hours} hours before the session."
+    },
+    "cta": {
+      "from": "From",
+      "book": "Book"
+    }
   }
 }

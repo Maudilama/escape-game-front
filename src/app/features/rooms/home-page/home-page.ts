@@ -5,10 +5,11 @@ import { API_URL } from '../../../core/api-url';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { RoomCard } from '../room-card/room-card';
 import { RoomSummary } from '../room.model';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterLink, RoomCard, Icon],
+  imports: [RouterLink, RoomCard, Icon, TranslocoPipe],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

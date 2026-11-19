@@ -1,39 +1,39 @@
 <div class="ec-container room-page">
-  <nav aria-label="Fil d'Ariane" class="breadcrumb">
+  <nav [attr.aria-label]="'room.breadcrumb' | transloco" class="breadcrumb">
     <ol>
-      <li><a routerLink="/" fragment="salles">Les salles</a></li>
+      <li><a routerLink="/" fragment="salles">{{ 'nav.rooms' | transloco }}</a></li>
       <li aria-current="page">
         @if (room.hasValue()) {
           {{ room.value().name }}
         } @else {
-          Fiche salle
+          {{ 'titles.room' | transloco }}
         }
       </li>
     </ol>
   </nav>
 
   @if (room.isLoading()) {
-    <p class="room-page__status" role="status">Chargement de la salle…</p>
+    <p class="room-page__status" role="status">{{ 'room.loading' | transloco }}</p>
   } @else if (notFound()) {
     <div class="room-page__missing">
-      <h1 class="text-h2">Cette salle n'existe pas</h1>
-      <p class="text-body-1">Elle a peut-être été fermée, ou l'adresse est incorrecte.</p>
-      <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">Voir toutes les salles</a>
+      <h1 class="text-h2">{{ 'room.notFound.title' | transloco }}</h1>
+      <p class="text-body-1">{{ 'room.notFound.text' | transloco }}</p>
+      <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">{{ 'room.notFound.cta' | transloco }}</a>
     </div>
   } @else if (room.error()) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
       <div class="room-page__error">
-        <p class="ec-banner__text">Impossible de charger cette salle pour le moment.</p>
+        <p class="ec-banner__text">{{ 'room.error' | transloco }}</p>
         <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="room.reload()">
-          Réessayer
+          {{ 'common.retry' | transloco }}
         </button>
       </div>
     </div>
   } @else if (room.hasValue()) {
     @let r = room.value();
     <article class="room">
-      <div class="room__visual" aria-hidden="true">Visuel à venir</div>
+      <div class="room__visual" aria-hidden="true">{{ 'room.visualSoon' | transloco }}</div>
 
       <div class="room__content">
         <div class="room__heading">
@@ -45,40 +45,40 @@
 
         <dl class="room__facts">
           <div class="room__fact">
-            <dt>Difficulté</dt>
-            <dd>{{ r.difficulty }} sur 5</dd>
+            <dt>{{ 'room.facts.difficulty' | transloco }}</dt>
+            <dd>{{ 'room.facts.difficultyValue' | transloco: { level: r.difficulty } }}</dd>
           </div>
           <div class="room__fact">
-            <dt>Joueurs</dt>
-            <dd>{{ r.minPlayers }} à {{ r.maxPlayers }}</dd>
+            <dt>{{ 'room.facts.players' | transloco }}</dt>
+            <dd>{{ 'room.facts.playersValue' | transloco: { min: r.minPlayers, max: r.maxPlayers } }}</dd>
           </div>
           <div class="room__fact">
-            <dt>Durée</dt>
-            <dd>{{ r.sessionMinutes }} min</dd>
+            <dt>{{ 'room.facts.duration' | transloco }}</dt>
+            <dd>{{ 'room.facts.durationValue' | transloco: { minutes: r.sessionMinutes } }}</dd>
           </div>
           <div class="room__fact">
-            <dt>Prix</dt>
-            <dd>{{ r.pricePerPerson | appPrice }} / pers.</dd>
+            <dt>{{ 'room.facts.price' | transloco }}</dt>
+            <dd>{{ 'common.perPerson' | transloco: { price: (r.pricePerPerson | appPrice) } }}</dd>
           </div>
         </dl>
 
         <section class="room__info" aria-labelledby="bon-a-savoir">
-          <h2 id="bon-a-savoir" class="text-subtitle">Bon à savoir</h2>
+          <h2 id="bon-a-savoir" class="text-subtitle">{{ 'room.info.title' | transloco }}</h2>
           <ul>
-            <li>Arrivez 15 minutes avant le début de la session.</li>
-            <li>Annulation gratuite jusqu'à 24 h avant la session.</li>
+            <li>{{ 'room.info.arrive' | transloco }}</li>
+            <li>{{ 'room.info.cancel' | transloco: { hours: cancellationHours } }}</li>
           </ul>
         </section>
 
         <div class="room__cta">
           <div>
-            <p class="room__cta-label">À partir de</p>
+            <p class="room__cta-label">{{ 'room.cta.from' | transloco }}</p>
             <p class="text-subtitle room__cta-price">
-              {{ r.pricePerPerson | appPrice }} / pers.
+              {{ 'common.perPerson' | transloco: { price: (r.pricePerPerson | appPrice) } }}
             </p>
           </div>
           <a [routerLink]="['/reserver', r.id]" class="ec-btn ec-btn--primary">
-            Réserver<span class="ec-sr-only"> {{ r.name }}</span>
+            {{ 'room.cta.book' | transloco }}<span class="ec-sr-only"> {{ r.name }}</span>
           </a>
         </div>
       </div>

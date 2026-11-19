@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { RoomSummary } from '../room.model';
 import { HomePage } from './home-page';
 import { translocoTesting } from '../../../core/i18n/testing';
+import { LanguageService } from '../../../core/i18n/language.service';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -68,5 +69,15 @@ describe('HomePage', () => {
     const page = await renderWithResponse((request) => request.flush([]));
 
     expect(page.textContent).toContain("Aucune salle n'est ouverte");
+  });
+
+  it('affiche les cartes dans la langue choisie', async () => {
+    await TestBed.inject(LanguageService).use('en');
+    const page = await renderWithResponse((request) => request.flush([ASILE]));
+
+    expect(page.querySelector('h2')?.textContent).toContain('The rooms');
+    expect(page.textContent).toContain('Difficulty 3 out of 5 · 2 to 5 players · 60 min');
+    expect(page.textContent).toContain('€30 / person');
+    expect(page.querySelector('article a')?.textContent?.trim()).toBe("Discover L'Asile de Saint-Ombre");
   });
 });

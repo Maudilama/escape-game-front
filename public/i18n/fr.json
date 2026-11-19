@@ -39,5 +39,60 @@
     "myBookings": "Mes réservations",
     "planning": "Planning du jour",
     "notFound": "Page introuvable"
+  },
+    "common": {
+    "retry": "Réessayer",
+    "perPerson": "{price} / pers.",
+    "players": "{count, plural, one {# joueur} other {# joueurs}}"
+  },
+  "home": {
+    "hero": {
+      "title": "Quatre salles. Une seule sortie.",
+      "lead": "Choisissez votre salle et réservez votre session en ligne.",
+      "cta": "Voir les salles"
+    },
+    "rooms": {
+      "title": "Les salles",
+      "loading": "Chargement des salles…",
+      "error": "Impossible de charger les salles pour le moment.",
+      "empty": "Aucune salle n'est ouverte à la réservation pour le moment."
+    }
+  },
+  "rooms": {
+    "card": {
+      "photoSoon": "Photo à venir",
+      "meta": "Difficulté {level} sur 5 · {min} à {max} joueurs · {minutes} min",
+      "discover": "Découvrir",
+      "discoverSr": "la salle {name}"
+    }
+  },
+  "room": {
+    "breadcrumb": "Fil d'Ariane",
+    "loading": "Chargement de la salle…",
+    "error": "Impossible de charger cette salle pour le moment.",
+    "visualSoon": "Visuel à venir",
+    "notFound": {
+      "title": "Cette salle n'existe pas",
+      "text": "Elle a peut-être été fermée, ou l'adresse est incorrecte.",
+      "cta": "Voir toutes les salles"
+    },
+    "facts": {
+      "difficulty": "Difficulté",
+      "difficultyValue": "{level} sur 5",
+      "players": "Joueurs",
+      "playersValue": "{min} à {max}",
+      "duration": "Durée",
+      "durationValue": "{minutes} min",
+      "price": "Prix"
+    },
+    "info": {
+      "title": "Bon à savoir",
+      "arrive": "Arrivez 15 minutes avant le début de la session.",
+      "cancel": "Annulation gratuite jusqu'à {hours} h avant la session."
+    },
+    "cta": {
+      "from": "À partir de",
+      "book": "Réserver"
+    }
   }
 }

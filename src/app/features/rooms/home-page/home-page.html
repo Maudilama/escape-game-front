@@ -1,21 +1,21 @@
 <section class="ec-container hero">
-  <h1 class="text-h1">Quatre salles. Une seule sortie.</h1>
-  <p class="text-body-1 hero__lead">Choisissez votre salle et réservez votre session en ligne.</p>
-  <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">Voir les salles</a>
+  <h1 class="text-h1">{{ 'home.hero.title' | transloco }}</h1>
+  <p class="text-body-1 hero__lead">{{ 'home.hero.lead' | transloco }}</p>
+  <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">{{ 'home.hero.cta' | transloco }}</a>
 </section>
 
 <section id="salles" class="ec-container rooms" aria-labelledby="salles-titre">
-  <h2 id="salles-titre" class="text-h2">Les salles</h2>
+  <h2 id="salles-titre" class="text-h2">{{ 'home.rooms.title' | transloco }}</h2>
 
   @if (rooms.isLoading()) {
-    <p class="rooms__status" role="status">Chargement des salles…</p>
+    <p class="rooms__status" role="status">{{ 'home.rooms.loading' | transloco }}</p>
   } @else if (rooms.error()) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
       <div class="rooms__error">
-        <p class="ec-banner__text">Impossible de charger les salles pour le moment.</p>
+        <p class="ec-banner__text">{{ 'home.rooms.error' | transloco }}</p>
         <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="rooms.reload()">
-          Réessayer
+          {{ 'common.retry' | transloco }}
         </button>
       </div>
     </div>
@@ -24,7 +24,7 @@
       @for (room of rooms.value(); track room.id) {
         <li><app-room-card [room]="room" /></li>
       } @empty {
-        <li class="rooms__status">Aucune salle n'est ouverte à la réservation pour le moment.</li>
+        <li class="rooms__status">{{ 'home.rooms.empty' | transloco }}</li>
       }
     </ul>
   }

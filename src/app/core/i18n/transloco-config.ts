@@ -1,5 +1,6 @@
 import { TranslocoConfig } from '@jsverse/transloco';
 import { DEFAULT_LANGUAGE, LANGUAGE_CODES } from './language';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 
 export const TRANSLOCO_BASE_CONFIG = {
   availableLangs: LANGUAGE_CODES,
@@ -12,3 +13,7 @@ export const TRANSLOCO_BASE_CONFIG = {
     allowEmpty: false,
   },
 } satisfies Partial<TranslocoConfig>;
+
+export function provideI18nMessageFormat() {
+  return provideTranslocoMessageformat({ locales: DEFAULT_LANGUAGE });
+}

@@ -19,7 +19,7 @@ import { languageInterceptor } from './core/i18n/language.interceptor';
 import { LanguageService } from './core/i18n/language.service';
 import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
 import { PageTitleStrategy } from './core/page-title-strategy';
-import { TRANSLOCO_BASE_CONFIG } from './core/i18n/transloco-config';
+import { provideI18nMessageFormat, TRANSLOCO_BASE_CONFIG } from './core/i18n/transloco-config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +34,7 @@ export const appConfig: ApplicationConfig = {
       config: { ...TRANSLOCO_BASE_CONFIG, prodMode: !isDevMode() },
       loader: TranslocoHttpLoader,
     }),
+    provideI18nMessageFormat(),
     provideAppInitializer(() => inject(LanguageService).init()),
     { provide: TitleStrategy, useExisting: PageTitleStrategy },
   ],

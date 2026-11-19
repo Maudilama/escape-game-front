@@ -10,6 +10,7 @@ import { provideRouter } from '@angular/router';
 import { RoomSummary } from '../room.model';
 import { RoomPage } from './room-page';
 import { translocoTesting } from '../../../core/i18n/testing';
+import { LanguageService } from '../../../core/i18n/language.service';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -84,5 +85,17 @@ describe('RoomPage', () => {
     );
 
     expect(page.querySelector('[role="alert"] button')?.textContent).toContain('Réessayer');
+  });
+
+  it('traduit les caractéristiques et les informations pratiques', async () => {
+    await TestBed.inject(LanguageService).use('es');
+    const page = await renderRoom('1', (request) => request.flush(ASILE));
+
+    const facts = Array.from(page.querySelectorAll('.room__fact')).map((fact) => [
+      fact.querySelector('dt')?.textContent?.trim(),
+      fact.querySelector('dd')?.textContent?.trim(),
+    ]);
+    expect(facts).toContainEqual(['Jugadores', '2 a 5']);
+    expect(page.textContent).toContain('Cancelación gratuita hasta 24 h antes de la sesión.');
   });
 });

@@ -39,5 +39,60 @@
     "myBookings": "Mis reservas",
     "planning": "Planificación del día",
     "notFound": "Página no encontrada"
+  },
+    "common": {
+    "retry": "Reintentar",
+    "perPerson": "{price} / persona",
+    "players": "{count, plural, one {# jugador} other {# jugadores}}"
+  },
+  "home": {
+    "hero": {
+      "title": "Cuatro salas. Una sola salida.",
+      "lead": "Elige tu sala y reserva tu sesión en línea.",
+      "cta": "Ver las salas"
+    },
+    "rooms": {
+      "title": "Las salas",
+      "loading": "Cargando las salas…",
+      "error": "No se pueden cargar las salas en este momento.",
+      "empty": "Ninguna sala está abierta a reservas por el momento."
+    }
+  },
+  "rooms": {
+    "card": {
+      "photoSoon": "Foto próximamente",
+      "meta": "Dificultad {level} de 5 · {min} a {max} jugadores · {minutes} min",
+      "discover": "Descubrir",
+      "discoverSr": "la sala {name}"
+    }
+  },
+  "room": {
+    "breadcrumb": "Ruta de navegación",
+    "loading": "Cargando la sala…",
+    "error": "No se puede cargar esta sala en este momento.",
+    "visualSoon": "Imagen próximamente",
+    "notFound": {
+      "title": "Esta sala no existe",
+      "text": "Puede que se haya cerrado o que la dirección sea incorrecta.",
+      "cta": "Ver todas las salas"
+    },
+    "facts": {
+      "difficulty": "Dificultad",
+      "difficultyValue": "{level} de 5",
+      "players": "Jugadores",
+      "playersValue": "{min} a {max}",
+      "duration": "Duración",
+      "durationValue": "{minutes} min",
+      "price": "Precio"
+    },
+    "info": {
+      "title": "Información útil",
+      "arrive": "Llega 15 minutos antes del inicio de la sesión.",
+      "cancel": "Cancelación gratuita hasta {hours} h antes de la sesión."
+    },
+    "cta": {
+      "from": "Desde",
+      "book": "Reservar"
+    }
   }
 }
