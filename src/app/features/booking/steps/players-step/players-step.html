@@ -30,8 +30,8 @@
     </div>
 
     <p class="text-subtitle players-step__total" aria-live="polite">
-      {{ count() }} × {{ room.pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} =
-      {{ total() | currency: 'EUR' : 'symbol' : '1.0-2' }}
+      {{ count() }} × {{ room.pricePerPerson | appPrice }} =
+      {{ total() | appPrice }}
     </p>
   } @else {
     <p class="players-step__rule" role="status">Chargement…</p>
@@ -43,7 +43,7 @@
     <div>
       <p class="booking-actions__label">Total</p>
       <p class="booking-actions__value">
-        {{ count() }} joueurs · {{ total() | currency: 'EUR' : 'symbol' : '1.0-2' }}
+        {{ count() }} joueurs · {{ total() | appPrice }}
       </p>
     </div>
     <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">Continuer</button>

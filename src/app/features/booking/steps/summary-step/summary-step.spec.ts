@@ -6,6 +6,7 @@ import { vi } from 'vitest';
 import { RoomSummary } from '../../../rooms/room.model';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { SummaryStep } from './summary-step';
+import { translocoTesting } from '../../../../core/i18n/testing';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -27,6 +28,7 @@ describe('SummaryStep', () => {
   beforeEach(() => {
     sessionStorage.clear();
     TestBed.configureTestingModule({
+      imports: [translocoTesting()],
       providers: [BookingFlowStore, provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
     httpTesting = TestBed.inject(HttpTestingController);
@@ -57,7 +59,7 @@ describe('SummaryStep', () => {
 
     expect(page.textContent).toContain('120');
     expect(page.textContent).toContain("Annulation gratuite jusqu'au");
-    expect(page.textContent).toContain('14h30');
+    expect(page.textContent).toContain('14:30');
   });
 
   it('envoie la réservation, vide le brouillon et ouvre la confirmation', async () => {

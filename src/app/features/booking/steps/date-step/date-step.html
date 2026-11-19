@@ -14,7 +14,7 @@
       <app-icon name="chevron-left" />
     </button>
     <p class="text-subtitle week-nav__label" aria-live="polite">
-      {{ days()[0] | date: 'd MMMM' }} – {{ days()[6] | date: 'd MMMM' }}
+      {{ days()[0] | appDate: 'dayMonth' }} – {{ days()[6] | appDate: 'dayMonth' }}
     </p>
     <button
       type="button"
@@ -61,9 +61,9 @@
             [disabled]="!day.selectable"
             (change)="choose(day.iso)"
           />
-          <span class="ec-sr-only">{{ day.date | date: 'EEEE d MMMM' }}, {{ day.status }}</span>
-          <span class="day-option__weekday" aria-hidden="true">{{ day.date | date: 'EEE' }}</span>
-          <span class="day-option__day" aria-hidden="true">{{ day.date | date: 'd' }}</span>
+          <span class="ec-sr-only">{{ day.date | appDate: 'long' }}, {{ day.status }}</span>
+          <span class="day-option__weekday" aria-hidden="true">{{ day.date | appDate: 'weekdayShort' }}</span>
+          <span class="day-option__day" aria-hidden="true">{{ day.date | appDate: 'day' }}</span>
           <span class="day-option__status" aria-hidden="true">{{ day.status }}</span>
         </label>
       }
@@ -78,7 +78,7 @@
   }
 
   <p class="date-step__window">
-    Réservations ouvertes jusqu'au {{ lastBookableDay | date: 'd MMMM' }}.
+    Réservations ouvertes jusqu'au {{ lastBookableDay | appDate: 'dayMonth' }}.
   </p>
 </div>
 
@@ -87,7 +87,7 @@
     <div>
       <p class="booking-actions__label">Votre choix</p>
       <p class="booking-actions__value">
-        {{ selectedDate() ? (selectedDate() | date: 'EEEE d MMMM') : 'Aucun jour choisi' }}
+        {{ selectedDate() ? (selectedDate() | appDate: 'long') : 'Aucun jour choisi' }}
       </p>
     </div>
     <button type="button" class="ec-btn ec-btn--primary" (click)="continue()">Continuer</button>

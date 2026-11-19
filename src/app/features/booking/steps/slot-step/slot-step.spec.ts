@@ -6,6 +6,7 @@ import { Availability } from '../../availability.model';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { SlotStep } from './slot-step';
 import { RoomSummary } from '../../../rooms/room.model';
+import { translocoTesting } from '../../../../core/i18n/testing';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -37,6 +38,7 @@ describe('SlotStep', () => {
   beforeEach(() => {
     sessionStorage.clear();
     TestBed.configureTestingModule({
+      imports: [translocoTesting()],
       providers: [
         BookingFlowStore,
         provideHttpClient(),

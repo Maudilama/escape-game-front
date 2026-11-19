@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, formatDate } from '@angular/common';
+import { formatDate } from '@angular/common';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import {
   afterNextRender,
@@ -19,12 +19,13 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
+import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
 
 const HOUR = 3_600_000;
 
 @Component({
   selector: 'app-my-bookings-page',
-  imports: [CurrencyPipe, DatePipe, RouterLink, Icon, ConfirmDialog],
+  imports: [RouterLink, Icon, ConfirmDialog, LocalizedDatePipe, PricePipe],
   templateUrl: './my-bookings-page.html',
   styleUrl: './my-bookings-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

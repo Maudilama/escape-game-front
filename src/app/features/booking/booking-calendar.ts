@@ -24,8 +24,3 @@ export function startOfToday(): Date {
   today.setHours(0, 0, 0, 0);
   return today;
 }
-
-export function formatTime(isoDateTime: string): string {
-  const date = new Date(isoDateTime);
-  return `${date.getHours()}h${String(date.getMinutes()).padStart(2, '0')}`;
-}

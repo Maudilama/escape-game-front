@@ -4,7 +4,7 @@
   <h1 class="text-h3">À quelle heure ?</h1>
 
   <div class="selected-date">
-    <p class="text-subtitle selected-date__label">{{ selectedDate() | date: 'EEEE d MMMM' }}</p>
+    <p class="text-subtitle selected-date__label">{{ selectedDate() | appDate: 'long' }}</p>
     <a routerLink="../date" class="ec-link">Modifier<span class="ec-sr-only"> le jour</span></a>
   </div>
 
@@ -44,7 +44,7 @@
       class="ec-slots"
       [attr.aria-describedby]="showError() ? 'slot-error' : null"
     >
-      <legend class="ec-sr-only">Créneaux du {{ selectedDate() | date: 'EEEE d MMMM' }}</legend>
+      <legend class="ec-sr-only">Créneaux du {{ selectedDate() | appDate: 'long' }}</legend>
       @for (slot of slots(); track slot.startAt) {
         <label class="ec-slot">
           <input
@@ -80,7 +80,7 @@
     <div>
       <p class="booking-actions__label">Votre choix</p>
       <p class="booking-actions__value">
-        {{ selectedDate() | date: 'EEE d MMM' }}
+        {{ selectedDate() | appDate: 'short' }}
         @if (selectedSlot(); as slot) {
           · {{ slot.label }}
         }

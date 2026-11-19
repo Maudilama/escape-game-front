@@ -5,6 +5,7 @@ import { provideRouter } from '@angular/router';
 import { Booking } from '../../booking/booking.model';
 import { RoomSummary } from '../../rooms/room.model';
 import { PlanningPage } from './planning-page';
+import { translocoTesting } from '../../../core/i18n/testing';
 
 function room(id: number, name: string): RoomSummary {
   return {
@@ -46,6 +47,7 @@ describe('PlanningPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [translocoTesting()],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
     httpTesting = TestBed.inject(HttpTestingController);

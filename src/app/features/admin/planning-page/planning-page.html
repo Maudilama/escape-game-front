@@ -51,11 +51,11 @@
   </div>
 
   <p class="planning__summary" aria-live="polite">
-    <span class="planning__date">{{ dayDate() | date: 'EEEE d MMMM y' }}</span>
+    <span class="planning__date">{{ dayDate() | appDate: 'full' }}</span>
     @if (bookings.hasValue()) {
       · {{ summary().count }} réservation{{ summary().count > 1 ? 's' : '' }}
       confirmée{{ summary().count > 1 ? 's' : '' }} · {{ summary().players }} joueurs ·
-      {{ summary().revenue | currency: 'EUR' : 'symbol' : '1.0-2' }}
+      {{ summary().revenue | appPrice }}
     }
   </p>
 
@@ -83,7 +83,7 @@
   } @else {
     <div class="planning__table-wrapper">
       <table class="planning-table">
-        <caption class="ec-sr-only">Réservations du {{ dayDate() | date: 'EEEE d MMMM' }}</caption>
+        <caption class="ec-sr-only">Réservations du {{ dayDate() | appDate: 'long' }}</caption>
         <thead>
           <tr>
             <th scope="col">Horaire</th>
@@ -98,11 +98,11 @@
         <tbody>
           @for (booking of visible(); track booking.id) {
             <tr [class.is-cancelled]="!isConfirmed(booking)">
-              <td class="is-nowrap">{{ formatTime(booking.startAt) }} – {{ formatTime(booking.endAt) }}</td>
+            <td class="is-nowrap">{{ booking.startAt | appDate: 'time' }} – {{ booking.endAt | appDate: 'time' }}</td>
               <td>{{ booking.roomName }}</td>
               <td class="planning-table__client">{{ booking.customerEmail }}</td>
               <td class="is-numeric">{{ booking.playerCount }}</td>
-              <td class="is-numeric">{{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}</td>
+              <td class="is-numeric">{{ booking.totalPrice | appPrice }}</td>
               <td>
                 @if (isConfirmed(booking)) {
                   <span class="ec-tag ec-tag--success"><app-icon name="circle-check" size="sm" />Confirmée</span>
@@ -114,7 +114,7 @@
                 @if (isConfirmed(booking)) {
                   <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
                     Annuler<span class="ec-sr-only">
-                      la réservation de {{ booking.customerEmail }} à {{ formatTime(booking.startAt) }}</span
+                    la réservation de {{ booking.customerEmail }} à {{ booking.startAt | appDate: 'time' }}</span
                     >
                   </button>
                 }
@@ -126,9 +126,9 @@
     </div>
 
     <div class="planning__cards">
-      @for (group of groups(); track group.time) {
-        <section class="planning__group" [attr.aria-labelledby]="'creneau-' + group.time">
-          <h2 [id]="'creneau-' + group.time" class="text-subtitle">{{ group.time }}</h2>
+        @for (group of groups(); track group.key; let index = $index) {
+        <section class="planning__group" [attr.aria-labelledby]="'creneau-' + index">
+          <h2 [id]="'creneau-' + index" class="text-subtitle">{{ group.startAt | appDate: 'time' }}</h2>
           @for (booking of group.bookings; track booking.id) {
             <article class="ec-card planning-card" [class.ec-card--outline]="!isConfirmed(booking)">
               <div class="ec-card__body planning-card__body">
@@ -143,13 +143,13 @@
                 <p class="planning-card__client">{{ booking.customerEmail }}</p>
                 <div class="planning-card__bottom">
                   <span class="planning__muted">
-                    Fin {{ formatTime(booking.endAt) }} · {{ booking.playerCount }} joueurs ·
-                    {{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}
+                    Fin {{ booking.endAt | appDate: 'time' }} · {{ booking.playerCount }} joueurs ·
+                    {{ booking.totalPrice | appPrice }}
                   </span>
                   @if (isConfirmed(booking)) {
                     <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
                       Annuler<span class="ec-sr-only">
-                        la réservation de {{ booking.customerEmail }} à {{ group.time }}</span
+                        la réservation de {{ booking.customerEmail }} à {{ group.startAt | appDate: 'time' }}</span
                       >
                     </button>
                   }

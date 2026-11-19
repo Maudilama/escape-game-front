@@ -1,4 +1,3 @@
-import { CurrencyPipe, DatePipe, formatDate } from '@angular/common';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import {
   afterNextRender,
@@ -9,7 +8,6 @@ import {
   inject,
   Injector,
   input,
-  LOCALE_ID,
   signal,
   viewChild,
 } from '@angular/core';
@@ -18,20 +16,23 @@ import { API_URL } from '../../../core/api-url';
 import { ConfirmDialog } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
-import { addDays, formatTime, parseIsoDate, toIsoDate } from '../../booking/booking-calendar';
+import { addDays, parseIsoDate, toIsoDate } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
 import { RoomSummary } from '../../rooms/room.model';
+import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
+import { LocaleFormat } from '../../../core/i18n/locale-format';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 interface TimeGroup {
-  time: string;
+  key: string;
+  startAt: string;
   bookings: Booking[];
 }
 
 @Component({
   selector: 'app-planning-page',
-  imports: [CurrencyPipe, DatePipe, Icon, ConfirmDialog],
+  imports: [Icon, ConfirmDialog, LocalizedDatePipe, PricePipe],
   templateUrl: './planning-page.html',
   styleUrl: './planning-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,8 +44,8 @@ export class PlanningPage {
   private readonly api = inject(BookingApi);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
-  private readonly locale = inject(LOCALE_ID);
   private readonly injector = inject(Injector);
+  private readonly format = inject(LocaleFormat);
 
   private readonly dialog = viewChild.required(ConfirmDialog);
   private readonly successBanner = viewChild<ElementRef<HTMLElement>>('successBanner');
@@ -82,15 +83,15 @@ export class PlanningPage {
     };
   });
 
-  protected readonly groups = computed<TimeGroup[]>(() => {
+    protected readonly groups = computed<TimeGroup[]>(() => {
     const groups: TimeGroup[] = [];
     for (const booking of this.visible()) {
-      const time = formatTime(booking.startAt);
+      const key = booking.startAt.slice(11, 16);
       const last = groups.at(-1);
-      if (last?.time === time) {
+      if (last?.key === key) {
         last.bookings.push(booking);
       } else {
-        groups.push({ time, bookings: [booking] });
+        groups.push({ key, startAt: booking.startAt, bookings: [booking] });
       }
     }
     return groups;
@@ -100,8 +101,6 @@ export class PlanningPage {
   protected readonly cancelling = signal(false);
   protected readonly cancelError = signal<string | null>(null);
   protected readonly successMessage = signal<string | null>(null);
-
-  protected readonly formatTime = formatTime;
 
   protected isConfirmed(booking: Booking): boolean {
     return booking.status === 'CONFIRMED';
@@ -144,7 +143,7 @@ export class PlanningPage {
         this.cancelling.set(false);
         this.dialog().close();
         this.successMessage.set(
-          `La réservation de ${booking.customerEmail} à ${formatTime(booking.startAt)} (${booking.roomName}) a été annulée.`,
+          `La réservation de ${booking.customerEmail} à ${this.format.time(booking.startAt)} (${booking.roomName}) a été annulée.`,
         );
         this.bookings.reload();
         afterNextRender(() => this.successBanner()?.nativeElement.focus(), {
@@ -163,7 +162,7 @@ export class PlanningPage {
   }
 
   protected describe(booking: Booking): string {
-    return formatDate(booking.startAt, "EEEE d MMMM 'à' H'h'mm", this.locale);
+    return this.format.date(booking.startAt, 'dateTime');
   }
 
   private goTo(date: string): void {

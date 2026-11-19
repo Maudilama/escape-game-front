@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -24,6 +23,7 @@ import {
 } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
+import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
 
 interface DayOption {
   date: Date;
@@ -34,7 +34,7 @@ interface DayOption {
 
 @Component({
   selector: 'app-date-step',
-  imports: [DatePipe, Icon, StepHeader],
+  imports: [Icon, StepHeader, LocalizedDatePipe],
   templateUrl: './date-step.html',
   styleUrl: './date-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

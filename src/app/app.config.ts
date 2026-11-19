@@ -1,11 +1,8 @@
-import { registerLocaleData } from '@angular/common';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import localeFr from '@angular/common/locales/fr';
 import {
   ApplicationConfig,
   inject,
   isDevMode,
-  LOCALE_ID,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
@@ -24,8 +21,6 @@ import { TranslocoHttpLoader } from './core/i18n/transloco-loader';
 import { PageTitleStrategy } from './core/page-title-strategy';
 import { TRANSLOCO_BASE_CONFIG } from './core/i18n/transloco-config';
 
-registerLocaleData(localeFr);
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -41,6 +36,5 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAppInitializer(() => inject(LanguageService).init()),
     { provide: TitleStrategy, useExisting: PageTitleStrategy },
-    { provide: LOCALE_ID, useValue: 'fr' },
   ],
 };

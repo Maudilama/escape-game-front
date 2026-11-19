@@ -1,4 +1,3 @@
-import { CurrencyPipe } from '@angular/common';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -13,10 +12,11 @@ import { API_URL } from '../../../core/api-url';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { RoomSummary } from '../room.model';
 import { PageTitleStrategy } from '../../../core/page-title-strategy';
+import { PricePipe } from '../../../core/i18n/locale-pipes';
 
 @Component({
   selector: 'app-room-page',
-  imports: [RouterLink, CurrencyPipe, Icon],
+  imports: [RouterLink, Icon, PricePipe],
   templateUrl: './room-page.html',
   styleUrl: './room-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

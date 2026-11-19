@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -13,9 +12,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { API_URL } from '../../../../core/api-url';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { Availability } from '../../availability.model';
-import { addDays, formatTime, parseIsoDate, toIsoDate } from '../../booking-calendar';
+import { addDays, parseIsoDate, toIsoDate } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
+import { LocalizedDatePipe } from '../../../../core/i18n/locale-pipes';
+import { LocaleFormat } from '../../../../core/i18n/locale-format';
 
 interface SlotOption {
   startAt: string;
@@ -26,7 +27,7 @@ interface SlotOption {
 
 @Component({
   selector: 'app-slot-step',
-  imports: [DatePipe, RouterLink, Icon, StepHeader],
+  imports: [RouterLink, Icon, StepHeader, LocalizedDatePipe],
   templateUrl: './slot-step.html',
   styleUrl: './slot-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +38,7 @@ export class SlotStep {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly slotPicker = viewChild<ElementRef<HTMLFieldSetElement>>('slotPicker');
+  private readonly format = inject(LocaleFormat);
 
   private readonly now = new Date();
   protected readonly showError = signal(false);
@@ -60,7 +62,7 @@ protected readonly closed = computed(
     }
     return this.availability.value().slots.map((slot) => ({
       startAt: slot.startAt,
-      label: `${formatTime(slot.startAt)} – ${formatTime(slot.endAt)}`,
+      label: `${this.format.time(slot.startAt)} – ${this.format.time(slot.endAt)}`,
       available: slot.available,
       reason: slot.available ? null : new Date(slot.startAt) <= this.now ? 'Passé' : 'Complet',
     }));

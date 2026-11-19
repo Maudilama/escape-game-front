@@ -33,8 +33,8 @@
             <div>
               <dt>Date et horaire</dt>
               <dd>
-                {{ start() | date: 'EEEE d MMMM' }}<br />
-                {{ start() | date: "H'h'mm" }} – {{ end() | date: "H'h'mm" }}
+                {{ start() | appDate: 'long' }}<br />
+                {{ start() | appDate: 'time' }} – {{ end() | appDate: 'time' }}
               </dd>
             </div>
             <a routerLink="../date" class="ec-link">Modifier<span class="ec-sr-only"> la date et l'horaire</span></a>
@@ -44,7 +44,7 @@
               <dt>Joueurs</dt>
               <dd>
                 {{ store.playerCount() }} joueurs ·
-                {{ room.pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} par personne
+                {{ room.pricePerPerson | appPrice }} par personne
               </dd>
             </div>
             <a routerLink="../joueurs" class="ec-link">Modifier<span class="ec-sr-only"> le nombre de joueurs</span></a>
@@ -53,7 +53,7 @@
 
         <div class="summary__total">
           <span>Total</span>
-          <span class="text-subtitle">{{ total() | currency: 'EUR' : 'symbol' : '1.0-2' }}</span>
+          <span class="text-subtitle">{{ total() | appPrice }}</span>
         </div>
       </div>
     </section>
@@ -61,8 +61,8 @@
     <div class="ec-banner ec-banner--info">
       <app-icon name="info" class="ec-banner__icon" />
       <p class="ec-banner__text">
-        Annulation gratuite jusqu'au {{ cancellationDeadline() | date: 'EEEE d MMMM' }} à
-        {{ cancellationDeadline() | date: "H'h'mm" }}.
+        Annulation gratuite jusqu'au {{ cancellationDeadline() | appDate: 'long' }} à
+        {{ cancellationDeadline() | appDate: 'time' }}.
       </p>
     </div>
   }

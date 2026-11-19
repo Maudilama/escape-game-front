@@ -14,10 +14,10 @@
       <div class="ec-card__body ticket__body">
         <h2 id="ticket-room" class="text-h4 ticket__room">{{ b.roomName }}</h2>
         <dl class="ticket__facts">
-          <div><dt>Date</dt><dd>{{ b.startAt | date: 'EEEE d MMMM' }}</dd></div>
-          <div><dt>Horaire</dt><dd>{{ b.startAt | date: "H'h'mm" }} – {{ b.endAt | date: "H'h'mm" }}</dd></div>
+          <div><dt>Date</dt><dd>{{ b.startAt | appDate: 'long' }}</dd></div>
+          <div><dt>Horaire</dt><dd>{{ b.startAt | appDate: 'time' }} – {{ b.endAt | appDate: 'time' }}</dd></div>
           <div><dt>Joueurs</dt><dd>{{ b.playerCount }}</dd></div>
-          <div><dt>Total</dt><dd>{{ b.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}</dd></div>
+          <div><dt>Total</dt><dd>{{ b.totalPrice | appPrice }}</dd></div>
         </dl>
         <p class="ticket__number">Réservation n° <strong>{{ b.id }}</strong></p>
       </div>
@@ -28,8 +28,8 @@
       <ul>
         <li>Arrivez 15 minutes avant le début de la session.</li>
         <li>
-          Annulation gratuite jusqu'au {{ cancellationDeadline(b.startAt) | date: 'EEEE d MMMM' }} à
-          {{ cancellationDeadline(b.startAt) | date: "H'h'mm" }}.
+          Annulation gratuite jusqu'au {{ cancellationDeadline(b.startAt) | appDate: 'long' }} à
+          {{ cancellationDeadline(b.startAt) | appDate: 'time' }}.
         </li>
       </ul>
     </section>

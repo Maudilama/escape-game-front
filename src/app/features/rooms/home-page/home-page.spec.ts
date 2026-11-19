@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { RoomSummary } from '../room.model';
 import { HomePage } from './home-page';
+import { translocoTesting } from '../../../core/i18n/testing';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -22,6 +23,7 @@ describe('HomePage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [translocoTesting()],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
     httpTesting = TestBed.inject(HttpTestingController);

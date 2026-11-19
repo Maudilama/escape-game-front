@@ -1,4 +1,3 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   afterNextRender,
@@ -17,12 +16,13 @@ import { BookingApi } from '../../booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
+import { LocalizedDatePipe, PricePipe } from '../../../../core/i18n/locale-pipes';
 
 const HOUR = 3_600_000;
 
 @Component({
   selector: 'app-summary-step',
-  imports: [CurrencyPipe, DatePipe, RouterLink, Icon, StepHeader],
+  imports: [RouterLink, Icon, StepHeader, LocalizedDatePipe, PricePipe],
   templateUrl: './summary-step.html',
   styleUrl: './summary-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

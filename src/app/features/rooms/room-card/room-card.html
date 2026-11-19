@@ -8,7 +8,7 @@
     </p>
     <p class="ec-card__text room-card__description">{{ room().description }}</p>
     <div class="room-card__footer">
-      <span>{{ room().pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} / pers.</span>
+      <span>{{ room().pricePerPerson | appPrice }} / pers.</span>
       <a [routerLink]="['/salles', room().id]" class="ec-link room-card__link">
         Découvrir<span class="ec-sr-only"> la salle {{ room().name }}</span>
       </a>

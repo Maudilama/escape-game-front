@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Booking } from '../../booking/booking.model';
 import { MyBookingsPage } from './my-bookings-page';
+import { translocoTesting } from '../../../core/i18n/testing';
 
 function booking(overrides: Partial<Booking>): Booking {
   return {
@@ -42,6 +43,7 @@ describe('MyBookingsPage', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [translocoTesting()],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
     httpTesting = TestBed.inject(HttpTestingController);

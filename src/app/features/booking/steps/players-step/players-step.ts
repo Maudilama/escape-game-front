@@ -1,13 +1,13 @@
-import { CurrencyPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
+import { PricePipe } from '../../../../core/i18n/locale-pipes';
 
 @Component({
   selector: 'app-players-step',
-  imports: [CurrencyPipe, Icon, StepHeader],
+  imports: [Icon, StepHeader, PricePipe],
   templateUrl: './players-step.html',
   styleUrl: './players-step.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

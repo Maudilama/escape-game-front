@@ -46,19 +46,19 @@
                     </span>
                   </div>
                   <p class="booking-card__when">
-                    {{ booking.startAt | date: 'EEEE d MMMM' }} ·
-                    {{ booking.startAt | date: "H'h'mm" }} – {{ booking.endAt | date: "H'h'mm" }}
+                    {{ booking.startAt | appDate: 'long' }} ·
+                    {{ booking.startAt | appDate: 'time' }} – {{ booking.endAt | appDate: 'time' }}
                   </p>
                   <p class="ec-card__text">
                     {{ booking.playerCount }} joueurs ·
-                    {{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}
+                    {{ booking.totalPrice | appPrice }}
                   </p>
 
                   @if (canCancel(booking)) {
                     <div class="booking-card__footer">
                       <p class="booking-card__note">
                         Annulation gratuite jusqu'au
-                        {{ cancellationDeadline(booking) | date: "EEEE d MMMM 'à' H'h'mm" }}.
+                        {{ cancellationDeadline(booking) | appDate: 'dateTime' }}.
                       </p>
                       <button
                         type="button"
@@ -101,8 +101,8 @@
                     }
                   </div>
                   <p class="ec-card__text">
-                    {{ booking.startAt | date: 'EEE d MMMM' }} · {{ booking.playerCount }} joueurs ·
-                    {{ booking.totalPrice | currency: 'EUR' : 'symbol' : '1.0-2' }}
+                    {{ booking.startAt | appDate: 'long' }} · {{ booking.playerCount }} joueurs ·
+                    {{ booking.totalPrice | appPrice }}
                   </p>
                 </div>
               </article>

@@ -58,7 +58,7 @@
           </div>
           <div class="room__fact">
             <dt>Prix</dt>
-            <dd>{{ r.pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} / pers.</dd>
+            <dd>{{ r.pricePerPerson | appPrice }} / pers.</dd>
           </div>
         </dl>
 
@@ -74,7 +74,7 @@
           <div>
             <p class="room__cta-label">À partir de</p>
             <p class="text-subtitle room__cta-price">
-              {{ r.pricePerPerson | currency: 'EUR' : 'symbol' : '1.0-2' }} / pers.
+              {{ r.pricePerPerson | appPrice }} / pers.
             </p>
           </div>
           <a [routerLink]="['/reserver', r.id]" class="ec-btn ec-btn--primary">
