@@ -1,18 +1,18 @@
 <div class="ec-container planning">
-  <h1 class="text-h2">Planning du jour</h1>
+  <h1 class="text-h2">{{ 'titles.planning' | transloco }}</h1>
 
   <div class="planning__toolbar">
     <div class="planning__day">
       <button
         type="button"
         class="ec-btn ec-btn--secondary ec-btn--icon"
-        aria-label="Jour précédent"
+        [attr.aria-label]="'planning.previousDay' | transloco"
         (click)="changeDay(-1)"
       >
         <app-icon name="chevron-left" />
       </button>
       <div class="ec-field planning__field">
-        <label class="planning__label" for="planning-date">Date</label>
+        <label class="planning__label" for="planning-date">{{ 'planning.date' | transloco }}</label>
         <input
           id="planning-date"
           class="ec-field__input"
@@ -24,7 +24,7 @@
       <button
         type="button"
         class="ec-btn ec-btn--secondary ec-btn--icon"
-        aria-label="Jour suivant"
+        [attr.aria-label]="'planning.nextDay' | transloco"
         (click)="changeDay(1)"
       >
         <app-icon name="chevron-right" />
@@ -32,17 +32,13 @@
     </div>
 
     <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="showToday()">
-      Aujourd'hui
+      {{ 'planning.today' | transloco }}
     </button>
 
     <div class="ec-field planning__field planning__field--room">
-      <label class="planning__label" for="planning-room">Salle</label>
-      <select
-        id="planning-room"
-        class="ec-field__input"
-        (change)="onRoomFilter($any($event.target).value)"
-      >
-        <option value="">Toutes les salles</option>
+      <label class="planning__label" for="planning-room">{{ 'planning.room' | transloco }}</label>
+      <select id="planning-room" class="ec-field__input" (change)="onRoomFilter($any($event.target).value)">
+        <option value="">{{ 'planning.allRooms' | transloco }}</option>
         @for (room of rooms.value(); track room.id) {
           <option [value]="room.id">{{ room.name }}</option>
         }
@@ -53,68 +49,83 @@
   <p class="planning__summary" aria-live="polite">
     <span class="planning__date">{{ dayDate() | appDate: 'full' }}</span>
     @if (bookings.hasValue()) {
-      · {{ summary().count }} réservation{{ summary().count > 1 ? 's' : '' }}
-      confirmée{{ summary().count > 1 ? 's' : '' }} · {{ summary().players }} joueurs ·
+      · {{ 'planning.summary' | transloco: { count: summary().count } }} ·
+      {{ 'common.players' | transloco: { count: summary().players } }} ·
       {{ summary().revenue | appPrice }}
     }
   </p>
 
-  @if (successMessage(); as message) {
+  @if (cancelled(); as done) {
     <div #successBanner class="ec-banner ec-banner--success" role="status" tabindex="-1">
       <app-icon name="circle-check" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      <p class="ec-banner__text">
+        {{
+          'planning.cancelled'
+            | transloco: { email: done.customerEmail, time: (done.startAt | appDate: 'time'), room: done.roomName }
+        }}
+      </p>
     </div>
   }
 
   @if (bookings.isLoading() && !bookings.hasValue()) {
-    <p class="planning__muted" role="status">Chargement du planning…</p>
+    <p class="planning__muted" role="status">{{ 'planning.loading' | transloco }}</p>
   } @else if (bookings.error()) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
       <div class="planning__inline">
-        <p class="ec-banner__text">Impossible de charger le planning.</p>
+        <p class="ec-banner__text">{{ 'planning.error' | transloco }}</p>
         <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="bookings.reload()">
-          Réessayer
+          {{ 'common.retry' | transloco }}
         </button>
       </div>
     </div>
   } @else if (visible().length === 0) {
-    <p class="planning__muted">Aucune réservation ce jour-là.</p>
+    <p class="planning__muted">{{ 'planning.empty' | transloco }}</p>
   } @else {
     <div class="planning__table-wrapper">
       <table class="planning-table">
-        <caption class="ec-sr-only">Réservations du {{ dayDate() | appDate: 'long' }}</caption>
+        <caption class="ec-sr-only">
+          {{ 'planning.caption' | transloco: { date: (dayDate() | appDate: 'long') } }}
+        </caption>
         <thead>
           <tr>
-            <th scope="col">Horaire</th>
-            <th scope="col">Salle</th>
-            <th scope="col">Client</th>
-            <th scope="col" class="is-numeric">Joueurs</th>
-            <th scope="col" class="is-numeric">Montant</th>
-            <th scope="col">Statut</th>
-            <th scope="col"><span class="ec-sr-only">Actions</span></th>
+            <th scope="col">{{ 'planning.columns.time' | transloco }}</th>
+            <th scope="col">{{ 'planning.columns.room' | transloco }}</th>
+            <th scope="col">{{ 'planning.columns.customer' | transloco }}</th>
+            <th scope="col" class="is-numeric">{{ 'planning.columns.players' | transloco }}</th>
+            <th scope="col" class="is-numeric">{{ 'planning.columns.amount' | transloco }}</th>
+            <th scope="col">{{ 'planning.columns.status' | transloco }}</th>
+            <th scope="col"><span class="ec-sr-only">{{ 'planning.columns.actions' | transloco }}</span></th>
           </tr>
         </thead>
         <tbody>
           @for (booking of visible(); track booking.id) {
             <tr [class.is-cancelled]="!isConfirmed(booking)">
-            <td class="is-nowrap">{{ booking.startAt | appDate: 'time' }} – {{ booking.endAt | appDate: 'time' }}</td>
+              <td class="is-nowrap">{{ booking.startAt | appDate: 'time' }} – {{ booking.endAt | appDate: 'time' }}</td>
               <td>{{ booking.roomName }}</td>
               <td class="planning-table__client">{{ booking.customerEmail }}</td>
               <td class="is-numeric">{{ booking.playerCount }}</td>
               <td class="is-numeric">{{ booking.totalPrice | appPrice }}</td>
               <td>
                 @if (isConfirmed(booking)) {
-                  <span class="ec-tag ec-tag--success"><app-icon name="circle-check" size="sm" />Confirmée</span>
+                  <span class="ec-tag ec-tag--success">
+                    <app-icon name="circle-check" size="sm" />{{ 'status.confirmed' | transloco }}
+                  </span>
                 } @else {
-                  <span class="ec-tag ec-tag--muted"><app-icon name="circle-x" size="sm" />Annulée</span>
+                  <span class="ec-tag ec-tag--muted">
+                    <app-icon name="circle-x" size="sm" />{{ 'status.cancelled' | transloco }}
+                  </span>
                 }
               </td>
               <td class="is-actions">
                 @if (isConfirmed(booking)) {
                   <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
-                    Annuler<span class="ec-sr-only">
-                    la réservation de {{ booking.customerEmail }} à {{ booking.startAt | appDate: 'time' }}</span
+                    {{ 'cancellation.action' | transloco
+                    }}<span class="ec-sr-only">
+                      {{
+                        'planning.cancelSr'
+                          | transloco: { email: booking.customerEmail, time: (booking.startAt | appDate: 'time') }
+                      }}</span
                     >
                   </button>
                 }
@@ -126,7 +137,7 @@
     </div>
 
     <div class="planning__cards">
-        @for (group of groups(); track group.key; let index = $index) {
+      @for (group of groups(); track group.key; let index = $index) {
         <section class="planning__group" [attr.aria-labelledby]="'creneau-' + index">
           <h2 [id]="'creneau-' + index" class="text-subtitle">{{ group.startAt | appDate: 'time' }}</h2>
           @for (booking of group.bookings; track booking.id) {
@@ -135,21 +146,28 @@
                 <div class="planning-card__top">
                   <h3 class="planning-card__room">{{ booking.roomName }}</h3>
                   @if (isConfirmed(booking)) {
-                    <span class="ec-tag ec-tag--success">Confirmée</span>
+                    <span class="ec-tag ec-tag--success">{{ 'status.confirmed' | transloco }}</span>
                   } @else {
-                    <span class="ec-tag ec-tag--muted"><app-icon name="circle-x" size="sm" />Annulée</span>
+                    <span class="ec-tag ec-tag--muted">
+                      <app-icon name="circle-x" size="sm" />{{ 'status.cancelled' | transloco }}
+                    </span>
                   }
                 </div>
                 <p class="planning-card__client">{{ booking.customerEmail }}</p>
                 <div class="planning-card__bottom">
                   <span class="planning__muted">
-                    Fin {{ booking.endAt | appDate: 'time' }} · {{ booking.playerCount }} joueurs ·
+                    {{ 'planning.ends' | transloco: { time: (booking.endAt | appDate: 'time') } }} ·
+                    {{ 'common.players' | transloco: { count: booking.playerCount } }} ·
                     {{ booking.totalPrice | appPrice }}
                   </span>
                   @if (isConfirmed(booking)) {
                     <button type="button" class="ec-btn ec-btn--danger ec-btn--compact" (click)="askCancel(booking)">
-                      Annuler<span class="ec-sr-only">
-                        la réservation de {{ booking.customerEmail }} à {{ group.startAt | appDate: 'time' }}</span
+                      {{ 'cancellation.action' | transloco
+                      }}<span class="ec-sr-only">
+                        {{
+                          'planning.cancelSr'
+                            | transloco: { email: booking.customerEmail, time: (group.startAt | appDate: 'time') }
+                        }}</span
                       >
                     </button>
                   }
@@ -164,25 +182,33 @@
 </div>
 
 <app-confirm-dialog
-  heading="Annuler cette réservation ?"
-  confirmLabel="Annuler la réservation"
-  pendingLabel="Annulation en cours…"
-  cancelLabel="Garder la réservation"
+  [heading]="'cancellation.heading' | transloco"
+  [confirmLabel]="'cancellation.confirm' | transloco"
+  [pendingLabel]="'cancellation.pending' | transloco"
+  [cancelLabel]="'planning.keep' | transloco"
   tone="danger"
   [pending]="cancelling()"
   (confirmed)="confirmCancel()"
 >
   @if (toCancel(); as booking) {
     <p>
-      {{ booking.roomName }}, {{ describe(booking) }}, réservée par
-      <strong>{{ booking.customerEmail }}</strong> pour {{ booking.playerCount }} joueurs.
+      {{
+        'planning.dialogText'
+          | transloco
+            : {
+                room: booking.roomName,
+                date: (booking.startAt | appDate: 'dateTime'),
+                email: booking.customerEmail,
+                count: booking.playerCount
+              }
+      }}
     </p>
-    <p>Le client ne sera pas prévenu automatiquement : pensez à le contacter.</p>
+    <p>{{ 'planning.dialogNotify' | transloco }}</p>
   }
-  @if (cancelError(); as message) {
+  @if (cancelError(); as error) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      <p class="ec-banner__text">{{ error.key | transloco: error.params }}</p>
     </div>
   }
 </app-confirm-dialog>

@@ -12,15 +12,16 @@ import {
   viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { API_URL } from '../../../core/api-url';
+import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
+import { rawText, Translatable } from '../../../core/i18n/translatable';
 import { ConfirmDialog } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
 import { addDays, parseIsoDate, toIsoDate } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
 import { RoomSummary } from '../../rooms/room.model';
-import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
-import { LocaleFormat } from '../../../core/i18n/locale-format';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -32,7 +33,7 @@ interface TimeGroup {
 
 @Component({
   selector: 'app-planning-page',
-  imports: [Icon, ConfirmDialog, LocalizedDatePipe, PricePipe],
+  imports: [LocalizedDatePipe, PricePipe, TranslocoPipe, Icon, ConfirmDialog],
   templateUrl: './planning-page.html',
   styleUrl: './planning-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +46,6 @@ export class PlanningPage {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly injector = inject(Injector);
-  private readonly format = inject(LocaleFormat);
 
   private readonly dialog = viewChild.required(ConfirmDialog);
   private readonly successBanner = viewChild<ElementRef<HTMLElement>>('successBanner');
@@ -83,7 +83,7 @@ export class PlanningPage {
     };
   });
 
-    protected readonly groups = computed<TimeGroup[]>(() => {
+  protected readonly groups = computed<TimeGroup[]>(() => {
     const groups: TimeGroup[] = [];
     for (const booking of this.visible()) {
       const key = booking.startAt.slice(11, 16);
@@ -99,8 +99,8 @@ export class PlanningPage {
 
   protected readonly toCancel = signal<Booking | null>(null);
   protected readonly cancelling = signal(false);
-  protected readonly cancelError = signal<string | null>(null);
-  protected readonly successMessage = signal<string | null>(null);
+  protected readonly cancelError = signal<Translatable | null>(null);
+  protected readonly cancelled = signal<Booking | null>(null);
 
   protected isConfirmed(booking: Booking): boolean {
     return booking.status === 'CONFIRMED';
@@ -142,9 +142,7 @@ export class PlanningPage {
       next: () => {
         this.cancelling.set(false);
         this.dialog().close();
-        this.successMessage.set(
-          `La réservation de ${booking.customerEmail} à ${this.format.time(booking.startAt)} (${booking.roomName}) a été annulée.`,
-        );
+        this.cancelled.set(booking);
         this.bookings.reload();
         afterNextRender(() => this.successBanner()?.nativeElement.focus(), {
           injector: this.injector,
@@ -154,19 +152,15 @@ export class PlanningPage {
         this.cancelling.set(false);
         this.cancelError.set(
           error instanceof HttpErrorResponse && error.error?.detail
-            ? error.error.detail
-            : "L'annulation n'a pas pu être enregistrée. Réessayez dans un instant.",
+            ? rawText(error.error.detail)
+            : { key: 'cancellation.error' },
         );
       },
     });
   }
 
-  protected describe(booking: Booking): string {
-    return this.format.date(booking.startAt, 'dateTime');
-  }
-
   private goTo(date: string): void {
-    this.successMessage.set(null);
+    this.cancelled.set(null);
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { date },

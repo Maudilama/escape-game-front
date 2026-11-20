@@ -1,37 +1,40 @@
-<div class="ec-container my-bookings">
-  <h1 class="text-h2">Mes réservations</h1>
+<div class="ec-container ec-container--narrow my-bookings">
+  <h1 class="text-h2">{{ 'titles.myBookings' | transloco }}</h1>
 
-  @if (successMessage(); as message) {
+  @if (cancelled(); as done) {
     <div #successBanner class="ec-banner ec-banner--success" role="status" tabindex="-1">
       <app-icon name="circle-check" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      <p class="ec-banner__text">
+        {{ 'account.cancelled' | transloco: { room: done.roomName, date: (done.startAt | appDate: 'dateTime') } }}
+      </p>
     </div>
   }
 
   @if (bookings.isLoading() && !bookings.hasValue()) {
-    <p class="my-bookings__status" role="status">Chargement de vos réservations…</p>
+    <p class="my-bookings__status" role="status">{{ 'account.loading' | transloco }}</p>
   } @else if (bookings.error()) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
       <div class="my-bookings__inline">
-        <p class="ec-banner__text">Impossible de charger vos réservations.</p>
+        <p class="ec-banner__text">{{ 'account.error' | transloco }}</p>
         <button type="button" class="ec-btn ec-btn--secondary ec-btn--compact" (click)="bookings.reload()">
-          Réessayer
+          {{ 'common.retry' | transloco }}
         </button>
       </div>
     </div>
   } @else if (upcoming().length === 0 && past().length === 0) {
     <div class="my-bookings__empty">
-      <p class="text-body-1">Vous n'avez pas encore de réservation.</p>
-      <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">Découvrir les salles</a>
+      <p class="text-body-1">{{ 'account.empty' | transloco }}</p>
+      <a routerLink="/" fragment="salles" class="ec-btn ec-btn--primary">{{ 'account.discover' | transloco }}</a>
     </div>
   } @else {
     <section aria-labelledby="a-venir" class="my-bookings__section">
-      <h2 id="a-venir" class="text-subtitle">À venir</h2>
+      <h2 id="a-venir" class="text-subtitle">{{ 'account.upcoming' | transloco }}</h2>
 
       @if (upcoming().length === 0) {
         <p class="my-bookings__status">
-          Aucune réservation à venir. <a routerLink="/" fragment="salles">Choisir une salle</a>
+          {{ 'account.noUpcoming' | transloco }}
+          <a routerLink="/" fragment="salles">{{ 'account.chooseRoom' | transloco }}</a>
         </p>
       } @else {
         <ul class="my-bookings__list">
@@ -42,7 +45,7 @@
                   <div class="booking-card__top">
                     <h3 class="ec-card__title">{{ booking.roomName }}</h3>
                     <span class="ec-tag ec-tag--success">
-                      <app-icon name="circle-check" size="sm" />Confirmée
+                      <app-icon name="circle-check" size="sm" />{{ 'status.confirmed' | transloco }}
                     </span>
                   </div>
                   <p class="booking-card__when">
@@ -50,30 +53,36 @@
                     {{ booking.startAt | appDate: 'time' }} – {{ booking.endAt | appDate: 'time' }}
                   </p>
                   <p class="ec-card__text">
-                    {{ booking.playerCount }} joueurs ·
+                    {{ 'common.players' | transloco: { count: booking.playerCount } }} ·
                     {{ booking.totalPrice | appPrice }}
                   </p>
 
                   @if (canCancel(booking)) {
                     <div class="booking-card__footer">
                       <p class="booking-card__note">
-                        Annulation gratuite jusqu'au
-                        {{ cancellationDeadline(booking) | appDate: 'dateTime' }}.
+                        {{
+                          'booking.freeCancellationUntil'
+                            | transloco: { date: (cancellationDeadline(booking) | appDate: 'dateTime') }
+                        }}
                       </p>
                       <button
                         type="button"
                         class="ec-btn ec-btn--danger ec-btn--compact"
                         (click)="askCancel(booking)"
                       >
-                        Annuler<span class="ec-sr-only">
-                          la réservation {{ booking.roomName }} du {{ describe(booking) }}</span
+                        {{ 'cancellation.action' | transloco
+                        }}<span class="ec-sr-only">
+                          {{
+                            'account.cancelSr'
+                              | transloco: { room: booking.roomName, date: (booking.startAt | appDate: 'dateTime') }
+                          }}</span
                         >
                       </button>
                     </div>
                   } @else {
                     <p class="booking-card__note">
                       <app-icon name="clock" size="sm" />
-                      Annulation impossible à moins de 24 h de la session.
+                      {{ 'account.tooLate' | transloco: { hours: cancellationHours } }}
                     </p>
                   }
                 </div>
@@ -86,7 +95,7 @@
 
     @if (past().length > 0) {
       <section aria-labelledby="passees" class="my-bookings__section">
-        <h2 id="passees" class="text-subtitle">Passées et annulées</h2>
+        <h2 id="passees" class="text-subtitle">{{ 'account.past' | transloco }}</h2>
         <ul class="my-bookings__list">
           @for (booking of past(); track booking.id) {
             <li>
@@ -95,13 +104,16 @@
                   <div class="booking-card__top">
                     <h3 class="booking-card__past-title">{{ booking.roomName }}</h3>
                     @if (isCancelled(booking)) {
-                      <span class="ec-tag ec-tag--muted"><app-icon name="circle-x" size="sm" />Annulée</span>
+                      <span class="ec-tag ec-tag--muted">
+                        <app-icon name="circle-x" size="sm" />{{ 'status.cancelled' | transloco }}
+                      </span>
                     } @else {
-                      <span class="ec-tag ec-tag--muted">Terminée</span>
+                      <span class="ec-tag ec-tag--muted">{{ 'status.finished' | transloco }}</span>
                     }
                   </div>
                   <p class="ec-card__text">
-                    {{ booking.startAt | appDate: 'long' }} · {{ booking.playerCount }} joueurs ·
+                    {{ booking.startAt | appDate: 'medium' }} ·
+                    {{ 'common.players' | transloco: { count: booking.playerCount } }} ·
                     {{ booking.totalPrice | appPrice }}
                   </p>
                 </div>
@@ -115,22 +127,28 @@
 </div>
 
 <app-confirm-dialog
-  heading="Annuler cette réservation ?"
-  confirmLabel="Annuler la réservation"
-  pendingLabel="Annulation en cours…"
-  cancelLabel="Garder ma réservation"
+  [heading]="'cancellation.heading' | transloco"
+  [confirmLabel]="'cancellation.confirm' | transloco"
+  [pendingLabel]="'cancellation.pending' | transloco"
+  [cancelLabel]="'account.keep' | transloco"
   tone="danger"
   [pending]="cancelling()"
   (confirmed)="confirmCancel()"
 >
   @if (toCancel(); as booking) {
-    <p>{{ booking.roomName }}, {{ describe(booking) }}, pour {{ booking.playerCount }} joueurs.</p>
-    <p>L'annulation est gratuite. Le créneau sera proposé à d'autres joueurs.</p>
+    <p>
+      {{
+        'account.dialogText'
+          | transloco
+            : { room: booking.roomName, date: (booking.startAt | appDate: 'dateTime'), count: booking.playerCount }
+      }}
+    </p>
+    <p>{{ 'account.dialogFree' | transloco }}</p>
   }
-  @if (cancelError(); as message) {
+  @if (cancelError(); as error) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      <p class="ec-banner__text">{{ error.key | transloco: error.params }}</p>
     </div>
   }
 </app-confirm-dialog>

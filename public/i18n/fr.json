@@ -47,7 +47,8 @@
     "back": "Retour",
     "continue": "Continuer",
     "change": "Modifier",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "message": "{message}"
   },
   "home": {
     "hero": {
@@ -179,5 +180,97 @@
       "notFoundTitle": "Réservation introuvable",
       "notFoundText": "Retrouvez toutes vos sessions dans vos réservations."
     }
+  },
+    "status": {
+    "confirmed": "Confirmée",
+    "cancelled": "Annulée",
+    "finished": "Terminée"
+  },
+  "cancellation": {
+    "heading": "Annuler cette réservation ?",
+    "action": "Annuler",
+    "confirm": "Annuler la réservation",
+    "pending": "Annulation en cours…",
+    "error": "L'annulation n'a pas pu être enregistrée. Réessayez dans un instant."
+  },
+  "auth": {
+    "title": "Votre compte",
+    "lead": "Pour réserver et retrouver vos sessions.",
+    "sessionExpired": "Votre session a expiré. Reconnectez-vous pour continuer.",
+    "fromBooking": "Connectez-vous pour réserver ce créneau. Votre sélection est conservée.",
+    "tabs": "Connexion ou inscription",
+    "email": "Adresse e-mail",
+    "password": "Mot de passe",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "passwordHint": "Entre {min} et {max} caractères.",
+    "submitLogin": "Se connecter",
+    "pendingLogin": "Connexion en cours…",
+    "submitRegister": "Créer mon compte",
+    "pendingRegister": "Création du compte…",
+    "errors": {
+      "requiredEmail": "Renseignez votre adresse e-mail.",
+      "requiredPassword": "Renseignez votre mot de passe.",
+      "requiredNewPassword": "Renseignez un mot de passe.",
+      "requiredFirstName": "Renseignez votre prénom.",
+      "requiredLastName": "Renseignez votre nom.",
+      "email": "L'adresse e-mail n'est pas valide.",
+      "minLength": "Au moins {count} caractères.",
+      "maxLength": "{count} caractères maximum.",
+      "taken": "Un compte existe déjà avec cette adresse e-mail.",
+      "invalid": "Valeur invalide.",
+      "credentials": "Adresse e-mail ou mot de passe incorrect.",
+      "unexpected": "Une erreur inattendue est survenue. Réessayez.",
+      "unavailable": "Le service est momentanément indisponible. Réessayez dans un instant."
+    }
+  },
+  "account": {
+    "loading": "Chargement de vos réservations…",
+    "error": "Impossible de charger vos réservations.",
+    "empty": "Vous n'avez pas encore de réservation.",
+    "discover": "Découvrir les salles",
+    "upcoming": "À venir",
+    "noUpcoming": "Aucune réservation à venir.",
+    "chooseRoom": "Choisir une salle",
+    "past": "Passées et annulées",
+    "cancelSr": "la réservation {room} du {date}",
+    "tooLate": "Annulation impossible à moins de {hours} h de la session.",
+    "keep": "Garder ma réservation",
+    "dialogText": "{room}, {date}, pour {count, plural, one {# joueur} other {# joueurs}}.",
+    "dialogFree": "L'annulation est gratuite. Le créneau sera proposé à d'autres joueurs.",
+    "cancelled": "Votre réservation pour {room}, {date}, a été annulée."
+  },
+  "planning": {
+    "previousDay": "Jour précédent",
+    "nextDay": "Jour suivant",
+    "date": "Date",
+    "today": "Aujourd'hui",
+    "room": "Salle",
+    "allRooms": "Toutes les salles",
+    "summary": "{count, plural, one {# réservation confirmée} other {# réservations confirmées}}",
+    "loading": "Chargement du planning…",
+    "error": "Impossible de charger le planning.",
+    "empty": "Aucune réservation ce jour-là.",
+    "caption": "Réservations du {date}",
+    "columns": {
+      "time": "Horaire",
+      "room": "Salle",
+      "customer": "Client",
+      "players": "Joueurs",
+      "amount": "Montant",
+      "status": "Statut",
+      "actions": "Actions"
+    },
+    "cancelSr": "la réservation de {email} à {time}",
+    "ends": "Fin {time}",
+    "keep": "Garder la réservation",
+    "dialogText": "{room}, {date}, réservée par {email} pour {count, plural, one {# joueur} other {# joueurs}}.",
+    "dialogNotify": "Le client ne sera pas prévenu automatiquement : pensez à le contacter.",
+    "cancelled": "La réservation de {email} à {time} ({room}) a été annulée."
+  },
+  "notFound": {
+    "title": "Cette page s'est volatilisée",
+    "text": "L'adresse demandée n'existe pas, ou plus.",
+    "cta": "Retour aux salles"
   }
 }

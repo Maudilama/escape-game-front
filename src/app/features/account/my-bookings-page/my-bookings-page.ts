@@ -1,4 +1,3 @@
-import { formatDate } from '@angular/common';
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import {
   afterNextRender,
@@ -8,24 +7,25 @@ import {
   ElementRef,
   inject,
   Injector,
-  LOCALE_ID,
   signal,
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { API_URL } from '../../../core/api-url';
+import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
+import { rawText, Translatable } from '../../../core/i18n/translatable';
 import { ConfirmDialog } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
-import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
 
 const HOUR = 3_600_000;
 
 @Component({
   selector: 'app-my-bookings-page',
-  imports: [RouterLink, Icon, ConfirmDialog, LocalizedDatePipe, PricePipe],
+  imports: [LocalizedDatePipe, PricePipe, TranslocoPipe, RouterLink, Icon, ConfirmDialog],
   templateUrl: './my-bookings-page.html',
   styleUrl: './my-bookings-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,13 +33,13 @@ const HOUR = 3_600_000;
 export class MyBookingsPage {
   private readonly apiUrl = inject(API_URL);
   private readonly api = inject(BookingApi);
-  private readonly locale = inject(LOCALE_ID);
   private readonly injector = inject(Injector);
 
   private readonly dialog = viewChild.required(ConfirmDialog);
   private readonly successBanner = viewChild<ElementRef<HTMLElement>>('successBanner');
 
   private readonly now = Date.now();
+  protected readonly cancellationHours = CANCELLATION_MIN_HOURS;
 
   protected readonly bookings = httpResource<Booking[]>(() => `${this.apiUrl}/bookings/me`, {
     defaultValue: [],
@@ -59,8 +59,8 @@ export class MyBookingsPage {
 
   protected readonly toCancel = signal<Booking | null>(null);
   protected readonly cancelling = signal(false);
-  protected readonly cancelError = signal<string | null>(null);
-  protected readonly successMessage = signal<string | null>(null);
+  protected readonly cancelError = signal<Translatable | null>(null);
+  protected readonly cancelled = signal<Booking | null>(null);
 
   protected canCancel(booking: Booking): boolean {
     return this.cancellationDeadline(booking).getTime() >= this.now;
@@ -92,9 +92,7 @@ export class MyBookingsPage {
       next: () => {
         this.cancelling.set(false);
         this.dialog().close();
-        this.successMessage.set(
-          `Votre réservation pour ${booking.roomName}, ${this.describe(booking)}, a été annulée.`,
-        );
+        this.cancelled.set(booking);
         this.bookings.reload();
         afterNextRender(() => this.successBanner()?.nativeElement.focus(), {
           injector: this.injector,
@@ -104,15 +102,11 @@ export class MyBookingsPage {
         this.cancelling.set(false);
         this.cancelError.set(
           error instanceof HttpErrorResponse && error.status === 422 && error.error?.detail
-            ? error.error.detail
-            : "L'annulation n'a pas pu être enregistrée. Réessayez dans un instant.",
+            ? rawText(error.error.detail)
+            : { key: 'cancellation.error' },
         );
       },
     });
-  }
-
-  protected describe(booking: Booking): string {
-    return formatDate(booking.startAt, "EEEE d MMMM 'à' H'h'mm", this.locale);
   }
 
   private startOf(booking: Booking): number {

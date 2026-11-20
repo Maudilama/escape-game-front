@@ -47,7 +47,8 @@
     "back": "Volver",
     "continue": "Continuar",
     "change": "Cambiar",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "message": "{message}"
   },
   "home": {
     "hero": {
@@ -179,5 +180,97 @@
       "notFoundTitle": "Reserva no encontrada",
       "notFoundText": "Encuentra todas tus sesiones en tus reservas."
     }
+  },
+    "status": {
+    "confirmed": "Confirmada",
+    "cancelled": "Cancelada",
+    "finished": "Terminada"
+  },
+  "cancellation": {
+    "heading": "¿Cancelar esta reserva?",
+    "action": "Cancelar",
+    "confirm": "Cancelar la reserva",
+    "pending": "Cancelando…",
+    "error": "No se ha podido guardar la cancelación. Inténtalo de nuevo en un momento."
+  },
+  "auth": {
+    "title": "Tu cuenta",
+    "lead": "Para reservar y encontrar tus sesiones.",
+    "sessionExpired": "Tu sesión ha caducado. Vuelve a iniciar sesión para continuar.",
+    "fromBooking": "Inicia sesión para reservar este horario. Tu selección se conserva.",
+    "tabs": "Iniciar sesión o crear una cuenta",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
+    "passwordHint": "Entre {min} y {max} caracteres.",
+    "submitLogin": "Iniciar sesión",
+    "pendingLogin": "Iniciando sesión…",
+    "submitRegister": "Crear mi cuenta",
+    "pendingRegister": "Creando la cuenta…",
+    "errors": {
+      "requiredEmail": "Introduce tu correo electrónico.",
+      "requiredPassword": "Introduce tu contraseña.",
+      "requiredNewPassword": "Elige una contraseña.",
+      "requiredFirstName": "Introduce tu nombre.",
+      "requiredLastName": "Introduce tus apellidos.",
+      "email": "El correo electrónico no es válido.",
+      "minLength": "Al menos {count} caracteres.",
+      "maxLength": "{count} caracteres como máximo.",
+      "taken": "Ya existe una cuenta con este correo electrónico.",
+      "invalid": "Valor no válido.",
+      "credentials": "Correo electrónico o contraseña incorrectos.",
+      "unexpected": "Se ha producido un error inesperado. Inténtalo de nuevo.",
+      "unavailable": "El servicio no está disponible en este momento. Inténtalo de nuevo en un momento."
+    }
+  },
+  "account": {
+    "loading": "Cargando tus reservas…",
+    "error": "No se pueden cargar tus reservas.",
+    "empty": "Todavía no tienes ninguna reserva.",
+    "discover": "Descubrir las salas",
+    "upcoming": "Próximas",
+    "noUpcoming": "No tienes reservas próximas.",
+    "chooseRoom": "Elegir una sala",
+    "past": "Pasadas y canceladas",
+    "cancelSr": "la reserva {room} del {date}",
+    "tooLate": "No se puede cancelar a menos de {hours} h de la sesión.",
+    "keep": "Mantener mi reserva",
+    "dialogText": "{room}, {date}, para {count, plural, one {# jugador} other {# jugadores}}.",
+    "dialogFree": "La cancelación es gratuita. El horario se ofrecerá a otros jugadores.",
+    "cancelled": "Tu reserva para {room}, {date}, ha sido cancelada."
+  },
+  "planning": {
+    "previousDay": "Día anterior",
+    "nextDay": "Día siguiente",
+    "date": "Fecha",
+    "today": "Hoy",
+    "room": "Sala",
+    "allRooms": "Todas las salas",
+    "summary": "{count, plural, one {# reserva confirmada} other {# reservas confirmadas}}",
+    "loading": "Cargando la planificación…",
+    "error": "No se puede cargar la planificación.",
+    "empty": "Ninguna reserva ese día.",
+    "caption": "Reservas del {date}",
+    "columns": {
+      "time": "Hora",
+      "room": "Sala",
+      "customer": "Cliente",
+      "players": "Jugadores",
+      "amount": "Importe",
+      "status": "Estado",
+      "actions": "Acciones"
+    },
+    "cancelSr": "la reserva de {email} a las {time}",
+    "ends": "Fin {time}",
+    "keep": "Mantener la reserva",
+    "dialogText": "{room}, {date}, reservada por {email} para {count, plural, one {# jugador} other {# jugadores}}.",
+    "dialogNotify": "El cliente no recibirá ningún aviso automático: recuerda contactarle.",
+    "cancelled": "La reserva de {email} a las {time} ({room}) ha sido cancelada."
+  },
+  "notFound": {
+    "title": "Esta página se ha esfumado",
+    "text": "La dirección solicitada no existe o ya no está disponible.",
+    "cta": "Volver a las salas"
   }
 }

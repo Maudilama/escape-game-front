@@ -1,52 +1,50 @@
-<div class="ec-container auth-page">
+<div class="ec-container ec-container--narrow auth-page">
   <div class="auth-page__intro">
-    <h1 class="text-h2">Votre compte</h1>
-    <p class="text-body-1">Pour réserver et retrouver vos sessions.</p>
+    <h1 class="text-h2">{{ 'auth.title' | transloco }}</h1>
+    <p class="text-body-1">{{ 'auth.lead' | transloco }}</p>
   </div>
 
   @if (sessionExpired()) {
     <div class="ec-banner ec-banner--warning">
       <app-icon name="triangle-alert" class="ec-banner__icon" />
-      <p class="ec-banner__text">Votre session a expiré. Reconnectez-vous pour continuer.</p>
+      <p class="ec-banner__text">{{ 'auth.sessionExpired' | transloco }}</p>
     </div>
   } @else if (fromBooking()) {
     <div class="ec-banner ec-banner--info">
       <app-icon name="info" class="ec-banner__icon" />
-      <p class="ec-banner__text">
-        Connectez-vous pour réserver ce créneau. Votre sélection est conservée.
-      </p>
+      <p class="ec-banner__text">{{ 'auth.fromBooking' | transloco }}</p>
     </div>
   }
 
-  <nav aria-label="Connexion ou inscription" class="ec-tabs">
+  <nav [attr.aria-label]="'auth.tabs' | transloco" class="ec-tabs">
     <a
       class="ec-tab"
       routerLink="/connexion"
       [queryParams]="{ retour: retour() }"
       routerLinkActive="is-active"
       ariaCurrentWhenActive="page"
-    >Se connecter</a>
+    >{{ 'nav.signIn' | transloco }}</a>
     <a
       class="ec-tab"
       routerLink="/inscription"
       [queryParams]="{ retour: retour() }"
       routerLinkActive="is-active"
       ariaCurrentWhenActive="page"
-    >Créer un compte</a>
+    >{{ 'nav.register' | transloco }}</a>
   </nav>
 
-  @if (serverError(); as message) {
+  @if (serverError(); as key) {
     <div class="ec-banner ec-banner--error" role="alert">
       <app-icon name="circle-alert" class="ec-banner__icon" />
-      <p class="ec-banner__text">{{ message }}</p>
+      <p class="ec-banner__text">{{ key | transloco }}</p>
     </div>
   }
 
   @if (mode() === 'login') {
     <form [formGroup]="loginForm" (ngSubmit)="submit()" class="auth-form" novalidate>
-      @let emailError = fieldError(loginForm.controls.email, 'votre adresse e-mail');
+      @let emailError = fieldError(loginForm.controls.email, 'auth.errors.requiredEmail');
       <div class="ec-field" [class.ec-field--invalid]="emailError">
-        <label class="ec-field__label" for="login-email">Adresse e-mail</label>
+        <label class="ec-field__label" for="login-email">{{ 'auth.email' | transloco }}</label>
         <input
           id="login-email"
           name="email"
@@ -59,14 +57,14 @@
         />
         @if (emailError) {
           <p id="login-email-error" class="ec-field__error">
-            <app-icon name="circle-alert" size="sm" />{{ emailError }}
+            <app-icon name="circle-alert" size="sm" />{{ emailError.key | transloco: emailError.params }}
           </p>
         }
       </div>
 
-      @let passwordError = fieldError(loginForm.controls.password, 'votre mot de passe');
+      @let passwordError = fieldError(loginForm.controls.password, 'auth.errors.requiredPassword');
       <div class="ec-field" [class.ec-field--invalid]="passwordError">
-        <label class="ec-field__label" for="login-password">Mot de passe</label>
+        <label class="ec-field__label" for="login-password">{{ 'auth.password' | transloco }}</label>
         <input
           id="login-password"
           name="password"
@@ -79,21 +77,21 @@
         />
         @if (passwordError) {
           <p id="login-password-error" class="ec-field__error">
-            <app-icon name="circle-alert" size="sm" />{{ passwordError }}
+            <app-icon name="circle-alert" size="sm" />{{ passwordError.key | transloco: passwordError.params }}
           </p>
         }
       </div>
 
       <button type="submit" class="ec-btn ec-btn--primary ec-btn--block" [attr.aria-busy]="pending() || null">
-        {{ pending() ? 'Connexion en cours…' : 'Se connecter' }}
+        {{ (pending() ? 'auth.pendingLogin' : 'auth.submitLogin') | transloco }}
       </button>
     </form>
   } @else {
     <form [formGroup]="registerForm" (ngSubmit)="submit()" class="auth-form" novalidate>
       <div class="auth-form__row">
-        @let firstNameError = fieldError(registerForm.controls.firstName, 'votre prénom');
+        @let firstNameError = fieldError(registerForm.controls.firstName, 'auth.errors.requiredFirstName');
         <div class="ec-field" [class.ec-field--invalid]="firstNameError">
-          <label class="ec-field__label" for="register-first-name">Prénom</label>
+          <label class="ec-field__label" for="register-first-name">{{ 'auth.firstName' | transloco }}</label>
           <input
             id="register-first-name"
             name="firstName"
@@ -106,14 +104,14 @@
           />
           @if (firstNameError) {
             <p id="register-first-name-error" class="ec-field__error">
-              <app-icon name="circle-alert" size="sm" />{{ firstNameError }}
+              <app-icon name="circle-alert" size="sm" />{{ firstNameError.key | transloco: firstNameError.params }}
             </p>
           }
         </div>
 
-        @let lastNameError = fieldError(registerForm.controls.lastName, 'votre nom');
+        @let lastNameError = fieldError(registerForm.controls.lastName, 'auth.errors.requiredLastName');
         <div class="ec-field" [class.ec-field--invalid]="lastNameError">
-          <label class="ec-field__label" for="register-last-name">Nom</label>
+          <label class="ec-field__label" for="register-last-name">{{ 'auth.lastName' | transloco }}</label>
           <input
             id="register-last-name"
             name="lastName"
@@ -126,15 +124,15 @@
           />
           @if (lastNameError) {
             <p id="register-last-name-error" class="ec-field__error">
-              <app-icon name="circle-alert" size="sm" />{{ lastNameError }}
+              <app-icon name="circle-alert" size="sm" />{{ lastNameError.key | transloco: lastNameError.params }}
             </p>
           }
         </div>
       </div>
 
-      @let registerEmailError = fieldError(registerForm.controls.email, 'votre adresse e-mail');
+      @let registerEmailError = fieldError(registerForm.controls.email, 'auth.errors.requiredEmail');
       <div class="ec-field" [class.ec-field--invalid]="registerEmailError">
-        <label class="ec-field__label" for="register-email">Adresse e-mail</label>
+        <label class="ec-field__label" for="register-email">{{ 'auth.email' | transloco }}</label>
         <input
           id="register-email"
           name="email"
@@ -147,15 +145,17 @@
         />
         @if (registerEmailError) {
           <p id="register-email-error" class="ec-field__error">
-            <app-icon name="circle-alert" size="sm" />{{ registerEmailError }}
+            <app-icon name="circle-alert" size="sm" />{{ registerEmailError.key | transloco: registerEmailError.params }}
           </p>
         }
       </div>
 
-      @let registerPasswordError = fieldError(registerForm.controls.password, 'un mot de passe');
+      @let registerPasswordError = fieldError(registerForm.controls.password, 'auth.errors.requiredNewPassword');
       <div class="ec-field" [class.ec-field--invalid]="registerPasswordError">
-        <label class="ec-field__label" for="register-password">Mot de passe</label>
-        <p id="register-password-hint" class="ec-field__hint">Entre 8 et 72 caractères.</p>
+        <label class="ec-field__label" for="register-password">{{ 'auth.password' | transloco }}</label>
+        <p id="register-password-hint" class="ec-field__hint">
+          {{ 'auth.passwordHint' | transloco: { min: passwordMin, max: passwordMax } }}
+        </p>
         <input
           id="register-password"
           name="password"
@@ -165,20 +165,20 @@
           formControlName="password"
           [attr.aria-invalid]="registerPasswordError ? true : null"
           [attr.aria-describedby]="
-            registerPasswordError
-              ? 'register-password-hint register-password-error'
-              : 'register-password-hint'
+            registerPasswordError ? 'register-password-hint register-password-error' : 'register-password-hint'
           "
         />
         @if (registerPasswordError) {
           <p id="register-password-error" class="ec-field__error">
-            <app-icon name="circle-alert" size="sm" />{{ registerPasswordError }}
+            <app-icon name="circle-alert" size="sm" />{{
+              registerPasswordError.key | transloco: registerPasswordError.params
+            }}
           </p>
         }
       </div>
 
       <button type="submit" class="ec-btn ec-btn--primary ec-btn--block" [attr.aria-busy]="pending() || null">
-        {{ pending() ? 'Création du compte…' : 'Créer mon compte' }}
+        {{ (pending() ? 'auth.pendingRegister' : 'auth.submitRegister') | transloco }}
       </button>
     </form>
   }

@@ -40,14 +40,15 @@
     "planning": "Daily schedule",
     "notFound": "Page not found"
   },
-    "common": {
+"common": {
     "retry": "Try again",
     "perPerson": "{price} / person",
     "players": "{count, plural, one {# player} other {# players}}",
     "back": "Back",
     "continue": "Continue",
     "change": "Change",
-    "loading": "Loading…"
+    "loading": "Loading…",
+    "message": "{message}"
   },
   "home": {
     "hero": {
@@ -179,5 +180,97 @@
       "notFoundTitle": "Booking not found",
       "notFoundText": "Find all your sessions in your bookings."
     }
+  },
+    "status": {
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "finished": "Finished"
+  },
+  "cancellation": {
+    "heading": "Cancel this booking?",
+    "action": "Cancel",
+    "confirm": "Cancel the booking",
+    "pending": "Cancelling…",
+    "error": "The cancellation couldn't be saved. Please try again in a moment."
+  },
+  "auth": {
+    "title": "Your account",
+    "lead": "To book and find your sessions.",
+    "sessionExpired": "Your session has expired. Sign in again to continue.",
+    "fromBooking": "Sign in to book this time slot. Your selection has been kept.",
+    "tabs": "Sign in or create an account",
+    "email": "Email address",
+    "password": "Password",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "passwordHint": "Between {min} and {max} characters.",
+    "submitLogin": "Sign in",
+    "pendingLogin": "Signing in…",
+    "submitRegister": "Create my account",
+    "pendingRegister": "Creating your account…",
+    "errors": {
+      "requiredEmail": "Enter your email address.",
+      "requiredPassword": "Enter your password.",
+      "requiredNewPassword": "Enter a password.",
+      "requiredFirstName": "Enter your first name.",
+      "requiredLastName": "Enter your last name.",
+      "email": "This email address isn't valid.",
+      "minLength": "At least {count} characters.",
+      "maxLength": "{count} characters maximum.",
+      "taken": "An account already exists with this email address.",
+      "invalid": "Invalid value.",
+      "credentials": "Incorrect email address or password.",
+      "unexpected": "An unexpected error occurred. Please try again.",
+      "unavailable": "The service is temporarily unavailable. Please try again in a moment."
+    }
+  },
+  "account": {
+    "loading": "Loading your bookings…",
+    "error": "Your bookings can't be loaded.",
+    "empty": "You don't have any bookings yet.",
+    "discover": "Discover the rooms",
+    "upcoming": "Upcoming",
+    "noUpcoming": "No upcoming bookings.",
+    "chooseRoom": "Choose a room",
+    "past": "Past and cancelled",
+    "cancelSr": "the {room} booking on {date}",
+    "tooLate": "Can't be cancelled less than {hours} hours before the session.",
+    "keep": "Keep my booking",
+    "dialogText": "{room}, {date}, for {count, plural, one {# player} other {# players}}.",
+    "dialogFree": "Cancellation is free. The time slot will be offered to other players.",
+    "cancelled": "Your booking for {room}, {date}, has been cancelled."
+  },
+  "planning": {
+    "previousDay": "Previous day",
+    "nextDay": "Next day",
+    "date": "Date",
+    "today": "Today",
+    "room": "Room",
+    "allRooms": "All rooms",
+    "summary": "{count, plural, one {# confirmed booking} other {# confirmed bookings}}",
+    "loading": "Loading the schedule…",
+    "error": "The schedule can't be loaded.",
+    "empty": "No bookings that day.",
+    "caption": "Bookings on {date}",
+    "columns": {
+      "time": "Time",
+      "room": "Room",
+      "customer": "Customer",
+      "players": "Players",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "cancelSr": "the booking for {email} at {time}",
+    "ends": "Ends {time}",
+    "keep": "Keep the booking",
+    "dialogText": "{room}, {date}, booked by {email} for {count, plural, one {# player} other {# players}}.",
+    "dialogNotify": "The customer won't be notified automatically: remember to contact them.",
+    "cancelled": "The booking for {email} at {time} ({room}) has been cancelled."
+  },
+  "notFound": {
+    "title": "This page has vanished",
+    "text": "The address you requested doesn't exist, or no longer does.",
+    "cta": "Back to the rooms"
   }
 }
