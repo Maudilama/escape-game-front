@@ -47,3 +47,7 @@ h1[tabindex='-1']:focus {
 .booking-actions__value {
   font-weight: 500;
 }
+
+main[tabindex='-1']:focus {
+  outline: none;
+}

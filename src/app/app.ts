@@ -50,4 +50,9 @@ export class App {
       main.focus();
     }
   }
+
+  protected skipToContent(event: Event): void {
+    event.preventDefault();
+    this.main().nativeElement.focus();
+  }
 }
