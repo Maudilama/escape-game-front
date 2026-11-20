@@ -6,6 +6,7 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { RoomCard } from '../room-card/room-card';
 import { RoomSummary } from '../room.model';
 import { TranslocoPipe } from '@jsverse/transloco';
+import { LanguageService } from '../../../core/i18n/language.service';
 
 @Component({
   selector: 'app-home-page',
@@ -16,8 +17,13 @@ import { TranslocoPipe } from '@jsverse/transloco';
 })
 export class HomePage {
   private readonly apiUrl = inject(API_URL);
+    private readonly language = inject(LanguageService);
 
-  protected readonly rooms = httpResource<RoomSummary[]>(() => `${this.apiUrl}/rooms`, {
-    defaultValue: [],
-  });
+  protected readonly rooms = httpResource<RoomSummary[]>(
+    () => ({
+      url: `${this.apiUrl}/rooms`,
+      headers: { 'Accept-Language': this.language.current() },
+    }),
+    { defaultValue: [] },
+  );
 }

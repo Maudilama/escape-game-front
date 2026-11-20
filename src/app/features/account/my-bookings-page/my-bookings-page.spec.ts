@@ -2,9 +2,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { translocoTesting } from '../../../core/i18n/testing';
 import { Booking } from '../../booking/booking.model';
 import { MyBookingsPage } from './my-bookings-page';
-import { translocoTesting } from '../../../core/i18n/testing';
 
 function booking(overrides: Partial<Booking>): Booking {
   return {
@@ -102,18 +102,20 @@ describe('MyBookingsPage', () => {
     expect(page.querySelector('[role="status"]')?.textContent).toContain('a été annulée');
   });
 
-  it('affiche dans la fenêtre le refus de l’API (422)', async () => {
+  it('traduit dans la fenêtre le refus de l’API, avec ses paramètres (422)', async () => {
     const { fixture, page } = await render([booking({ id: 7 })]);
 
     page.querySelector<HTMLButtonElement>('.booking-card .ec-btn--danger')!.click();
     await fixture.whenStable();
     page.querySelector<HTMLButtonElement>('dialog .ec-btn--danger')!.click();
     httpTesting.expectOne('/api/bookings/7/cancel').flush(
-      { detail: 'Une réservation ne peut plus être annulée moins de 24 h avant la session.' },
+      { code: 'CANCELLATION_TOO_LATE', params: { hours: 24 }, detail: 'Texte destiné aux développeurs.' },
       { status: 422, statusText: 'Unprocessable Entity' },
     );
     await fixture.whenStable();
 
-    expect(page.querySelector('dialog [role="alert"]')?.textContent).toContain('moins de 24 h');
+    expect(page.querySelector('dialog [role="alert"]')?.textContent).toContain(
+      'Une réservation ne peut plus être annulée moins de 24 h avant la session.',
+    );
   });
 });

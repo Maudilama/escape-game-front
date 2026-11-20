@@ -272,5 +272,20 @@
     "title": "This page has vanished",
     "text": "The address you requested doesn't exist, or no longer does.",
     "cta": "Back to the rooms"
+  },
+    "apiErrors": {
+    "VALIDATION_FAILED": "Some fields are invalid.",
+    "INVALID_CREDENTIALS": "Incorrect email address or password.",
+    "EMAIL_TAKEN": "An account already exists with this email address.",
+    "ROOM_NOT_FOUND": "This room doesn't exist or is no longer open for booking.",
+    "BOOKING_NOT_FOUND": "This booking can't be found.",
+    "SLOT_TAKEN": "This time slot is already booked.",
+    "PLAYER_COUNT_OUT_OF_RANGE": "This room takes {min} to {max} players.",
+    "SLOT_IN_PAST": "This time slot has already passed.",
+    "BEYOND_BOOKING_WINDOW": "Bookings open {days} days in advance at most.",
+    "ROOM_CLOSED": "The escape game is closed that day.",
+    "NOT_A_SLOT": "This time doesn't match any of the room's time slots.",
+    "ALREADY_CANCELLED": "This booking has already been cancelled.",
+    "CANCELLATION_TOO_LATE": "A booking can no longer be cancelled less than {hours} hours before the session."
   }
 }

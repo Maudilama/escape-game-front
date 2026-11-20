@@ -1,4 +1,4 @@
-import { HttpErrorResponse, httpResource } from '@angular/common/http';
+import { httpResource } from '@angular/common/http';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -14,12 +14,13 @@ import { RouterLink } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { API_URL } from '../../../core/api-url';
 import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
-import { rawText, Translatable } from '../../../core/i18n/translatable';
+import { Translatable } from '../../../core/i18n/translatable';
 import { ConfirmDialog } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
+import { apiErrorMessage } from '../../../core/i18n/api-error';
 
 const HOUR = 3_600_000;
 
@@ -100,11 +101,7 @@ export class MyBookingsPage {
       },
       error: (error: unknown) => {
         this.cancelling.set(false);
-        this.cancelError.set(
-          error instanceof HttpErrorResponse && error.status === 422 && error.error?.detail
-            ? rawText(error.error.detail)
-            : { key: 'cancellation.error' },
-        );
+        this.cancelError.set(apiErrorMessage(error, 'cancellation.error'));
       },
     });
   }

@@ -272,5 +272,20 @@
     "title": "Cette page s'est volatilisée",
     "text": "L'adresse demandée n'existe pas, ou plus.",
     "cta": "Retour aux salles"
+  },
+    "apiErrors": {
+    "VALIDATION_FAILED": "Certains champs sont invalides.",
+    "INVALID_CREDENTIALS": "Adresse e-mail ou mot de passe incorrect.",
+    "EMAIL_TAKEN": "Un compte existe déjà avec cette adresse e-mail.",
+    "ROOM_NOT_FOUND": "Cette salle n'existe pas ou n'est plus ouverte à la réservation.",
+    "BOOKING_NOT_FOUND": "Cette réservation est introuvable.",
+    "SLOT_TAKEN": "Ce créneau est déjà réservé.",
+    "PLAYER_COUNT_OUT_OF_RANGE": "Cette salle accueille de {min} à {max} joueurs.",
+    "SLOT_IN_PAST": "Ce créneau est déjà passé.",
+    "BEYOND_BOOKING_WINDOW": "Les réservations ouvrent {days} jours à l'avance au maximum.",
+    "ROOM_CLOSED": "L'escape game est fermé ce jour-là.",
+    "NOT_A_SLOT": "Cette heure ne correspond à aucun créneau de la salle.",
+    "ALREADY_CANCELLED": "Cette réservation est déjà annulée.",
+    "CANCELLATION_TOO_LATE": "Une réservation ne peut plus être annulée moins de {hours} h avant la session."
   }
 }

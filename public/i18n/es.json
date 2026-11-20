@@ -272,5 +272,20 @@
     "title": "Esta página se ha esfumado",
     "text": "La dirección solicitada no existe o ya no está disponible.",
     "cta": "Volver a las salas"
+  },
+    "apiErrors": {
+    "VALIDATION_FAILED": "Algunos campos no son válidos.",
+    "INVALID_CREDENTIALS": "Correo electrónico o contraseña incorrectos.",
+    "EMAIL_TAKEN": "Ya existe una cuenta con este correo electrónico.",
+    "ROOM_NOT_FOUND": "Esta sala no existe o ya no admite reservas.",
+    "BOOKING_NOT_FOUND": "No se encuentra esta reserva.",
+    "SLOT_TAKEN": "Este horario ya está reservado.",
+    "PLAYER_COUNT_OUT_OF_RANGE": "Esta sala admite de {min} a {max} jugadores.",
+    "SLOT_IN_PAST": "Este horario ya ha pasado.",
+    "BEYOND_BOOKING_WINDOW": "Las reservas se abren con {days} días de antelación como máximo.",
+    "ROOM_CLOSED": "El escape game está cerrado ese día.",
+    "NOT_A_SLOT": "Esta hora no corresponde a ningún horario de la sala.",
+    "ALREADY_CANCELLED": "Esta reserva ya está cancelada.",
+    "CANCELLATION_TOO_LATE": "Una reserva ya no se puede cancelar a menos de {hours} h de la sesión."
   }
 }

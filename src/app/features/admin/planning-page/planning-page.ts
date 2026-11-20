@@ -1,4 +1,4 @@
-import { HttpErrorResponse, httpResource } from '@angular/common/http';
+import { httpResource } from '@angular/common/http';
 import {
   afterNextRender,
   ChangeDetectionStrategy,
@@ -15,13 +15,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { API_URL } from '../../../core/api-url';
 import { LocalizedDatePipe, PricePipe } from '../../../core/i18n/locale-pipes';
-import { rawText, Translatable } from '../../../core/i18n/translatable';
+import { Translatable } from '../../../core/i18n/translatable';
 import { ConfirmDialog } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { BookingApi } from '../../booking/booking-api';
 import { addDays, parseIsoDate, toIsoDate } from '../../booking/booking-calendar';
 import { Booking } from '../../booking/booking.model';
 import { RoomSummary } from '../../rooms/room.model';
+import { apiErrorMessage } from '../../../core/i18n/api-error';
 
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -148,13 +149,9 @@ export class PlanningPage {
           injector: this.injector,
         });
       },
-      error: (error: unknown) => {
+    error: (error: unknown) => {
         this.cancelling.set(false);
-        this.cancelError.set(
-          error instanceof HttpErrorResponse && error.error?.detail
-            ? rawText(error.error.detail)
-            : { key: 'cancellation.error' },
-        );
+        this.cancelError.set(apiErrorMessage(error, 'cancellation.error'));
       },
     });
   }

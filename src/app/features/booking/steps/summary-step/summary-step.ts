@@ -18,13 +18,12 @@ import { BookingApi } from '../../booking-api';
 import { CANCELLATION_MIN_HOURS } from '../../booking-calendar';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { StepHeader } from '../../step-header/step-header';
+import { apiErrorMessage } from '../../../../core/i18n/api-error';
+import { Translatable } from '../../../../core/i18n/translatable';
 
 const HOUR = 3_600_000;
 
-type SubmitError =
-  | { kind: 'conflict' }
-  | { kind: 'rule'; detail: string | null }
-  | { kind: 'unknown' };
+type SubmitError = { kind: 'conflict' } | { kind: 'message'; message: Translatable };
 
 @Component({
   selector: 'app-summary-step',
@@ -96,16 +95,18 @@ export class SummaryStep {
     this.router.navigate(['../creneau'], { relativeTo: this.route });
   }
 
-  private showError(error: unknown): void {
+    private showError(error: unknown): void {
     if (error instanceof HttpErrorResponse && error.status === 401) {
       return;
     }
     if (error instanceof HttpErrorResponse && error.status === 409) {
       this.error.set({ kind: 'conflict' });
-    } else if (error instanceof HttpErrorResponse && error.status === 422) {
-      this.error.set({ kind: 'rule', detail: error.error?.detail ?? null });
     } else {
-      this.error.set({ kind: 'unknown' });
+      const fallback =
+        error instanceof HttpErrorResponse && error.status === 422
+          ? 'booking.summary.ruleError'
+          : 'booking.summary.unknownError';
+      this.error.set({ kind: 'message', message: apiErrorMessage(error, fallback) });
     }
     afterNextRender(() => this.alert()?.nativeElement.focus(), { injector: this.injector });
   }

@@ -3,10 +3,10 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { vi } from 'vitest';
+import { translocoTesting } from '../../../../core/i18n/testing';
 import { RoomSummary } from '../../../rooms/room.model';
 import { BookingFlowStore } from '../../booking-flow.store';
 import { SummaryStep } from './summary-step';
-import { translocoTesting } from '../../../../core/i18n/testing';
 
 const ASILE: RoomSummary = {
   id: 1,
@@ -85,18 +85,32 @@ describe('SummaryStep', () => {
     expect(navigate).not.toHaveBeenCalled();
   });
 
-  it('affiche le message de l’API quand une règle métier refuse la réservation (422)', async () => {
+  it('traduit le refus de l’API d’après son code (422)', async () => {
     const { fixture, page } = await render();
 
     clickConfirm(page).flush(
-      { detail: "L'escape game est fermé ce jour-là." },
+      { code: 'ROOM_CLOSED', detail: 'Texte destiné aux développeurs, jamais affiché.' },
       { status: 422, statusText: 'Unprocessable Entity' },
     );
     await fixture.whenStable();
 
-    expect(page.querySelector('[role="alert"]')?.textContent).toContain(
-      "L'escape game est fermé ce jour-là.",
+    const alert = page.querySelector('[role="alert"]');
+    expect(alert?.textContent).toContain("L'escape game est fermé ce jour-là.");
+    expect(alert?.textContent).not.toContain('jamais affiché');
+  });
+
+  it('affiche un message générique quand le code de l’API est inconnu (422)', async () => {
+    const { fixture, page } = await render();
+
+    clickConfirm(page).flush(
+      { code: 'CODE_AJOUTE_PLUS_TARD', detail: 'Texte destiné aux développeurs, jamais affiché.' },
+      { status: 422, statusText: 'Unprocessable Entity' },
     );
+    await fixture.whenStable();
+
+    const alert = page.querySelector('[role="alert"]');
+    expect(alert?.textContent).toContain("Cette réservation n'est pas possible.");
+    expect(alert?.textContent).not.toContain('jamais affiché');
   });
 
   it('n’envoie qu’une seule réservation en cas de double clic', async () => {

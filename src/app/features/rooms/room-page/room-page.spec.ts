@@ -98,4 +98,23 @@ describe('RoomPage', () => {
     expect(facts).toContainEqual(['Jugadores', '2 a 5']);
     expect(page.textContent).toContain('Cancelación gratuita hasta 24 h antes de la sesión.');
   });
+
+    it('recharge la salle dans la nouvelle langue', async () => {
+    const fixture = TestBed.createComponent(RoomPage);
+    fixture.componentRef.setInput('id', '1');
+    TestBed.tick();
+    httpTesting.expectOne('/api/rooms/1').flush(ASILE);
+    await fixture.whenStable();
+
+    await TestBed.inject(LanguageService).use('en');
+    TestBed.tick();
+    const request = httpTesting.expectOne('/api/rooms/1');
+    expect(request.request.headers.get('Accept-Language')).toBe('en');
+    request.flush({ ...ASILE, theme: 'Psychiatric hospital' });
+    await fixture.whenStable();
+
+    expect((fixture.nativeElement as HTMLElement).querySelector('.room__theme')?.textContent).toContain(
+      'Psychiatric hospital',
+    );
+  });
 });

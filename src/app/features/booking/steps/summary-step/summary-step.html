@@ -16,17 +16,8 @@
             </button>
           </div>
         }
-        @case ('rule') {
-          <p class="ec-banner__text">
-            @if (error.detail; as detail) {
-              {{ detail }}
-            } @else {
-              {{ 'booking.summary.ruleError' | transloco }}
-            }
-          </p>
-        }
-        @default {
-          <p class="ec-banner__text">{{ 'booking.summary.unknownError' | transloco }}</p>
+        @case ('message') {
+          <p class="ec-banner__text">{{ error.message.key | transloco: error.message.params }}</p>
         }
       }
     </div>

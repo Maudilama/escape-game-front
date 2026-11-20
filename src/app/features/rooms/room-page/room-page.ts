@@ -15,6 +15,7 @@ import { PageTitleStrategy } from '../../../core/page-title-strategy';
 import { PricePipe } from '../../../core/i18n/locale-pipes';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { CANCELLATION_MIN_HOURS } from '../../booking/booking-calendar';
+import { LanguageService } from '../../../core/i18n/language.service';
 
 @Component({
   selector: 'app-room-page',
@@ -29,8 +30,12 @@ export class RoomPage {
   private readonly apiUrl = inject(API_URL);
   private readonly pageTitle = inject(PageTitleStrategy);
   protected readonly cancellationHours = CANCELLATION_MIN_HOURS;
+    private readonly language = inject(LanguageService);
 
-  protected readonly room = httpResource<RoomSummary>(() => `${this.apiUrl}/rooms/${this.id()}`);
+  protected readonly room = httpResource<RoomSummary>(() => ({
+    url: `${this.apiUrl}/rooms/${this.id()}`,
+    headers: { 'Accept-Language': this.language.current() },
+  }));
 
   protected readonly notFound = computed(() => {
     const error = this.room.error();
